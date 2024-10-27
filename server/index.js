@@ -11,7 +11,7 @@ const mongoose = require("mongoose");
  
 app.use(cors(
   {
-      origin: ["https://thread-mern-frontend.vercel.app/"],
+      origin: ["https://thread-mern-frontend.vercel.app"],
       methods: ["POST", "GET"],
       credentials: true
   }
