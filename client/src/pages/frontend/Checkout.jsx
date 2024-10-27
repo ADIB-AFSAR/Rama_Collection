@@ -29,22 +29,18 @@ function Checkout() {
  const dispatch = useDispatch()
   
  const submit = (event)=>{
-     const orderPlaced = {cartId: currentCart._id, billingAddress : formData}
+    event.preventDefault();
+    const orderPlaced = {cartId: currentCart._id, billingAddress : formData}
     console.log(orderPlaced)
     dispatch(placeOrderStart(orderPlaced))
-    if(payment === "stripe"){
-        setTimeout(() => {
-            navigate('/thankyou')
-        }, 30000);
-    }else{
-        navigate('/thankyou')
-    }
+     
     }
   useEffect(()=>{
     console.log(currentCart)
     if(!currentUser.name){
        navigate('/login')
   }
+  navigate('/thankyou')
   setFormData((preValue)=>({
     ...preValue,
     name:currentUser.name,
@@ -79,12 +75,12 @@ function Checkout() {
       console.log(result);
   
       // Only call submit if result is valid
-      if (result) {
-        submit();
-      } else {
-        console.log("No result received from the API");
-      }
-  
+      if (result.success) {
+        submit()
+        navigate("/thankyou");
+    } else {
+        console.log("Payment failed:", result.message);
+    }
     } catch (err) {
       console.log("Error occurred:", err);
     }
