@@ -8,7 +8,7 @@ const path = require("path");
  require("dotenv").config(); 
 
 const mongoose = require("mongoose");
- 
+
 app.use(cors(
   {
       origin: ["https://thread-mern-frontend.vercel.app"],

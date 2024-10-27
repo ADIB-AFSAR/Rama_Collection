@@ -22,6 +22,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.6"
+    "@types/bcryptjs": "^2.4.6",
+    "@types/dotenv": "^8.2.3"
   }
 }
