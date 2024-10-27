@@ -8,9 +8,16 @@ const path = require("path");
  require("dotenv").config(); 
 
 const mongoose = require("mongoose");
-const { getProducts } = require("./controller/admin/product.controller");
-
+ 
 app.use(cors());
+app.use(cors(
+  {
+      origin: ["https://thread-mern-frontend.vercel.app/login"],
+      methods: ["POST", "GET"],
+      credentials: true
+  }
+));
+app.use(express.json())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 app.use(express.static(path.join(__dirname, "public")));
