@@ -9,7 +9,6 @@ const path = require("path");
 
 const mongoose = require("mongoose");
  
-app.use(cors());
 app.use(cors(
   {
       origin: ["https://thread-mern-frontend.vercel.app/login"],
