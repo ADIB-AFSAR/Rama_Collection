@@ -33,14 +33,14 @@ function Checkout() {
     const orderPlaced = {cartId: currentCart._id, billingAddress : formData}
     console.log(orderPlaced)
     dispatch(placeOrderStart(orderPlaced))
-     
+     navigate('/thankyou')
     }
   useEffect(()=>{
     console.log(currentCart)
     if(!currentUser.name){
        navigate('/login')
   }
-  navigate('/thankyou')
+  
   setFormData((preValue)=>({
     ...preValue,
     name:currentUser.name,
