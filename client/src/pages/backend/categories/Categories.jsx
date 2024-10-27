@@ -15,7 +15,6 @@ function Categories() {
       dispatch(deleteCategoryStart(categoryId));
     }
   };
-
   useEffect(() => {
     dispatch(getCategoryStart());
   }, [dispatch]);
