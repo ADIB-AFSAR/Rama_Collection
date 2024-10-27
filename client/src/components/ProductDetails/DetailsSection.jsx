@@ -51,7 +51,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
       }
       const productWithSize = { ...product, size: selectedSize };
       dispatch(addCartStart(productWithSize));
-      window.location.reload()
+    //   window.location.reload()
    };
 
   useEffect(() => {
