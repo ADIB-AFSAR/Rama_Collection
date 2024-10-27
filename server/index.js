@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, "public")));
 mongoose
   .connect(process.env.MONGO_URL)
   .then((response) => {
-    console.log("connected to mongodb");
+    console.log("connected to mongodb atlas");
   })
   .catch((error) => {
     console.log("databse connection failed :" + error);
