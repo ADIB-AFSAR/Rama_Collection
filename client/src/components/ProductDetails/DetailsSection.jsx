@@ -11,13 +11,15 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   const sizes = ['s', 'm', 'x', 'xl']; // Available sizes
   const [selectedSize, setSelectedSize] = useState('');
   const [isInWishlist, setIsInWishlist] = useState(false); // State to track if product is in wishlist
-   const dispatch = useDispatch();
+  const [isAddedToBag, setIsAddedToBag] = useState(false); 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
    
 
   const handleSizeClick = (size) => {
       setSelectedSize(size);
+      setIsAddedToBag(false);
   };
 
   const handleAddToWishlist = (productId) => {
@@ -51,6 +53,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
       }
       const productWithSize = { ...product, size: selectedSize };
       dispatch(addCartStart(productWithSize));
+      setIsAddedToBag(true); // Set add-to-bag status to true
     //   window.location.reload()
    };
 
@@ -75,9 +78,11 @@ const DetailsSection = ({ CurrentProductDetails }) => {
                         </button>
                     ))}
                 </div>
-                <button onClick={() => addToCart(CurrentProductDetails)} className={`btn btn-outline-dark col-12 mt-3 ${selectedSize ? 'bg-dark text-white' : "bg-white text-dark"}`}>
-                    {!selectedSize ? "Select size" : "Add to bag"}
-                </button>
+                 <button 
+          onClick={() => addToCart(CurrentProductDetails)} 
+          className={`btn btn-outline-dark col-12 mt-3 ${selectedSize ? 'bg-dark text-white' : "bg-white text-dark"}`}>
+          {!selectedSize ? "Select size" : isAddedToBag ? "Added to Bag" : "Add to Bag"}
+        </button>
                 <button onClick={() => handleAddToWishlist(CurrentProductDetails._id)} className="btn btn-outline-dark col-12 mt-2">
                     <i className={`fa${isInWishlist ? 's' : 'r'} fa-heart text-${isInWishlist ? 'danger' : 'dark'}`}></i> Add to Wishlist
                 </button>
