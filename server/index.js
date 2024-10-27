@@ -11,12 +11,11 @@ const mongoose = require("mongoose");
  
 app.use(cors(
   {
-      origin: ["https://thread-mern-frontend.vercel.app/login/"],
+      origin: ["https://thread-mern-frontend.vercel.app/"],
       methods: ["POST", "GET"],
       credentials: true
   }
 ));
-app.use(express.json())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 app.use(express.static(path.join(__dirname, "public")));
