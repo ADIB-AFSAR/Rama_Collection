@@ -117,7 +117,7 @@ export const registerUserToAPI = async (payload) => {
 };
 
 export const loginUserToAPI = async (payload) => {
-    console.log("service:",payload , `${process.env.REACT_APP_API_URL}/api/login`)
+    console.log("service:",payload ,"BASE URL", `${process.env.REACT_APP_API_URL}/api/login`)
     try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
             method: 'POST',
