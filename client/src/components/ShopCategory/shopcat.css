@@ -1,0 +1,33 @@
+.img-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .img-default {
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .img-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .card:hover .img-default {
+    opacity: 0;
+  }
+  
+  .card:hover .img-hover {
+    opacity: 1;
+  }
+  .card-img-top {
+    width: 100%; /* Makes the image responsive */
+    height: auto; /* Maintains aspect ratio */
+    object-fit: cover; /* Ensures the image covers the container without stretching */
+  }
+  .rewards-button{
+    right: 0;
+  }
+  

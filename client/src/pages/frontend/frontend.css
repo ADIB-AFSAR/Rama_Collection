@@ -1,0 +1,469 @@
+/*-----CART STYLING HERE-------*/
+
+/* Cart sidebar - initial state */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -50%;
+    width: 50%;
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    padding: 2rem 0rem 0rem 0rem;
+    transition: right 0.3s ease;
+    z-index: 1050; /* Ensure it is on top */
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  /* Cart sidebar - active state */
+  .cart-sidebar.active {
+    right: 0;
+  }
+  
+  /* Cart item thumbnail styling */
+  .cart-item img {
+    width: auto;
+    height: 170px;
+    object-fit: cover;
+    margin-right: 1rem;
+  }
+  .cart-item-details button{  
+    border: none;
+    color: black; 
+  }
+  .cart-item-details .input-group{
+    border: 1px solid grey;
+    max-width: 100px;
+  }
+  
+  /* Blur effect applied to the main content when sidebar is open */
+  .blur-background {
+    filter: blur(5px); /* Adjust blur strength as needed */
+    pointer-events: none; /* Disable clicks when blurred */
+  } 
+
+  /* Additional overlay for blocking background clicks */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1040; /* Slightly lower than sidebar */
+  }
+  
+  /* Responsive design - mobile adjustments */
+  @media (max-width: 768px) {
+    .cart-sidebar {
+      height : 105vh;
+      width: 100%;
+      right: -100%; /* Start off-screen */
+    }
+  
+    .cart-sidebar.active {
+      right: 0; /* Slide in from right when active */
+    }
+  }
+  .total{ 
+    position: sticky;
+    bottom: 0;
+    background-color: rgb(235, 228, 228);
+  }
+  .bag{
+    position: sticky;
+    top: 0;
+    z-index: 10; 
+  }
+  .nohover:hover{
+     font-weight: normal;
+  }
+  
+
+
+
+  /*---------CHECKOUT STYLING HERE-----------*/
+
+  .checkout-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative; 
+  }
+  
+  .container {
+    max-width: 80%; /* Leaves 10% of each side with blur */
+    margin: 0 auto;
+    padding: 20px;
+    transition: all 0.5s ease-in-out;
+    filter: blur(0); /* Ensures clarity */
+  }
+  
+  .form-section {
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .form-section.visible {
+    opacity: 1;
+  }
+  
+  .form-section.d-none {
+    opacity: 0;
+    display: none;
+  }
+  
+  .step-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .step-indicator div {
+    text-align: center;
+    flex: 1;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ddd;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+  }
+  
+  .step-number.active {
+    background-color: #000;
+  }
+  
+  .order-summary {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border: 1px solid #ddd;
+  }
+
+  @media(max-width:768px){
+    .order-summary{
+      margin-top: 2rem
+    };
+  }
+  
+
+  /* -----LOGIN STYLE HERE */
+
+  body {
+    background-color: #000;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+  }
+  
+  .background-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("//www.snitch.co.in/cdn/shop/files/5_WebBanner_1920x1080_2_1400x.jpg?v=1729317311"
+    ) no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(10px);
+    z-index: 1; /* This makes sure the blur stays behind the login box */
+  }
+  
+  .login-box {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    width: 800px;
+    max-width: 100%;
+    z-index: 2; /* This makes sure the form is above the blur */
+    position: relative;
+  }
+  
+  .login-form {
+    padding: 40px;
+    width: 50%;
+  }
+  
+  .login-form h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .login-form p {
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+  
+  .login-form .form-control {
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  
+  .login-form .btn-primary {
+    background-color: #ff6b6b;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+  }
+  
+  .login-form .btn-primary:hover {
+    background-color: #ff4c4c;
+  }
+  
+  .login-form .btn-secondary {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #333;
+    padding: 10px;
+    width: 48%;
+  }
+  
+  .login-form .btn-secondary:hover {
+    background-color: #f7f7f7;
+  }
+  
+  .login-form .social-login {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .login-form .form-check-label {
+    font-size: 14px;
+  }
+  
+  .login-form .forgot-password {
+    color: #ff6b6b;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  
+  .login-form .forgot-password:hover {
+    text-decoration: underline;
+  }
+  
+  .login-image {
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    overflow: hidden;
+  }
+  
+  .login-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  @media (max-width: 768px) {
+    .login-box {
+        flex-direction: column;  
+    }
+
+    .login-image {
+        width: 100%; 
+        height: auto; /* Allow height to adjust based on width */
+        object-fit: cover; /* Ensure image covers the container */
+        position: relative; /* Necessary for z-index to take effect */
+        z-index: 1; /* Set z-index for the image */
+    }
+
+    .login-form {
+        width: 100%;
+        z-index: 2; /* Ensure form is above the image */
+        position: relative; /* Necessary for z-index to take effect */
+    }
+}
+
+  
+/* ------REGISTER STYLE HERE------ */
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+}
+
+.background-blur {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  z-index: -1;
+}
+
+.register-box {
+  display: flex;
+  width: 80%;
+  max-width: 1000px;
+  height: 100%;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 2rem;
+}
+
+.register-form {
+  width: 50%;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.register-image {
+  width: 50%;
+  height: 100%;
+}
+
+.register-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .register-box {
+    flex-direction: column-reverse; /* Stack image and form */
+  }
+
+  .register-form, .register-image {
+    width: 100%;
+  }
+
+  .register-image img {
+    height: auto; /* Adjust the image height for small screens */
+    object-fit: cover;
+  }
+  .terms{
+    font-size: 12px;
+  }
+}
+.register-form .btn-primary {
+  background-color: #ff6b6b;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%;
+}
+
+.register-form .btn-primary:hover {
+  background-color: #ff4c4c;
+}
+
+.register-form .btn-secondary {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: #333;
+  padding: 10px;
+  width: 48%;
+}
+
+.register-form .btn-secondary:hover {
+  background-color: #f7f7f7;
+}
+
+
+/* ----THANKYOU PAGE STYLE HERE------ */
+.thankyou-container {
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.thankyou-box {
+  background-color: #ffffff;
+  padding: 40px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-family: 'Arial', sans-serif;
+  font-size: 6rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.order-number {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.message {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.btn-track {
+  font-size: 14px;
+  padding: 10px 20px;
+  border-radius: 4px;
+}
+
+.btn-track:hover {
+  background-color: #f0f0f0;
+}
+ .head{
+  font-size: 4rem;
+ }
+ .t{
+  font-size: 6rem;
+ }
+
+ /* ---------WISHLIST STYLE HERE----------- */
+
+ .image-container {
+    position: relative;
+}
+
+.heart-button {
+    position: absolute;
+    bottom: 10px; /* Adjust this value to move it up or down */
+    left: 10px; /* Adjust this value to move it left or right */
+     border: none; /* Remove default button border */
+    cursor: pointer; /* Change cursor to pointer */
+    z-index: 1; /* Ensure it's above the images */
+    background-color: transparent;
+}
+.heart-button:hover{
+  font-size: 2rem !important;
+}
+
+.img {
+    display: block; /* Ensure images are block elements */
+    width: 100%; /* Make images responsive */
+    height: auto; /* Maintain aspect ratio */
+}
+

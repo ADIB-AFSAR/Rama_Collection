@@ -1,0 +1,54 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .section-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+  }
+  
+  .section-title .emoji {
+    font-size: 24px;
+  }
+  
+  .card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  
+  .card:hover {
+    transform: scale(1.05) rotateY(10deg);
+  }
+  
+  .card img {
+    border-radius: 15px;
+    transition: transform 0.3s;
+  }
+  
+  .card:hover img {
+    transform: scale(1.1);
+  }
+  
+  .card-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .rewards-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: black;
+    color: white;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  

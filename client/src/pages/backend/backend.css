@@ -1,0 +1,39 @@
+/* Remove hover effect (box shadow) */
+.card:hover {
+    box-shadow: none;
+  }
+  
+  /* Optional: Remove hover transform effect if applied */
+  .card:hover {
+    transform: none;
+  }
+ @media(max-width: 648px){
+  .card{ 
+       width: auto;
+        margin-top: 1rem;
+    } 
+    .dashboard h5{
+      font-size: 1rem;
+    }
+    .category,.editcategory h5{
+      font-size: 1rem;
+    }
+    .dashboard,.category,.editcategory h4{
+      font-size: .8rem;
+    }
+    .dashboard,.category,.editcategory .btn{
+      font-size: .8rem;
+      padding: 6px;
+    }
+    .category, .table{
+      font-size: 12px;
+    }
+    .category,.product,.user .table .btn{
+       font-size: 8px; 
+    }
+    .editcategory,.editprofile,.edituser .btn-warning{
+       margin-top: .5rem;
+    }
+     
+
+ }

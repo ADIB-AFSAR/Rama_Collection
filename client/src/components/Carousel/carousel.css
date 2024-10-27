@@ -1,0 +1,16 @@
+.carousel-container {
+    height: calc(100vh - 56px); /* Adjust the height based on your navbar height */
+    overflow: hidden; /* Prevent overflow of images */ 
+  }
+  
+  .carousel-item {
+    height: 100%; /* Set height to 100% of the carousel container */
+  }
+  
+  .carousel-inner img {
+    height: 100%; /* Make images fill the carousel height */
+    width: 100%; /* Ensure images fill the carousel width */
+    object-fit: cover; /* Use cover to fill the area without distortion */
+    display: block; /* Prevent any inline spacing issues */
+  }
+  
