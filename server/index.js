@@ -34,5 +34,5 @@ app.use("/api", frontRoutes);
 const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, function () {
-  console.log("server is running on port " + PORT + "and key :" + process.env.STRIPE_SECRET_KEY);
+  console.log("server is running on port " + PORT);
 });
