@@ -171,7 +171,7 @@ const stripePay = async (req, res) => {
             receipt_email: token.email,
         }, { idempotencyKey });
 
-        res.status(200).json({ success: true, message: "Payment successful" });
+        res.status(200).json({ success: true, message: "Payment successful" , result :result });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
