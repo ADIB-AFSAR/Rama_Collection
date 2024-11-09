@@ -90,6 +90,7 @@ export const updateUserFromAPI = async (user) => {
 };
 
 export const registerUserToAPI = async (payload) => { 
+    console.log(process.env.REACT_APP_API_URL);
     console.log("service",payload)
     const formData = new FormData();
     for (const key in payload) {
