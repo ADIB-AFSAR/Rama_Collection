@@ -11,7 +11,7 @@ const mongoose = require("mongoose");
 
 app.use(cors(
   {
-      origin: ["https://thread-mern-frontend.vercel.app"],
+      origin: ["https://rama-collection-frontend.vercel.app"],
       methods: ["POST", "GET", "DELETE", "PUT", "OPTIONS"],
       credentials: true
   }
