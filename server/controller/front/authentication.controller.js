@@ -73,8 +73,7 @@ const register = async (req, res) => {
                 // image: req.file.path.replace('public', "")
             });
             return res.status(201).json({
-                message: "User registered successfully.",
-                error: err.message
+                message: "User registered successfully." 
             });
         }
     } catch (err) {
