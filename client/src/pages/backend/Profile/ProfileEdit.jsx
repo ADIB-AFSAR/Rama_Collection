@@ -38,6 +38,7 @@ function ProfileEdit() {
     if (user) {
       setFormData(user);
     } else {
+      console.warn("user did not matched to edit details")
       navigate('/dashboard');
     }
   };
