@@ -8,6 +8,7 @@ import {useFormData} from '../../hooks/useFormData'; // Adjust import based on y
 
 const Login = () => {
   const users = useSelector((state) => state.user.users);
+  const currentUser = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [err, setErr] = useState("");
@@ -31,7 +32,11 @@ const Login = () => {
         console.error('Token is undefined');
         return;
       }
-      navigate('/dashboard');
+      if(currentUser.role === 'admin') {
+        navigate('/dashboard');
+      }else{
+        navigate('/')
+      }
     }, 500);
   };
 
