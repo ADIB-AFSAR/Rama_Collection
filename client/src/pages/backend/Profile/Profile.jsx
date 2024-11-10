@@ -15,7 +15,7 @@ function Profile() {
   const [img, setImg] = useState(null);
 
   const getUserById = () => {
-    console.log(currentUser._id)
+    console.log("currentUSer id : ",currentUser?.id)
     if (users && currentUser) {
       const onBoardUser = users.filter(user => user._id === currentUser._id);
       if (onBoardUser.length > 0 && onBoardUser[0].image) {
@@ -48,7 +48,7 @@ function Profile() {
             <div className="card-body ">
               <div className="card-header bg-dark d-flex justify-content-between">
                 <h4 className="card-title text-white fw-bold mx-0">{currentUser.role ==='admin'? "Admin " :'User'} Profile</h4>
-                <Link to={`/profile/edit/${currentUser._id}`} className="btn btn-primary">Edit Profile</Link>
+                <Link to={`/profile/edit/${currentUser?.id}`} className="btn btn-primary">Edit Profile</Link>
               </div>
               {img && (
                 <img src={img} alt="Profile" className="mt-3" height="80px" width="80px" />
