@@ -38,7 +38,7 @@ function ProfileEdit() {
     if (user) {
       setFormData(user);
     } else {
-      console.warn("user ID : ", user?._id,"user did not matched to edit details")
+      console.warn("user ID : ", user?._id , id,"user did not matched to edit details")
       navigate('/dashboard');
     }
   };
@@ -48,7 +48,7 @@ function ProfileEdit() {
       getUserById();
       dispatch(getUserStart());      
     }
-  }, [id, users]); // Include users in the dependency array
+  }, [id]); // Include users in the dependency array
 
   return (
     <> 
