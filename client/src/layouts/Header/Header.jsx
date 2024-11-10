@@ -68,15 +68,15 @@ function Header() {
           </button>
 
           <a className="navbar-brand d-flex align-items-center" href="/">
-            <img
-              src="/images/thread-logo.svg"
+            {/* <img
+              src="/images/logo.png"
               width="60"
               height="50"
               className="d-inline-block align-top m-0 p-0"
               alt="Logo"
-            />
+            /> */}
             <span className="ml-2 h4">
-              <span className='updock-regular fw-bold fs-1'>T</span>hread
+              <span className='updock-regular fw-bold fs-1'>Rama Collections</span>
             </span>
           </a>
 

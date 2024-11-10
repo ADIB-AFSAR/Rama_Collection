@@ -47,6 +47,7 @@ const size = ['S','M','XL','XXL']
 
   return (
     <div className="container">
+    <h4 className="text-center mb-2">Shop By Category</h4>
       <div className="filter-buttons text-center mb-4">
         <button
           className={`btn btn-outline-dark mx-2 ${activeType === "all" ? "active" : ""}`}

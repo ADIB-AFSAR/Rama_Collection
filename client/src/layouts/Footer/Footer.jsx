@@ -18,16 +18,14 @@ const Footer = () => {
             </div>
           </Col>
           <Col md={4} className="text-center">
-            <div className="brand">
-            <img
-              src="/images/thread-logo.svg"
-              width="70"
-              height="70"
+            <div className="brand d-flex flex-column">
+            <span className="ml-2 h4"><span className='updock-regular fw-bold fs-2'>Rama Collections</span></span>
+           <img
+              src="/images/1.png" 
               className="d-inline-block align-top m-0 p-0"
               alt="Logo"
             />
               <div>
-            <span className="ml-2 h4"><span className='updock-regular fw-bold fs-2'>T</span>hread</span>
               </div>
             </div>
             <div className="social-icons">

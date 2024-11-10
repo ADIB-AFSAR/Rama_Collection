@@ -156,7 +156,7 @@ function AddOrEditProducts() {
                   onChange={handleChange} 
                 >
                   <option value="" disabled>Select Category</option>
-                  {categories.map((category) => (
+                  {categories.filter(filterCategory => filterCategory.status === true).map((category) => (
                     <option key={category._id} value={category._id}>
                       {category.name}
                     </option>

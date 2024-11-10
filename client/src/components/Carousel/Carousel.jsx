@@ -10,17 +10,17 @@ function ImageCarousel() {
 
   // Define images for the carousels
   const desktopImages = [
-    "//www.snitch.co.in/cdn/shop/files/5_WebBanner_1920x1080_2_1400x.jpg?v=1729317311",
-    "//www.snitch.co.in/cdn/shop/files/3_WebBanner_1920x1080_4_1400x.jpg?v=1729317311",
-    "//www.snitch.co.in/cdn/shop/files/4_WebBanner_1920x1080_2_1400x.jpg?v=1729317311",
-    "//www.snitch.co.in/cdn/shop/files/2_WebBanner_1920x1080_5_1400x.jpg?v=1729317311"
+    "https://www.soch.com/media/wysiwyg/HB_Desktop-min_6.jpg",
+    "https://www.soch.com/media/wysiwyg/HB_banner_Desktop-min_2.jpg",
+    "https://kalamandir.com/media/magiccart/magicslider/h/o/home-page-banner01.jpg",
+    "//naachiyars.in/cdn/shop/files/Artboard_3_0c498881-76bd-4f15-9329-6ace3333662b.jpg?v=1725001533"
   ];
 
   const mobileImages = [
-    "//www.snitch.co.in/cdn/shop/files/5_MobileBanner_1080x1350_1_400x.jpg?v=1729317311",
-    "//www.snitch.co.in/cdn/shop/files/3_MobileBanner_1080x1350_3_400x.jpg?v=1729317311",
-    "//www.snitch.co.in/cdn/shop/files/2_MobileBanner_1080x1350_4_400x.jpg?v=1729317311",
-    "//www.snitch.co.in/cdn/shop/files/4_MobileBanner_1080x1350_2_400x.jpg?v=1729317311"
+    "https://www.soch.com/media/wysiwyg/HB_Mobile-min_6.jpg",
+    "https://www.soch.com/media/wysiwyg/HB_banner_Mobile-min_2.jpg",
+    "https://kalamandir.com/media/magiccart/magicslider/mobile/m/o/mobile-banner01_1.jpg",
+    "//naachiyars.in/cdn/shop/files/mob.jpg?v=1725001533"
   ];
 
   return (

@@ -1,0 +1,47 @@
+.running-text-container {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap; 
+    color: #333; /* Text color */ 
+    padding: 10px 0;
+    /* position: fixed;  
+    top: 0;  
+    z-index: 1000; */
+  }
+  
+  .running-text {
+    display: inline-block;
+    padding-left: 100%; /* Start off screen */
+    animation: scrollText 10s linear infinite;
+  }
+  
+  @keyframes scrollText {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+  .glowing-text {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    animation: glow 1s ease-in-out infinite alternate;
+  }
+  
+  @keyframes glow {
+    0% {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 75px #ff00ff;
+      color: #fff;
+    }
+    100% {
+      text-shadow: 0 0 20px #fff, 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 75px #ff00ff, 0 0 100px #ff00ff;
+      color: #ff00ff;  
+    }
+  }
+  
+  

@@ -1,0 +1,105 @@
+/* Style for the Navbar */
+.custom-navbar {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  white-space: nowrap; 
+}
+
+/* Main styling for the navbar links */
+.navbar-nav {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+/* Dropdown menu styling */
+.custom-dropdown-menu {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 10px;
+  position: absolute;
+  top: 100%; /* Position just below the nav link */
+  z-index: 1000;
+  width: 200px;
+}
+
+/* Adjustments for mobile */
+@media (max-width: 991.98px) {
+  .dropdown-menu {
+    display: none; /* Hide by default */
+  }
+
+  .dropdown-menu.show {
+    display: block; /* Show on click */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1050; /* Higher z-index to overlay other content */
+  }
+}
+
+/* Hover on desktop screens */
+@media (min-width: 992px) {
+  .nav-item:hover .custom-dropdown-menu {
+    display: block;
+  }
+}
+/* Media queries for responsive width adjustments */
+@media (max-width: 1200px) {
+  .nav-link {
+    font-size: 0.9em;
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 992px) {
+  .nav-link {
+    font-size: 0.85em;
+    padding: 6px 8px;
+  }
+  .navbar-nav .nav-item:last-child .custom-dropdown-menu {
+    left: auto;
+    right: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-link {
+    font-size: 0.8em;
+    padding: 4px 6px;
+    margin: 0 8px !important;
+  }
+  .nav-item{
+    margin: 0px 10px !important;
+  }
+  .navbar-nav .nav-item:last-child .custom-dropdown-menu {
+    left: auto;
+    right: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .nav-link {
+    font-size: 0.75em;
+    padding: 2px 4px;
+    margin: 0 5px;
+  }
+  .nav-item{
+    margin: 0px -1px !important;
+  }
+  .navbar-nav .nav-item:last-child .custom-dropdown-menu {
+    left: auto;
+    right: 0;
+  }
+}
+
+.dropdown-item {
+  color: #555;
+  font-size: 0.95em;
+}
+
+.dropdown-item:hover {
+  color: #ff6b6b;
+  background-color: rgba(255, 107, 107, 0.1);
+}

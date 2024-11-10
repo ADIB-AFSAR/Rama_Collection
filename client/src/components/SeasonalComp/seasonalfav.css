@@ -51,4 +51,18 @@ body {
     font-size: 14px;
     font-weight: bold;
   }
+  .position-relative {
+    position: relative;
+  }
+  .text-overlay {
+    position: absolute;
+    bottom: 3rem;
+    right: 1rem;
+    /* background-color: rgba(0, 0, 0, 0.6);   */
+    color: white;
+    padding: 4px 8px;
+    font-size: 1.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+  }
   
