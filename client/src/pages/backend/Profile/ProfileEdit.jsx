@@ -28,7 +28,7 @@ function ProfileEdit() {
     event.preventDefault();
     dispatch(updateUserStart(formData));
     setTimeout(() => {
-      navigate('/admin/dashboard');
+      navigate('/dashboard');
     }, 800);
   };
 
@@ -38,7 +38,7 @@ function ProfileEdit() {
     if (user) {
       setFormData(user);
     } else {
-      navigate('/admin/dashboard');
+      navigate('/dashboard');
     }
   };
 
