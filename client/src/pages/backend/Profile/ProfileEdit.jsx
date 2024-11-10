@@ -34,11 +34,11 @@ function ProfileEdit() {
 
   const getUserById = () => {
     console.log(users)
-    let user = users?.find((user) => user._id === id);
+    let user = users?.find((user) => user?._id === id);
     if (user) {
       setFormData(user);
     } else {
-      console.warn("user did not matched to edit details")
+      console.warn("user ID : ", user?._id,"user did not matched to edit details")
       navigate('/dashboard');
     }
   };
