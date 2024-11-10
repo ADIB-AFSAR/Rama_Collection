@@ -73,13 +73,14 @@ const register = async (req, res) => {
                 // image: req.file.path.replace('public', "")
             });
             return res.status(201).json({
-                message: "User registered successfully." 
+                message: "User registered successfully."
             });
         }
     } catch (err) {
         console.error('from controller',err);
         return res.status(500).json({
-            message: "Internal server error."
+            message: "Internal server error.",
+            error: err.message
         });
     }
 };
