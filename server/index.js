@@ -19,6 +19,7 @@ app.use(cors(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 app.use(express.static(path.join(__dirname, "public")));
+console.log("Connecting to database...");
 mongoose
   .connect(process.env.MONGO_URL)
   .then((response) => {

@@ -52,7 +52,7 @@ const login = async (req, res) => {
 
 
 const register = async (req, res) => {
-    console.log("form data",req.body)
+    console.log("register request body",req.body)
     try {
         console.log(req.body);
         let userWithSameEmailFound = await userModel.findOne({
@@ -73,7 +73,8 @@ const register = async (req, res) => {
                 // image: req.file.path.replace('public', "")
             });
             return res.status(201).json({
-                message: "User registered successfully."
+                message: "User registered successfully.",
+                error: err.message
             });
         }
     } catch (err) {
