@@ -59,7 +59,7 @@ function Products() {
                       <tr key={product?._id}>
                         <th scope="row">{index + 1}</th>
                         <td>{product?.images?.length > 0 ?product?.images.map((url,index)=>{
-                          return<img className='p-0 m-0 w-50' key={index} src={process.env.REACT_APP_API_URL+url} alt={product?.name} height={"80px"} />
+                          return<img className='p-0 m-0' height={"60px"} key={index} src={url} alt={product?.name} />
                         }):<img  src={''} alt={product?.name} height={"80px"} />}</td>
                         <td>{product?.name}</td>
                         <td>₹{product?.price}</td>
@@ -68,7 +68,7 @@ function Products() {
                         <td>{product?.status === true ? 'Active' : 'Inactive'}</td>
                         <td>
                           <Link to={`/admin/product/edit/${product?._id}`} className='btn btn-warning my-1 btn-sm' style={{width:'4rem'}}>Edit</Link>
-                          <button onClick={() => handleDelete(product?._id)} className='btn btn-danger mx-1 btn-sm'>Delete</button>
+                          {/* <button onClick={() => handleDelete(product?._id)} className='btn btn-danger mx-1 btn-sm'>Delete</button> */}
                         </td>
                       </tr>
                     ))

@@ -106,7 +106,7 @@ function AddOrEditProducts() {
 <label htmlFor='images'  className="form-label mt-3"> Product Image</label>
     <input multiple type="file" name="images" onChange={uploadFiles} className="form-control" id="images"/>
     {images && images?.map((image,index)=>{
-      return <img key={index} src={process.env.REACT_APP_API_URL + image}  className='mt-2 mb-2' height={'120px'} width={'100px'}/>
+      return <img key={index} src={image}  className='mt-2 mb-2' height={'120px'} width={'100px'}/>
     }) }
 <br></br>
                 <label htmlFor='description' className="form-label mt-3">Description</label>

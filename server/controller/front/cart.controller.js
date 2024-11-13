@@ -119,7 +119,7 @@ const collectTotal = async (id) => {
 };
 
 const placeOrder = async (req, res) => {
-    console.log("placeorder:",req.body, req.params)
+    console.log("placeorder:", req.body, req.params);
     try {
         const cart = await cartModel.findOne({ _id: req.params.cartId });
 
@@ -129,30 +129,41 @@ const placeOrder = async (req, res) => {
 
         const cartItems = await cartItemModel.find({ cart: cart._id });
 
+        // Create the order
         const order = await orderModel.create({
             customer: cart.customer,
             subTotal: cart.subTotal,
             tax: cart.tax,
             grandTotal: cart.grandTotal,
             billingAddress: req.body.billingAddress,
-            placedOrder : true                         //added to true
+            placedOrder: true
         });
 
+        // Iterate over each cart item to create order items and update product quantities
         await Promise.all(cartItems.map(async (item) => {
+            // Create order item
             await orderItemModel.create({
                 order: order._id,
                 product: item.product,
                 quantity: item.quantity,
-                size: item.size // Include size
+                size: item.size // Include size if applicable
             });
+
+            // Update product quantity in the product model
+            await productModel.updateOne(
+                { _id: item.product },
+                { $inc: { quantity: -item.quantity } }
+            );
         }));
 
+        // Mark the cart as ordered
         await cartModel.updateOne({ _id: cart._id }, { placedOrder: true });
         return res.json({ message: "Order placed successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 const stripePay = async (req, res) => {
     try {

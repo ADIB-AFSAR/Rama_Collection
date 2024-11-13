@@ -30,10 +30,12 @@ const ShopCategory = () => {
       setFilteredProducts(shuffleArray(products));
     }
   }, [products]);
-  const toProductDetailsPage = (id)=>{
+  
+  const toProductDetailsPage = (id) => {
     navigate(`/details/${id}`)
-}
-const size = ['S','M','XL','XXL']
+  };
+  
+  const size = ['S', 'M', 'XL', 'XXL'];
 
   const filterProducts = (type) => {
     setActiveType(type);
@@ -47,7 +49,7 @@ const size = ['S','M','XL','XXL']
 
   return (
     <div className="container">
-    <h4 className="text-center mb-2">Shop By Category</h4>
+      <h4 className="text-center mb-2">Shop By Category</h4>
       <div className="filter-buttons text-center mb-4">
         <button
           className={`btn btn-outline-dark mx-2 ${activeType === "all" ? "active" : ""}`}
@@ -76,29 +78,27 @@ const size = ['S','M','XL','XXL']
       </div>
       <div className="row">
         {filteredProducts.map((product, index) => (
-          <div className="col-md-3" key={index}>
-            {/* <a href="#" className="text-decoration-none"> */}
-              <div className="card">
-                <img
-                  onClick={()=>{toProductDetailsPage(product._id)}}
-                  src={process.env.REACT_APP_API_URL + product.images[0]} // Assuming the first image is the main one
-                  alt={product.name}
-                  className="card-img-top"
-                  onMouseOver={(e) => (e.currentTarget.src = process.env.REACT_APP_API_URL + product.images[1])} // Assuming the second image is hover image
-                  onMouseOut={(e) => (e.currentTarget.src = process.env.REACT_APP_API_URL + product.images[0])}
-                />
-                <div className="card-body pb-0">
-                  <h5 className="card-title text-left">{product.name}</h5>
-                  <div className='product-price text-left fs-6'><span className='text-decoration-line-through small'>
-            ₹{(Number(product?.price) * 1.5).toFixed(2) }
-          </span><span className='mx-1 text-dark'>₹{ Number(product?.price).toFixed(2) }</span>  </div>
+          <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={index}>
+            <div className="card">
+              <img
+                onClick={() => { toProductDetailsPage(product._id) }}
+                src={product.images[0]}
+                alt={product.name}
+                className="card-img-top"
+                onMouseOver={(e) => (e.currentTarget.src = product.images[1])}
+                onMouseOut={(e) => (e.currentTarget.src = product.images[0])}
+              />
+              <div className="card-body pb-3 pt-0">
+                <h5 className="card-title text-left">{product.name}</h5>
+                <div className='product-price text-left fs-6'>
+                  <span className='text-decoration-line-through small'>
+                    ₹{(Number(product?.price) * 1.5).toFixed(2)}
+                  </span>
+                  <span className='mx-1 text-dark'>
+                    ₹{Number(product?.price).toFixed(2)}
+                  </span>
                 </div>
               </div>
-            {/* </a> */}
-            <div className="product-sizes text-left m-0 p-0 mb-4">
-              {size && size.map((size, index) => (
-                <span className='me-2 mx-2 pl-2 small text-muted text-dark' key={index}>{size}</span>
-              ))}
             </div>
           </div>
         ))}
