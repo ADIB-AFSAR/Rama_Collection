@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./shopcat.css"; // This will contain your card styles
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./shopcat.css"; // Contains card styles
 
 // Shuffle function
 const shuffleArray = (array) => {
@@ -15,94 +15,69 @@ const shuffleArray = (array) => {
 };
 
 const ShopCategory = () => {
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const products = useSelector(state => state.product.products);
+  const [shuffledProducts, setShuffledProducts] = useState([]);
+  const products = useSelector((state) => state.product.products);
   const currentUser = useSelector((state) => state.user.currentUser);
-  const [activeType, setActiveType] = useState("all");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  // Shuffle and display all products initially
   useEffect(() => {
-    if(!currentUser?.name){
-      navigate('/login')
+    if (!currentUser?.name) {
+      navigate("/login");
     }
-    if(products?.length>0){
-      setFilteredProducts(shuffleArray(products));
+    if (products?.length > 0) {
+      setShuffledProducts(shuffleArray(products));
     }
-  }, [products]);
-  
-  const toProductDetailsPage = (id) => {
-    navigate(`/details/${id}`)
-  };
-  
-  const size = ['S', 'M', 'XL', 'XXL'];
+  }, [products, currentUser, navigate]);
 
-  const filterProducts = (type) => {
-    setActiveType(type);
-    if (type === "all") {
-      setFilteredProducts(shuffleArray(products).filter(product => product?.category?.name !== "Tshirt"));
-    } else {
-      const filtered = products.filter((product) => product.category.name === type);
-      setFilteredProducts(shuffleArray(filtered));
-    }
+  const toProductDetailsPage = (id) => {
+    navigate(`/details/${id}`);
+  };
+
+  const renderCategorySection = (categoryName) => {
+    const categoryProducts = shuffledProducts.filter(
+      (product) => product.category.name === categoryName
+    );
+
+    return (
+      <div className="category-section mb-5">
+        <h5 className="text-center mb-3">{categoryName}</h5>
+        <div className="row">
+          {categoryProducts.map((product, index) => (
+            <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={index}>
+              <div className="card">
+                <img
+                  onClick={() => toProductDetailsPage(product._id)}
+                  src={product.images[0]}
+                  alt={product.name}
+                  className="card-img-top"
+                  onMouseOver={(e) => (e.currentTarget.src = product.images[1] || product.images[0])}
+                  onMouseOut={(e) => (e.currentTarget.src = product.images[0])}
+                />
+                <div className="card-body pb-3 pt-0">
+                  <h5 className="card-title text-left">{product.name}</h5>
+                  <div className="product-price text-left fs-6">
+                    <span className="text-decoration-line-through small">
+                      ₹{(Number(product?.price) * 1.5).toFixed(2)}
+                    </span>
+                    <span className="mx-1 text-dark">
+                      ₹{Number(product?.price).toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   };
 
   return (
     <div className="container">
-      <h4 className="text-center mb-2">Shop By Category</h4>
-      <div className="filter-buttons text-center mb-4">
-        <button
-          className={`btn btn-outline-dark mx-2 ${activeType === "all" ? "active" : ""}`}
-          onClick={() => filterProducts("all")}
-        >
-          All
-        </button>
-        <button
-          className={`btn btn-outline-dark mx-2 ${activeType === "Jeans" ? "active" : ""}`}
-          onClick={() => filterProducts("Jeans")}
-        >
-          Jeans
-        </button>
-        <button
-          className={`btn btn-outline-dark mx-2 ${activeType === "Shirt" ? "active" : ""}`}
-          onClick={() => filterProducts("Shirt")}
-        >
-          Shirt
-        </button>
-        <button
-          className={`btn btn-outline-dark mx-2 ${activeType === "Joggers" ? "active" : ""}`}
-          onClick={() => filterProducts("Joggers")}
-        >
-          Joggers
-        </button>
-      </div>
-      <div className="row">
-        {filteredProducts.map((product, index) => (
-          <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={index}>
-            <div className="card">
-              <img
-                onClick={() => { toProductDetailsPage(product._id) }}
-                src={product.images[0]}
-                alt={product.name}
-                className="card-img-top"
-                onMouseOver={(e) => (e.currentTarget.src = product.images[1])}
-                onMouseOut={(e) => (e.currentTarget.src = product.images[0])}
-              />
-              <div className="card-body pb-3 pt-0">
-                <h5 className="card-title text-left">{product.name}</h5>
-                <div className='product-price text-left fs-6'>
-                  <span className='text-decoration-line-through small'>
-                    ₹{(Number(product?.price) * 1.5).toFixed(2)}
-                  </span>
-                  <span className='mx-1 text-dark'>
-                    ₹{Number(product?.price).toFixed(2)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      <h4 className="text-center mb-4">Shop By Category</h4>
+      {renderCategorySection("saree")}
+      {renderCategorySection("salwar suit")}
+      {renderCategorySection("material")}
       <button className="rewards-button position-sticky float-end">Rewards</button>
     </div>
   );

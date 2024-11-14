@@ -16,12 +16,12 @@ const cartItemSchema = new mongoose.Schema({
         type: Number,
         default: 1, // Default quantity set to 1
         min: [0, 'Quantity cannot be negative'] // Ensure quantity is not negative
-    },
-    size: {
-        type: String, // Single size as a string
-        required: true, // Ensure size is provided
-        enum: ['s', 'm', 'x', 'xl'], // Define allowed sizes
     }
+    // size: {
+    //     type: String,  
+    //     required: true,  
+    //     enum: ['s', 'm', 'x', 'xl'],  
+    // }
 }, { timestamps: true }); // Adds createdAt and updatedAt fields
 
 // Create the cart item model

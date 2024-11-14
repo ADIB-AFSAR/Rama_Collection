@@ -28,7 +28,6 @@ const addCart = async (req, res) => {
     console.log(req.body)
     try {
         const { id: productId } = req.params;
-        const { size } = req.body; // Get size from request body
         let currentCart = await cartModel.findOne({
             customer: req.user._id,
             placedOrder: false
@@ -37,8 +36,7 @@ const addCart = async (req, res) => {
         if (currentCart) {
             const item = await cartItemModel.findOne({
                 product: productId,
-                cart: currentCart._id,
-                size // Check for both product and size
+                cart: currentCart._id
             });
 
             if (item) {
@@ -49,8 +47,7 @@ const addCart = async (req, res) => {
                 await cartItemModel.create({
                     cart: currentCart._id,
                     product: productId,
-                    quantity: 1,
-                    size // Set size
+                    quantity: 1
                 });
             }
         } else {
@@ -58,8 +55,7 @@ const addCart = async (req, res) => {
             await cartItemModel.create({
                 cart: currentCart._id,
                 product: productId,
-                quantity: 1,
-                size // Set size
+                quantity: 1
             });
         }
 
@@ -72,10 +68,9 @@ const addCart = async (req, res) => {
 
 const updateCart = async (req, res) => {
     try {
-        const { itemId, cartId, quantity, size } = req.body; // Include size if necessary
+        const { itemId, cartId, quantity } = req.body; // Include size if necessary
         await cartItemModel.updateOne({ _id: itemId, cart: cartId }, {
-            quantity: quantity,
-            size: size // Update size if needed
+            quantity: quantity
         });
         const response = await collectTotal(cartId);
         return res.json({ currentCart: response });
@@ -145,8 +140,7 @@ const placeOrder = async (req, res) => {
             await orderItemModel.create({
                 order: order._id,
                 product: item.product,
-                quantity: item.quantity,
-                size: item.size // Include size if applicable
+                quantity: item.quantity
             });
 
             // Update product quantity in the product model

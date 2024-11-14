@@ -39,3 +39,7 @@
     cursor: pointer;
   }
   
+  .beonscreen{
+    position: sticky;
+    top: 10%;
+  }

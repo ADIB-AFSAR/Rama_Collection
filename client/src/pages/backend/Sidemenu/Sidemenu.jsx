@@ -26,7 +26,7 @@ function Sidebar() {
    
   return (
     <div className='col-sm-3 mt-1'>
-           <ul className="list-group text-decoration-none shadow">
+           <ul className="list-group text-decoration-none shadow beonscreen">
               <Link to={'/dashboard'} className={`list-group-item acive text-decoration-none ${location.pathname.includes('dashboard') ? 'bg-dark text-white' : 'bg-white'}`}>Dashboard</Link><Link to={'/order'} className={`list-group-item text-decoration-none ${location.pathname.includes('order') ? 'bg-dark text-white' : 'bg-white'}`}>{currentUser?.role === 'customer' ? "My orders" : "Orders" }</Link>
               {currentUser.role === 'admin' && <>
               <Link to={'/admin/category'} className={`list-group-item text-decoration-none ${location.pathname.includes('category') ? 'bg-dark text-white' : 'bg-white'}`}>Category</Link>

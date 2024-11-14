@@ -12,9 +12,9 @@ function Home() {
    {/* <HomePageModal/> */}
     <NavbarComponent/>
     <ImageCarousel/>
+    <ShopCategory/>
     <TshrtTrouserComp/>
     <SeasonalFaves/>
-    <ShopCategory/>
   </>
   )
 }

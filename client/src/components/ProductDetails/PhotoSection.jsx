@@ -51,7 +51,7 @@ const PhotoSection = ({CurrentProductImages}) => {
                 className="mb-2"
                 height={'100px'}
                 key={index}
-                src={process.env.REACT_APP_API_URL + image}
+                src={image}
                 alt="Product"
                 onClick={() => updateMainImage(image)}
                 style={{ cursor: 'pointer' }}
@@ -72,7 +72,7 @@ const PhotoSection = ({CurrentProductImages}) => {
             <img
               height={'532px'}
               id="mainImage"
-              src={process.env.REACT_APP_API_URL + mainImage}
+              src={mainImage}
               alt="Main Product"
             />
           )}
@@ -80,7 +80,7 @@ const PhotoSection = ({CurrentProductImages}) => {
           {/* Zoomed Image for large screens */}
           {isZooming && isLargeScreen && mainImage && (
             <div className="zoomed-image">
-              <img src={process.env.REACT_APP_API_URL + mainImage} alt="Zoomed Product" />
+              <img src={mainImage} alt="Zoomed Product" />
             </div>
           )}
         </div>
