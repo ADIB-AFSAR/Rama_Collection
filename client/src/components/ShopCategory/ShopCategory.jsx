@@ -40,35 +40,51 @@ const ShopCategory = () => {
 
     return (
       <div className="category-section mb-5">
-        <h5 className="text-center mb-3 satisfy-regular fs-1 text-capitalize">{categoryName}</h5>
-        <div className="row">
-          {categoryProducts.map((product, index) => (
-            <div className="col-lg-3 col-md-4 col-sm-6 col-6 mb-4" key={index}>
-              <div className="card">
-                <img
-                  onClick={() => toProductListingPage(product.category.name)}
-                  src={product.images[0]}
-                  alt={product.name}
-                  className="card-img-top"
-                  onMouseOver={(e) => (e.currentTarget.src = product.images[1] || product.images[0])}
-                  onMouseOut={(e) => (e.currentTarget.src = product.images[0])}
-                />
-                <div className="card-body p-0">
-                  <h5 className="card-title text-left text-capitalize">{product.name}</h5>
-                  <div className="product-price text-left">
-                    <span className="text-dark">
-                      ₹{Number(product?.price).toFixed(2)}
-                    </span>
-                    <span className="mx-1 text-decoration-line-through small">
-                      ₹{(Number(product?.price) * 1.5).toFixed(2)}
-                    </span>
-                  </div>
+      <h5 className="text-center mb-3 satisfy-regular fs-1 text-capitalize">{categoryName}</h5>
+      <div className="row">
+        {categoryProducts.map((product, index) => (
+          <div className="col-lg-3 col-md-4 col-sm-6 col-6 mb-4" key={index}>
+            <div className="card position-relative">
+              {/* Ribbon for quantity less than 10 */}
+              {product.quantity < 10 && (
+                <div
+                  className="position-absolute bg-danger text-white py-1 px-2 fw-bold"
+                  style={{
+                    top: '10px',
+                    right: '10px',
+                    borderRadius: '5px',
+                    zIndex: 10,
+                  }}
+                >
+                  {product.quantity} left
+                </div>
+              )}
+    
+              <img
+                onClick={() => toProductListingPage(product.category.name)}
+                src={product.images[0]}
+                alt={product.name}
+                className="card-img-top"
+                onMouseOver={(e) => (e.currentTarget.src = product.images[1] || product.images[0])}
+                onMouseOut={(e) => (e.currentTarget.src = product.images[0])}
+              />
+              <div className="card-body p-0">
+                <h5 className="card-title text-left text-capitalize">{product.name}</h5>
+                <div className="product-price text-left">
+                  <span className="text-dark">
+                    ₹{Number(product?.price).toFixed(2)}
+                  </span>
+                  <span className="mx-1 text-decoration-line-through small">
+                    ₹{(Number(product?.price) * 1.5).toFixed(2)}
+                  </span>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
+    </div>
+    
     );
   };
 

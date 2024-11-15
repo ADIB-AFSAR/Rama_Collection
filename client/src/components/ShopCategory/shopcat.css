@@ -36,6 +36,7 @@
   .rewards-button{
     right: 0; 
     cursor: pointer;
+    z-index: 1000;
   } 
  /* Container for the heading */
 .ribbon-heading {

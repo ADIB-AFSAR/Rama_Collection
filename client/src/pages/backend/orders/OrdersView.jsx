@@ -88,8 +88,7 @@ function OrdersView() {
                   <th scope="col">Image</th>
                   <th scope="col">Name</th>
                   <th scope="col">Price</th>
-                  <th scope='col'>Quantity</th>
-                  <th scope='col'>Size</th>
+                  <th scope='col'>Quantity</th> 
                   <th scope='col'>Total</th>
                 </tr>
               </thead>
@@ -97,11 +96,10 @@ function OrdersView() {
               {order?.items?.length > 0 && order?.items?.map((item,index) =>{
               return <tr key={index}>
                         <th scope="row">{index+1}</th>
-                        <td className="py-3 rounded"><img src={process.env.REACT_APP_API_URL + item?.product?.images[0]} alt={item?.name} height={'90px'}/></td>
+                        <td className="py-3 rounded"><img src={item?.product?.images[0]} alt={item?.name} height={'90px'}/></td>
                         <td className="py-3">{item?.product?.name}</td>
                         <td className="py-3">₹{item?.product?.price}</td>
-                        <td className="py-3 text-center">{item?.quantity}</td>
-                        <td className="py-3">{(item?.size)?.toUpperCase() || 'N/A'}</td>
+                        <td className="py-3 text-center">{item?.quantity}</td> 
                         <td className="py-3">₹{+item.product.price * item.quantity}</td>
                       </tr>
                })}

@@ -8,7 +8,7 @@ const ThankYou = () => {
       <Container className="thankyou-box text-center shadow-lg">
         <div className="logo">
             <span className="ml-2 head">
-              <span className='updock-regular fw-bold t'>T</span>hread
+              <span className='updock-regular fw-bold t'>Rama Collections</span>
             </span></div>
         <h2>Thank you for your purchase</h2>
         <div className="order-number">ORDER NO. 52816537706</div>
