@@ -164,7 +164,7 @@ function Checkout() {
                                       return<tr key={index}>
                                             <th scope="row">
                                                 <div className="d-flex align-items-center mt-2">
-                                                    <img src={process.env.REACT_APP_API_URL+item.product.images[0]} className="img-fluid rounded" style={{width: "90px", height: "90px"}} alt={item.name}/>
+                                                    <img src={item.product.images[0]} className="img-fluid rounded" style={{width: "90px", height: "90px"}} alt={item.name}/>
                                                 </div>
                                             </th>
                                             <td className="py-5 small">{item.product.name}</td>

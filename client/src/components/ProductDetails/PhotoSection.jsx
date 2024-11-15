@@ -92,7 +92,7 @@ const PhotoSection = ({CurrentProductImages}) => {
           <Carousel showArrows={false} swipeable={true} showThumbs={false} showStatus={false} infiniteLoop>
             {CurrentProductImages.map((image, index) => (
               <div key={index}>
-                <img src={process.env.REACT_APP_API_URL + image} alt={`Product ${index}`} />
+                <img src={image} alt={`Product ${index}`} />
               </div>
             ))}
           </Carousel>

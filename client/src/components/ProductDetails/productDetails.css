@@ -112,4 +112,14 @@ body {
     .size{
         display: none;
     }
+    .container .product-card{
+        margin: 0rem 0rem !important;
+        margin-bottom: 2rem !important;
+    }
+ }
+ @media (min-width: 900px){
+    .container .product-card{
+        margin: 0rem 2rem !important;
+        margin-bottom: 2rem !important;
+    }
  }

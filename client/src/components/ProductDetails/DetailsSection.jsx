@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './productDetails.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { addCartStart, deleteCartStart } from '../../redux/action/cart.action'; // Assuming `removeCartStart` action exists
+import { addCartStart, deleteCartStart, getCartStart } from '../../redux/action/cart.action'; // Assuming `removeCartStart` action exists
 import { addToWishlistStart, removeFromWishlistStart } from '../../redux/action/wishlist.action';
  
 const DetailsSection = ({ CurrentProductDetails }) => {
   const currentUser = useSelector(state => state.user.currentUser);
+  const currentCart = useSelector(state => state.cart.currentCart)
   const [isInWishlist, setIsInWishlist] = useState(false); // Track if product is in wishlist
   const [isAddedToCart, setIsAddedToCart] = useState(false); // Track if product is added to cart
   const dispatch = useDispatch();
@@ -30,23 +31,32 @@ const DetailsSection = ({ CurrentProductDetails }) => {
       alert("You need to be logged in to add items to your wishlist.");
     }
   };
+  const handleDelete = (id)=>{
+    dispatch(deleteCartStart(id))
+   dispatch(getCartStart())
+  }
 
   const handleCartToggle = (product) => {
     if (!currentUser) {
       navigate('/login');
     } else if (isAddedToCart) {
-      dispatch(deleteCartStart(product._id)); // Dispatch action to remove from cart
+      handleDelete(product._id)
+      console.log(product._id) // Dispatch action to remove from cart
       setIsAddedToCart(false);
+      localStorage.removeItem(`cart-${product._id}`);
     } else {
       dispatch(addCartStart(product)); // Dispatch action to add to cart
       setIsAddedToCart(true);
+      localStorage.setItem(`cart-${product._id}`, true);
     }
   };
 
   useEffect(() => {
+    const inCart = localStorage.getItem(`cart-${CurrentProductDetails._id}`);
+    setIsAddedToCart(!!inCart);
     const inWishlist = localStorage.getItem(`wishlist-${CurrentProductDetails._id}`);
     setIsInWishlist(!!inWishlist);
-  }, [CurrentProductDetails]);
+  }, [CurrentProductDetails , currentCart.items?.length]);
 
   return (
     <div className="col-lg-12 p-0 m-0">
@@ -55,6 +65,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
         <p className="price">INR {CurrentProductDetails?.price}<br />(incl. of all taxes)</p>
 
         <button 
+           disabled={isAddedToCart}
           onClick={() => handleCartToggle(CurrentProductDetails)} 
           className={`btn btn-outline-dark col-12 mt-3 ${isAddedToCart ? 'bg-dark text-white' : 'bg-white text-dark'}`}>
           {isAddedToCart ? "Added to Cart" : "Add to Cart"}

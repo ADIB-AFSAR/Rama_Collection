@@ -5,6 +5,7 @@ const orderItemModel = require("../../models/orderItem.model");
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { v4: uuidv4 } = require("uuid");
+const productModel = require("../../models/product.model");
 
 const getCart = async (req, res) => {
     try {
@@ -80,6 +81,7 @@ const updateCart = async (req, res) => {
 };
 
 const deleteCart = async (req, res) => {
+    console.log(req.params.id)
     try {
         const item = await cartItemModel.findOne({ _id: req.params.id });
         if (item) {

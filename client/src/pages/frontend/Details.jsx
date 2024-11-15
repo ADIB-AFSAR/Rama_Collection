@@ -34,7 +34,7 @@ const ProductDetailsPage = () => {
 
   return (
     <div className="container my-5">
-    <a href='/'><i className='bi bi-arrow-left fs-3 text-dark'></i></a>
+    <a onClick={()=>window.history.back()}><i style={{cursor : 'pointer'}} className='bi bi-arrow-left fs-3 text-dark'></i></a>
       <div className="row">
       
         {/* PhotoSection will take half width on larger screens, full width on mobile */}

@@ -29,8 +29,8 @@ const ShopCategory = () => {
     }
   }, [products, currentUser, navigate]);
 
-  const toProductDetailsPage = (id) => {
-    navigate(`/details/${id}`);
+  const toProductListingPage = (category) => {
+    navigate(`/new/${category}/collections`);
   };
 
   const renderCategorySection = (categoryName) => {
@@ -40,27 +40,27 @@ const ShopCategory = () => {
 
     return (
       <div className="category-section mb-5">
-        <h5 className="text-center mb-3">{categoryName}</h5>
+        <h5 className="text-center mb-3 satisfy-regular fs-1 text-capitalize">{categoryName}</h5>
         <div className="row">
           {categoryProducts.map((product, index) => (
-            <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={index}>
+            <div className="col-lg-3 col-md-4 col-sm-6 col-6 mb-4" key={index}>
               <div className="card">
                 <img
-                  onClick={() => toProductDetailsPage(product._id)}
+                  onClick={() => toProductListingPage(product.category.name)}
                   src={product.images[0]}
                   alt={product.name}
                   className="card-img-top"
                   onMouseOver={(e) => (e.currentTarget.src = product.images[1] || product.images[0])}
                   onMouseOut={(e) => (e.currentTarget.src = product.images[0])}
                 />
-                <div className="card-body pb-3 pt-0">
-                  <h5 className="card-title text-left">{product.name}</h5>
-                  <div className="product-price text-left fs-6">
-                    <span className="text-decoration-line-through small">
-                      ₹{(Number(product?.price) * 1.5).toFixed(2)}
-                    </span>
-                    <span className="mx-1 text-dark">
+                <div className="card-body p-0">
+                  <h5 className="card-title text-left text-capitalize">{product.name}</h5>
+                  <div className="product-price text-left">
+                    <span className="text-dark">
                       ₹{Number(product?.price).toFixed(2)}
+                    </span>
+                    <span className="mx-1 text-decoration-line-through small">
+                      ₹{(Number(product?.price) * 1.5).toFixed(2)}
                     </span>
                   </div>
                 </div>
@@ -73,12 +73,13 @@ const ShopCategory = () => {
   };
 
   return (
-    <div className="container">
-      <h4 className="text-center mb-4">Shop By Category</h4>
+    <div className="container mx-auto px-0">
+      <p className="text-center mb-4"><span className="text-center ribbon-heading">Shop By Category</span></p>
       {renderCategorySection("saree")}
       {renderCategorySection("salwar suit")}
       {renderCategorySection("material")}
-      <button className="rewards-button position-sticky float-end">Rewards</button>
+      {renderCategorySection("occasion")}
+      <button onClick={() => toProductListingPage("all")} className="rewards-button position-sticky float-end">View All</button>
     </div>
   );
 };

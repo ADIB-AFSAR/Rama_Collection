@@ -36,9 +36,11 @@ const handleClickDecrease = (index, item) => {
     }
 };
 
-  const handleDelete = (id)=>{
-     dispatch(deleteCartStart(id))
+  const handleDelete = (item)=>{
+    localStorage.removeItem(`cart-${item.product._id}`);
+    dispatch(deleteCartStart(item._id))
     dispatch(getCartStart())
+  
    }
   
   useEffect(()=>{
@@ -62,7 +64,7 @@ const handleClickDecrease = (index, item) => {
         </div></span>
         {currentUser?.name && Array.isArray(currentCart?.items) && currentCart?.items?.length > 0 ? currentCart?.items?.map((item,index)=>{
           const imageSrc = item?.product?.images && item?.product?.images.length > 0 
-                ? process.env.REACT_APP_API_URL + item?.product?.images[0] 
+                ? item?.product?.images[0] 
                 : '/images/loading.png';
             return<ListGroup variant="flush">
                       <ListGroup.Item className="cart-item d-flex col">
@@ -74,7 +76,7 @@ const handleClickDecrease = (index, item) => {
                         />
                         <div className="cart-item-details col-8">
                           <h5 className='fs-6'>{item?.product?.name}</h5> 
-                          <p className='fw-normal d-flex justify-content-between'><span className=''>Size: {(item?.size).toUpperCase()}</span><span style={{cursor:"pointer"}}><i onClick={()=>{handleDelete(item._id)}} className='bi bi-trash float-right px-3'></i></span></p>
+                          <p className='fw-normal text-end'><button style={{cursor:"pointer"}}><i onClick={()=>{handleDelete(item)}} className='bi bi-trash float-end px-3'></i></button></p>
                           <span className='d-flex justify-content-between col'>
                           <Form.Group className="input-group w-50">
                             <Button className='btn btn-sm' onClick={()=>handleClickDecrease(index,item)} variant="outline-secondary">-</Button>

@@ -1,4 +1,8 @@
- 
+ .satisfy-regular {
+  font-family: "Satisfy", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
 
 .img-wrapper {
     position: relative;
@@ -30,6 +34,88 @@
     object-fit: cover; /* Ensures the image covers the container without stretching */
   }
   .rewards-button{
-    right: 0;
+    right: 0; 
+    cursor: pointer;
+  } 
+ /* Container for the heading */
+.ribbon-heading {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #d9534f; /* Background color of the ribbon */
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 5px; /* Rounded corners for the ribbon */
+}
+
+/* Left and right triangles for the ribbon ends */
+.ribbon-heading::before,
+.ribbon-heading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-style: solid;
+  border-width: 20px 10px;
+  border-color: transparent;
+  width: 0;
+  height: 0;
+}
+
+.ribbon-heading::before {
+  left: -20px;
+  border-right-color: #d9534f; /* Matches the background color */
+}
+
+.ribbon-heading::after {
+  right: -20px;
+  border-left-color: #d9534f; /* Matches the background color */
+}
+
+/* Ribbon's shadow for 3D effect */
+.ribbon-heading::before,
+.ribbon-heading::after {
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Optional: Add a shadow to the main ribbon for more depth */
+.ribbon-heading {
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+/* Style for the gradient-text */
+.gradient-text {
+  font-size: 48px; /* Set a large font size for heading */
+  font-weight: bold; /* Bold text for visibility */
+  text-align: center; /* Center the text */
+  background: linear-gradient(90deg, #ff6b6b, #fbc531, #4cd137, #0097e6, #9c88ff); /* Define the gradient colors */
+  background-size: 300%; /* Extend the gradient for smooth animation */ 
+  -webkit-text-fill-color: transparent; /* Make the text itself transparent */
+  animation: gradient-animation 5s linear infinite; /* Animate the gradient */
+}
+
+/* Keyframes for gradient animation */
+@keyframes gradient-animation {
+  0% {
+      background-position: 0% 50%; /* Start gradient position */
   }
- 
+  50% {
+      background-position: 100% 50%; /* Middle gradient position */
+  }
+  100% {
+      background-position: 0% 50%; /* End gradient position */
+  }
+}
+
+@media (max-width : 426px){
+  .ribbon-heading{
+    font-size: 15px;
+  }
+  .card-title{
+    font-size: 10px;
+  }
+  .product-price{
+    font-size:12px;
+  }
+}

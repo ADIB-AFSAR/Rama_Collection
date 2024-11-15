@@ -18,6 +18,7 @@ import Users from "../pages/backend/users/Users";
 import AddOrEditUser from "../pages/backend/users/AddOrEditUsers";
 import Auth from "../pages/backend/Auth";
 import Wishlist from "../pages/frontend/Wishlist";
+import ProductListingPage from "../components/ProductListingPage/ProductListingPage";
 // import Cart from "../pages/frontend/Cart";
 // import Thankyou from "../pages/frontend/Thankyou";
 // import Details from "../pages/frontend/Details";
@@ -41,6 +42,7 @@ function AppRouter() {
     <Routes>
       <Route path="/" element={<Home/>} />
       <Route path="/details/:id" element={<ProductDetailsPage/>} />
+      <Route path="/new/:category/collections" element={<ProductListingPage/>} />
       <Route path="/checkout" element={<Checkout/>} />
       <Route path="/login" element={<Login/>}/>
       <Route path="/register" element={<Register/>}/> 

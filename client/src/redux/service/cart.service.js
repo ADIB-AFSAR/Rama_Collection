@@ -72,6 +72,7 @@ export const updateCartToApi = async (product) => {
 };
 
 export const deleteCartItemFromAPI = async (payload) => {
+    console.log("cart service id : ",payload)
     try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/cart/delete/${payload}`, {
             method: 'DELETE',

@@ -50,6 +50,7 @@ body {
     padding: 10px 20px;
     font-size: 14px;
     font-weight: bold;
+    cursor: pointer;
   }
   .position-relative {
     position: relative;

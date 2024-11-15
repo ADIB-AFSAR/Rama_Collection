@@ -61,3 +61,32 @@
 .product-card:hover img.secondary {
     display: block;
 }
+@media (max-width: 526px) {
+    .product-card {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+    .product-card img {  
+        width: 140px;
+        height: auto;
+        transition: transform 0.3s ease;
+    }
+    .product-card .product-title{
+        font-size: 12px;
+    }
+    .product-card .product-price{
+        font-size: 12px !important;
+    }
+  }
+  
+  .filters-section {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+  }
+  
+ @media (max-width:986px){
+    .range,.sort,.filter{
+        font-size: 12px !important;
+    }
+ }
