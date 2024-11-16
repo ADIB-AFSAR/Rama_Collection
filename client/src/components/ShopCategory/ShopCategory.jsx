@@ -5,7 +5,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./shopcat.css";
 import { getProductStart } from "../../redux/action/product.action";
 import { getWishListStart } from "../../redux/action/wishlist.action";
-import axios from "axios"
 
 const shuffleArray = (array) => {
   let shuffledArray = [...array];
@@ -20,12 +19,13 @@ const ShopCategory = () => {
   const [shuffledProducts, setShuffledProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true); // Track if products are loading
   const [loadingImages, setLoadingImages] = useState({}); // Track image loading state for each product
-  const [products, setProducts] = useState([]);
-   const currentUser = useSelector((state) => state.user.currentUser);
+  const products = useSelector((state) => state.product.products);
+  const currentUser = useSelector((state) => state.user.currentUser);
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
   useEffect(() => {
+    window.scrollTo(0, 0); 
      if (products?.length > 0) {
       setShuffledProducts(shuffleArray(products));
       setLoadingProducts(false); // Products are loaded, stop the product loader
@@ -48,26 +48,11 @@ const ShopCategory = () => {
       dispatch(getWishListStart(currentUser.id));
     }
   }, [currentUser, dispatch]);
-  useEffect(() => {
-      const fetchProducts = async () => {
-        try {
-          const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/product`); // Public API route
-          setProducts(response.data);
-        } catch (error) {
-          console.error('Error fetching products:', error);
-        } finally {
-          setLoadingProducts(false);
-        }
-      };
-  
-      fetchProducts();
-    }, []);
+
   const renderCategorySection = (categoryName) => {
     const categoryProducts = shuffledProducts?.filter(
       (product) => product.category.name === categoryName
     );
-
-    
     return (
       <div className="category-section mb-5">
         <h5 className="text-center mb-3 satisfy-regular fs-1 text-capitalize">{categoryName}</h5>

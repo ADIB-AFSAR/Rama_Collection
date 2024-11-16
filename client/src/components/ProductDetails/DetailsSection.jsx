@@ -18,7 +18,9 @@ const DetailsSection = ({ CurrentProductDetails }) => {
 
   const handleAddToWishlist = (productId) => {
     if(!currentUser.name){
-       return alert('Please Login To Add To Wishlist')
+       alert('Please Login To Add To Wishlist')
+       navigate('/login');
+       return
       }
       if (currentUser) {
       const userId = currentUser.id;
@@ -51,7 +53,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
 
   const handleCartToggle = (product) => {
     window.scrollTo(0, 0); 
-    if (!currentUser) {
+    if (!currentUser?.name) {
      alert('Please Login To Add To Cart')
       navigate('/login');
       return
