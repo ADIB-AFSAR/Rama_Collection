@@ -176,7 +176,7 @@ function ProductListingPage() {
                   {/* Ribbon for quantity less than 10 */}
                   {product.quantity < 10 && (
                     <div
-                      className="position-absolute bg-danger text-white py-1 px-2 mx-1 fw-bold"
+                      className="position-absolute bg-danger left text-white py-1 px-2 mx-2 fw-bold"
                       style={{
                         top: '10px',
                         right: '10px',

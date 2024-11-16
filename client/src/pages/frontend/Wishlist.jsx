@@ -43,6 +43,12 @@ const Wishlist = () => {
 
     return (
         <div>
+         <a onClick={() => window.history.back()}>
+        <i
+          style={{ cursor: 'pointer', left: '5%' }}
+          className="bi bi-arrow-left fs-3 text-dark position-absolute "
+        ></i>
+      </a>
             {loading || localLoading ? ( // Show loader while loading
                 <div className="loader-container d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
                     <div className="spinner-border text-primary" role="status">
@@ -51,7 +57,7 @@ const Wishlist = () => {
                 </div>
             ) : (
                 <div>
-                    <h2 className='text-center my-3'>Your Wishlist</h2>
+                    <h4 className='text-center text-capitalize my-3'>Your Wishlist</h4>
                     {wishlist?.length > 0 ? (
                         <div className="row justify-content-center mx-0">
                             {wishlist.map((product) => (

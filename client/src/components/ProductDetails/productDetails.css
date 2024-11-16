@@ -90,12 +90,22 @@ body {
     cursor: zoom-in;
   }
 
+  .main-image img {
+    transition: opacity 0.3s ease-in-out;
+  }
+
   .zoomed-image {
     position: absolute;
-    top: 13%; /* Place zoomed image above the main image */ 
+    top: 14%; /* Place zoomed image above the main image */ 
     transform: scale(1.5); /* Zoom effect */
     pointer-events: none; /* Disable interactions */ 
     cursor:zoom-in;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 1;  
+  }
+  .zoomed-image.hidden {
+    opacity: 0;
+    pointer-events: none; /* Ensures no interaction with the hidden image */
   }
 
   .zoomed-image img {
@@ -121,5 +131,10 @@ body {
     .container .product-card{
         margin: 0rem 2rem !important;
         margin-bottom: 2rem !important;
+    }
+ }
+ @media (max-width :586px){
+    .product-title{
+        text-align: start;
     }
  }

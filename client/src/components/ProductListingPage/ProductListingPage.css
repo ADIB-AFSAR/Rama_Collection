@@ -118,4 +118,9 @@
     }
   }
   
+  @media (max-width : 548px){
+    .left{ 
+     font-size: 10px;
+  }
+  }
   

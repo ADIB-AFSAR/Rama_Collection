@@ -8,6 +8,7 @@ const path = require("path");
  require("dotenv").config(); 
 
 const mongoose = require("mongoose");
+ const { getProducts } = require("./controller/admin/product.controller");
 
 app.use(cors(
   {
@@ -28,6 +29,8 @@ mongoose
   .catch((error) => {
     console.log("databse connection failed :" + error);
   });
+
+app.get('/api/product',getProducts);
 app.use('/api/wishlist', wishlistRoutes)
 app.use("/api/admin", adminRoute);
 app.use("/api", frontRoutes);

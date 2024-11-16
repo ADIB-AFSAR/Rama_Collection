@@ -14,6 +14,7 @@ const ProductDetailsPage = () => {
   const dispatch = useDispatch();
 
 useEffect(() => {
+  window.scrollTo(0, 0); 
   if (products?.length === 0) {
     dispatch(getProductStart());
   }

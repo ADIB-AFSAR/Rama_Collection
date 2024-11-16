@@ -95,13 +95,25 @@ const DetailsSection = ({ CurrentProductDetails }) => {
                     
                   </div> */}
 
-        <button 
-          disabled={loading || isAddedToCart} // Disable the button while loading
-          onClick={() => handleCartToggle(CurrentProductDetails)} 
-          className={`btn btn-outline-dark col-12 mt-3 ${isAddedToCart ? 'bg-dark text-white' : 'bg-white text-dark'}`}
-        >
-          {loading ? <Spinner animation="border" size="sm" /> : (isAddedToCart ? "Added to Cart" : "Add to Cart")}
-        </button>
+                  <button
+    disabled={loading} // Only disable the button while loading
+    onClick={() => {
+      if (isAddedToCart) {
+        // Navigate to checkout if already added to cart
+        navigate('/checkout');
+      } else {
+        // Add to cart action
+        handleCartToggle(CurrentProductDetails);
+      }
+    }}
+    className={`btn btn-outline-dark col-12 mt-3 ${isAddedToCart ? 'bg-dark text-white' : 'bg-white text-dark'}`}
+  >
+    {loading ? (
+      <Spinner animation="border" size="sm" />
+    ) : (
+      isAddedToCart ? "Proceed to Checkout" : "Add to Cart"
+    )}
+  </button>
 
         <button onClick={() => handleAddToWishlist(CurrentProductDetails._id)} className="btn btn-outline-dark col-12 mt-2">
           {wishlistLoading ? (

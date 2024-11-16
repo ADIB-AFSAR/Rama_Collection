@@ -94,6 +94,12 @@ function Checkout() {
 
   return (
     <>
+     <a onClick={() => window.history.back()}>
+        <i
+          style={{ cursor: 'pointer', left: '5%' }}
+          className="bi bi-arrow-left fs-3 text-dark position-absolute "
+        ></i>
+      </a>
         <div className="container-fluid page-header py-5">
             <h1 className="text-center text-dark display-6">Checkout</h1>
         </div>
