@@ -46,8 +46,8 @@ const Footer = () => {
         </Row>
         <Row>
           <Col className="text-center">
-          <p className='fw-bold text-muted'>ADIB AFSAR </p>
-            <p className="copyright">© 2024 Thread Pvt. Ltd.</p>
+          <p className='fw-bold text-muted small name'>ADIB AFSAR </p>
+            <p className="copyright">© 2024 Rama Collection Pvt. Ltd.</p>
           </Col>
         </Row>
       </Container>

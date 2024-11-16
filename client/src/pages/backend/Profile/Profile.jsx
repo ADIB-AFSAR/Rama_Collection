@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'; // Ensure you import use
 import Sidebar from '../Sidemenu/Sidemenu';
 import '../backend.css';
 import { getCartStart } from '../../../redux/action/cart.action';
+import { getWishListStart } from '../../../redux/action/wishlist.action';
 
 function Profile() {
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -24,7 +25,11 @@ function Profile() {
     }
   };
 
-   
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(getWishListStart(currentUser.id));
+    }
+  }, [currentUser, dispatch]);
 
   useEffect(() => {
      if(!currentUser.name){

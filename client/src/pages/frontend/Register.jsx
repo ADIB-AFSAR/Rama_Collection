@@ -140,7 +140,7 @@ const Register = () => {
         </div>
         <div className="register-image">
           <img
-            src="https://www.prada.com/content/dam/pradanux/home_page/2024/10/Holiday_I/banner_accessories/banner_DT.jpg"
+            src="https://img.perniaspopupshop.com/HOMEPAGE_IMAGES/WOMEN/01_Nov_24/Ridhi-Mehra_WT_1_11_24.jpg"
             alt="Gucci model showcasing a fashion outfit"
           />
         </div>

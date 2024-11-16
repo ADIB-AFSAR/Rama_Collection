@@ -3,7 +3,8 @@ import { ADD_TO_WISHLIST_START, ADD_TO_WISHLIST_SUCCESS, GET_WISHLIST_START, GET
 
 const initialState = {
     items: [],
-    loading: false,
+    IsLoading: false,
+    isUpdated: false, // Add this
 };
 
 const wishlistReducer = (state = initialState, action) => {

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // Function to get all items in the wishlist
 export const getWishlistAPI = async (payload) => {
-    console.log("Service : ",payload)
+    console.log("Wishlist ID in Service : ",payload)
     try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/wishlist/${payload}`);
         console.log(response.data)

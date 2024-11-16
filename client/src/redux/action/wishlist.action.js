@@ -3,6 +3,7 @@ import { ADD_TO_WISHLIST_START, ADD_TO_WISHLIST_SUCCESS, GET_WISHLIST_START, REM
 
 
 export const getWishListStart = (id)=>{
+    console.log("wishlist from action:",id)
     return {
         type: GET_WISHLIST_START,
         payload: id,

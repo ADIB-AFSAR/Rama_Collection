@@ -2,21 +2,31 @@ import React, { useEffect, useState } from 'react';
 import './productDetails.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { addCartStart, deleteCartStart, getCartStart } from '../../redux/action/cart.action'; // Assuming `removeCartStart` action exists
-import { addToWishlistStart, removeFromWishlistStart } from '../../redux/action/wishlist.action';
- 
+import { addCartStart, deleteCartStart, getCartStart } from '../../redux/action/cart.action';
+import { addToWishlistStart, getWishListStart, removeFromWishlistStart } from '../../redux/action/wishlist.action';
+import { Spinner } from 'react-bootstrap'; // Import Spinner from react-bootstrap
+
 const DetailsSection = ({ CurrentProductDetails }) => {
   const currentUser = useSelector(state => state.user.currentUser);
-  const currentCart = useSelector(state => state.cart.currentCart)
+  const currentCart = useSelector(state => state.cart.currentCart);
   const [isInWishlist, setIsInWishlist] = useState(false); // Track if product is in wishlist
   const [isAddedToCart, setIsAddedToCart] = useState(false); // Track if product is added to cart
+  const [loading, setLoading] = useState(false); // Track loading state for the button
+  const [wishlistLoading, setWishlistLoading] = useState(false); // Track loading state for wishlist
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleAddToWishlist = (productId) => {
-    if (currentUser) {
+    if(!currentUser.name){
+       return alert('Please Login To Add To Wishlist')
+      }
+      if (currentUser) {
       const userId = currentUser.id;
       const data = { userId, productId };
+
+      
+
+      setWishlistLoading(true); // Start loading for wishlist button
 
       if (isInWishlist) {
         dispatch(removeFromWishlistStart(data));
@@ -27,27 +37,36 @@ const DetailsSection = ({ CurrentProductDetails }) => {
         setIsInWishlist(true);
         localStorage.setItem(`wishlist-${productId}`, true);
       }
+      dispatch(getWishListStart(currentUser?.id))
+      setWishlistLoading(false); // Stop loading after the action completes
     } else {
       alert("You need to be logged in to add items to your wishlist.");
     }
   };
-  const handleDelete = (id)=>{
-    dispatch(deleteCartStart(id))
-   dispatch(getCartStart())
-  }
+
+  const handleDelete = (id) => {
+    dispatch(deleteCartStart(id));
+    dispatch(getCartStart());
+  };
 
   const handleCartToggle = (product) => {
+    window.scrollTo(0, 0); 
     if (!currentUser) {
+     alert('Please Login To Add To Cart')
       navigate('/login');
+      return
     } else if (isAddedToCart) {
-      handleDelete(product._id)
-      console.log(product._id) // Dispatch action to remove from cart
+      handleDelete(product._id);
       setIsAddedToCart(false);
       localStorage.removeItem(`cart-${product._id}`);
     } else {
+      setLoading(true); // Start loading
       dispatch(addCartStart(product)); // Dispatch action to add to cart
-      setIsAddedToCart(true);
-      localStorage.setItem(`cart-${product._id}`, true);
+      setTimeout(() => {
+        setIsAddedToCart(true);
+        localStorage.setItem(`cart-${product._id}`, true);
+        setLoading(false); // Stop loading after 3 seconds
+      }, 3000); // Simulate delay of 3 seconds
     }
   };
 
@@ -56,23 +75,41 @@ const DetailsSection = ({ CurrentProductDetails }) => {
     setIsAddedToCart(!!inCart);
     const inWishlist = localStorage.getItem(`wishlist-${CurrentProductDetails._id}`);
     setIsInWishlist(!!inWishlist);
-  }, [CurrentProductDetails , currentCart.items?.length]);
+  }, [CurrentProductDetails, currentCart.items?.length]);
+
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(getWishListStart(currentUser.id));
+    }
+  }, [isInWishlist, currentUser, dispatch]);
 
   return (
     <div className="col-lg-12 p-0 m-0">
       <div className="product-details">
         <h1 className="product-title fw-normal fs-4 heading">{CurrentProductDetails?.name}</h1>
-        <p className="price">INR {CurrentProductDetails?.price}<br />(incl. of all taxes)</p>
+        <p className="price">INR {CurrentProductDetails?.price}<span className="mx-1 text-decoration-line-through small">
+                      ₹{(Number(CurrentProductDetails?.price) * 1.5).toFixed(2)}
+                    </span><br />(incl. of all taxes)</p>
+        {/* <div className="product-price text-left">
+                    <span className="text-dark">₹{Number(CurrentProductDetails?.price).toFixed(2)}</span>
+                    
+                  </div> */}
 
         <button 
-           disabled={isAddedToCart}
+          disabled={loading || isAddedToCart} // Disable the button while loading
           onClick={() => handleCartToggle(CurrentProductDetails)} 
-          className={`btn btn-outline-dark col-12 mt-3 ${isAddedToCart ? 'bg-dark text-white' : 'bg-white text-dark'}`}>
-          {isAddedToCart ? "Added to Cart" : "Add to Cart"}
+          className={`btn btn-outline-dark col-12 mt-3 ${isAddedToCart ? 'bg-dark text-white' : 'bg-white text-dark'}`}
+        >
+          {loading ? <Spinner animation="border" size="sm" /> : (isAddedToCart ? "Added to Cart" : "Add to Cart")}
         </button>
 
         <button onClick={() => handleAddToWishlist(CurrentProductDetails._id)} className="btn btn-outline-dark col-12 mt-2">
-          <i className={`fa${isInWishlist ? 's' : 'r'} fa-heart text-${isInWishlist ? 'danger' : 'dark'}`}></i> Add to Wishlist
+          {wishlistLoading ? (
+            <Spinner animation="border" size="sm" className="text-danger" />
+          ) : (
+            <i className={`fa${isInWishlist ? 's' : 'r'} mx-1 fa-heart text-${isInWishlist ? 'danger' : 'dark'}`}></i>
+          )}
+          {!isInWishlist ? 'Add to Wishlist' : 'Remove from Wishlist'}
         </button>
 
         <div>

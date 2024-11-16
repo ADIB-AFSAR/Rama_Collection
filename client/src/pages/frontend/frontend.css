@@ -177,7 +177,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url("//www.snitch.co.in/cdn/shop/files/5_WebBanner_1920x1080_2_1400x.jpg?v=1729317311"
+    background: url("https://panachehautecouture.com/cdn/shop/files/Slide_1_2_2000x.jpg?v=1676996994"
     ) no-repeat center center fixed;
     background-size: cover;
     filter: blur(10px);
@@ -467,3 +467,14 @@
     height: auto; /* Maintain aspect ratio */
 }
 
+.loader-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}

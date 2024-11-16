@@ -74,4 +74,10 @@
     margin-top: 20px;
     color: #000;
   }
-  
+  .name{
+    opacity: 0;
+  }
+  .name:hover{
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }

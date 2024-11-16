@@ -53,7 +53,7 @@ const Login = () => {
       <div className="login-box">
         <div className="login-image">
           <img
-            src="https://storage.googleapis.com/a1aa/image/wRatNmybv1Y8LNHHKxJeLPCVQ64vf4LzMBjge05RXW1aQRTnA.jpg"
+            src="https://cdn0.weddingwire.in/article/0173/original/1280/jpg/123710-taruntahiliani.jpeg"
             alt="Gucci model showcasing a fashion outfit"
           />
         </div>

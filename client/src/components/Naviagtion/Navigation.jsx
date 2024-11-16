@@ -63,7 +63,7 @@ const NavbarComponent = () => {
       <nav className="navbar navbar-expand-lg navbar-light bg-light custom-navbar w-100">
         <div className="navbar-nav mx-auto d-flex justify-content-center flex-row">
           {dropdowns.map(dropdown => (
-            <li key={dropdown.id} className="nav-item dropdown mx-5">
+            <li key={dropdown.id} className="nav-item c dropdown mx-5">
               <a
                 className="nav-link text-uppercase"
                 href="#"

@@ -6,7 +6,7 @@ import { ADD_TO_WISHLIST_START,  GET_WISHLIST_START,  REMOVE_FROM_WISHLIST_SUCCE
 
 function* getWishListStart({payload}){
     try {
-        console.log(payload)
+        console.log("Wishlist id in saga:",payload)
         const wishlist = yield getWishlistAPI(payload);
         yield put(getWishlistSuccess(wishlist));
     } catch (error) {

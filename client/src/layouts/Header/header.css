@@ -81,14 +81,25 @@
 }
 .product-list {
   right: 5%; /* Align to the right side */
-  top: 100%; /* Position it below the search bar */
+  top: 90%; /* Position it below the search bar */
   max-width: 300px; /* Optional: max width for the dropdown */
   overflow-y: auto; /* Allow scrolling if needed */
   z-index: 1000;
 }
 
-/* Other existing styles remain the same */
-
-
-
-/* You may also want to ensure that the sidebar and navbar are responsive */
+@media (max-width:546px){
+  .product img{
+    height: 100px !important;
+    margin: 0;
+  }
+  .product{
+    display: flex;
+    justify-content: center;
+  }
+  .product-list{
+    top:100%;
+  }
+  .form-control{
+    min-width: 100px !important;
+   }
+}

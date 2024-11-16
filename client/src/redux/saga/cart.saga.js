@@ -1,4 +1,4 @@
-import { takeLatest, put } from 'redux-saga/effects';
+import { takeLatest, put, putResolve, call } from 'redux-saga/effects';
 import { 
     ADD_CART_START, 
     DELETE_CART_START, 
@@ -17,7 +17,8 @@ import {
     getCartError, 
     getCartStart, 
     getCartSuccess, 
-    updateCartError 
+    updateCartError, 
+    updateCartSuccess
 } from '../action/cart.action';
 
 // Saga to get cart items
@@ -41,14 +42,20 @@ function* addCart({ payload }) {
 }
 
 // Saga to update an item in the cart
-function* updateCart({ payload }) {
-    try {
-        yield updateCartToApi(payload);
-        yield put(getCartStart()); // Refresh cart after updating
-    } catch (error) {
-        yield put(updateCartError(error.message));
+    function* updateCart({ payload }) {
+        try {
+            // Call the API to update the cart
+            const data = yield call(updateCartToApi, payload);
+            
+            // Dispatch success action with the updated cart data
+            yield put(updateCartSuccess(data));
+            
+            // Optionally refresh the cart after updating
+            yield put(getCartStart());
+        } catch (error) {
+            yield put(updateCartError(error.message));
+        }
     }
-}
 
 // Saga to delete an item from the cart
 function* deleteCartItem({ payload }) {

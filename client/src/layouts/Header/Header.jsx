@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import './header.css'; // Ensure this is the correct path to your CSS file
 import Sidebar from '../Sidebar/Sidebar'; // Adjust the path as necessary
-import {products} from '../../dummydata.js';
-import CartSidebar from '../../pages/frontend/Cart.jsx';
+ import CartSidebar from '../../pages/frontend/Cart.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { getWishListStart } from '../../redux/action/wishlist.action.js';
-import { getCartStart } from '../../redux/action/cart.action.js';
-
+import { useNavigate } from 'react-router-dom';
+ 
 function Header() {
+  const products = useSelector((state) => state.product.products);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [cartSidebarOpen, setCartSidebarOpen] = useState(false); // For cart sidebar
-  const [searchVisible, setSearchVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState(products);
-  const currentCart = useSelector(state=>state.cart.currentCart)
+  const [searchText, setSearchText] = useState(''); // Track search text
+  const [searchVisible, setSearchVisible] = useState(false); // Show/Hide search results
+   const currentCart = useSelector(state=>state.cart.currentCart)
   const currentUser = useSelector(state=>state.user.currentUser)
   const wishlist = useSelector(state => state.wishlist.items);
+  const isUpdated = useSelector(state => state.wishlist.isUpdated);
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   console.log("wishlist length:",wishlist.length)
    const toggleSidebar = () => {
@@ -32,32 +33,36 @@ function Header() {
   const toggleSearch = () => {
     setSearchVisible(!searchVisible);
     if (searchVisible) {
-      setSearchQuery(''); // Clear the search input when hiding
+      setSearchText(''); // Clear the search input when hiding
     }
   };
 
-  const handleSearchSubmit = (event) => {
-    event.preventDefault(); // Prevent the default form submission
-    if (searchQuery.trim()) { // Ensure there is input (ignores spaces)
-      const filtered = products.filter(product =>
-        product.title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredProducts(filtered); // Update the filtered products
-    } else {
-      setFilteredProducts([]); // Clear the product list if no input
-    }
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+    setSearchVisible(e.target.value.length > 0); // Show the product list only if search text is entered
   };
-  useEffect(()=>{
-    dispatch(getCartStart())
-    if(currentUser){
-      dispatch(getWishListStart(currentUser?.id))
-    } 
-  },[])
 
+  // Filter products based on the search text (case-insensitive)
+  const filteredProducts = products?.filter((product) =>
+    product.name?.toLowerCase().includes(searchText?.toLowerCase())
+  );
+
+  const toProductDetailsPage = (id) => {
+    setSearchText('')
+    navigate(`/details/${id}`);
+  };
+   
+    useEffect(() => {
+      if (isUpdated && currentUser) {
+        dispatch(getWishListStart(currentUser.id));
+      }
+    }, [isUpdated, currentUser, dispatch]);
+    
+ 
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid d-flex align-items-center">
+        <div className="container-fluid d-flex align-items-center justify-content-start">
           <button
             className="navbar-toggler d-lg-none me-2 mx-2"
             type="button"
@@ -76,7 +81,7 @@ function Header() {
               alt="Logo"
             /> */}
             <span className="ml-2 h4">
-              <span className='updock-regular fw-bold fs-1'>Rama Collections</span>
+              <span className='updock-regular title fw-bold fs-1'>Rama Collections</span>
             </span>
           </a>
 
@@ -85,16 +90,21 @@ function Header() {
               {currentUser?.name && <div className="d-none d-lg-flex align-items-center me-2">
                 <ul className="navbar-nav me-3">
                   <li className="nav-item">
-                    <a className="nav-link" href="/wishlist ">
-                      <i className="fas fa-heart text-danger fs-4">
-                      <span className='cart-number'>{wishlist?.length ?? <i class="bi bi-arrow-clockwise"></i>}</span>
-                      </i>
-                    </a>
+                  <a className="nav-link" href="/wishlist">
+      <i className="fas fa-heart text-danger fs-4">
+        <span className='cart-number'>
+          { isUpdated 
+            ? <i className="bi bi-hourglass-split"></i> 
+            : wishlist?.length    // Show 0 if wishlist is empty
+          }
+        </span>
+      </i>
+    </a>
                   </li>
                   <li className="nav-item ">
                     <a className="nav-link btn">
                       <i className="fas fa-shopping-cart fs-4"  onClick={()=>toggleCartSidebar()}>
-                        <span className='cart-number'>{currentCart?.items?.length ?? 0}</span>
+                        <span className='cart-number'>{currentCart?.items?.length ?? <i className="bi bi-hourglass-split"></i>}</span>
                       </i>
                     </a>
                   </li>
@@ -117,20 +127,20 @@ function Header() {
             )}
 
             {searchVisible && (
-              <form className="d-flex w-100" onSubmit={handleSearchSubmit}>
+              <form className="d-flex w-100" onChange={handleSearchChange}>
                 <input
                   className="form-control me-2 flex-grow-1"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
                   autoFocus
                   style={{ minWidth: '250px', maxWidth: '100%', width: '100%' }} // Adjusted widths
                 />
-                <button className="btn btn-outline-primary" type="submit">
+                {/* <button className="btn btn-outline-primary" type="submit">
                   <i className="bi bi-search"></i>
-                </button>
+                </button> */}
                 <button
                   className="btn btn-outline-danger ms-2"
                   type="button"
@@ -142,20 +152,20 @@ function Header() {
             )}
             
 {/* Product List (Absolute Positioned) */}
-{searchVisible && (
-  <div className="product-list position-absolute bg-white shadow-lg p-3" style={{ zIndex: 1000 }}>
-    <h4 className='text-center my-2'>Explore Collections</h4>
+{searchText && filteredProducts?.length > 0 && (
+  <div className="product-list position-absolute bg-white shadow-lg p-3">
+    <p className='text-center my-2 text-capitalize '>Search results</p>
     <div className="row"> {/* Ensure there's a row here */}
-      {filteredProducts.map((product) => (
+      {filteredProducts.slice(0,6).map((product) => (
         <div key={product.id} className="col-6 col-sm-4 col-md-4 mb-3"> {/* Use col-6 for two items on small screens */}
           <div className="product d-flex align-items-center">
-            <img
-              src={product.imgSrc}
+            <img style={{cursor:"pointer"}}
+            onClick={()=>toProductDetailsPage(product._id)}
+               src={product.images[0]}
               alt={product.title}
-              height={'60px'}
-              width={'50px'}
-              onMouseOver={(e) => e.currentTarget.src = product.imgHoverSrc}
-              onMouseOut={(e) => e.currentTarget.src = product.imgSrc}
+              height={'80px'}
+               onMouseOver={(e) => e.currentTarget.src = product.images[1] || product.images[0]}
+              onMouseOut={(e) => e.currentTarget.src = product.images[0]}
               className="me-3"
             />
             {/* <div>
@@ -167,6 +177,12 @@ function Header() {
     </div>
   </div>
 )}
+{/* Show a message when no products match the search */}
+{searchText && filteredProducts?.length === 0 && (
+  <div className="product-list position-absolute bg-white shadow-lg p-3">
+        <div className="text-center">No products found</div>
+        </div>
+      )}
 </div>
         </div>
       </nav>
