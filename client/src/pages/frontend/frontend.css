@@ -320,9 +320,9 @@
 
 .register-box {
   display: flex;
-  width: 80%;
-  max-width: 1000px;
-  height: 100%;
+  /* width: 80%; */
+  max-width: 800px;
+  height: 95%;
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
@@ -352,7 +352,9 @@
   .register-box {
     flex-direction: column-reverse; /* Stack image and form */
   }
-
+  .register-box{
+    height: auto;
+  }
   .register-form, .register-image {
     width: 100%;
   }

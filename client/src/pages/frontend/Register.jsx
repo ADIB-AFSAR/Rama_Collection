@@ -84,19 +84,7 @@ const Register = () => {
                 value={password} // Bind the value to the state
                 onChange={handleChange} // Bind onChange to handleChange
               />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="confirmPassword" className="form-label">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                id="confirmPassword"
-                name="confirmPassword" // You can handle this in your form logic if needed
-                placeholder="Re-enter your password"
-              />
-            </div>
+            </div> 
             <div className="mb-3">
               <label htmlFor="contact" className="form-label">
                 Contact Number
