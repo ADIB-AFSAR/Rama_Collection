@@ -30,7 +30,7 @@ mongoose
     console.log("databse connection failed :" + error);
   });
 
-app.get('/api/product',getProducts);
+app.get('/api/admin/product',getProducts);
 app.use('/api/wishlist', wishlistRoutes)
 app.use("/api/admin", adminRoute);
 app.use("/api", frontRoutes);

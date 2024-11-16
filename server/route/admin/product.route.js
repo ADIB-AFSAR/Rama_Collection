@@ -4,7 +4,7 @@ const { getProducts, storeProducts, updateProducts, deleteProducts } = require('
 const router = express.Router()
 
 
-router.get('/',getProducts)
+// router.get('/',getProducts)
 router.post('/store',upload.array('images',10),storeProducts),
 router.post('/update/:id',upload.array('images',10),updateProducts)
 router.delete('/delete/:id',deleteProducts)
