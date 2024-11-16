@@ -36,6 +36,7 @@ function Checkout() {
      navigate('/thankyou')
     }
   useEffect(()=>{
+    window.scrollTo(0, 0); 
     console.log(currentCart)
     if(!currentUser.name){
        navigate('/login')

@@ -26,11 +26,12 @@ const ShopCategory = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0); 
+    dispatch(getProductStart())
      if (products?.length > 0) {
       setShuffledProducts(shuffleArray(products));
       setLoadingProducts(false); // Products are loaded, stop the product loader
     }
-  }, [products, currentUser, navigate]);
+  }, [currentUser, navigate]);
 
   const toProductListingPage = (category) => {
     navigate(`/new/${category}/collections`);

@@ -21,6 +21,7 @@ function OrdersView() {
     }
   }
   useEffect(()=>{
+    window.scrollTo(0, 0); 
       if(!id){
         navigate('/admin/order')
       }
