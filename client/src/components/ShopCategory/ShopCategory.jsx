@@ -25,13 +25,14 @@ const ShopCategory = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    window.scrollTo(0, 0); 
-    dispatch(getProductStart())
      if (products?.length > 0) {
       setShuffledProducts(shuffleArray(products));
-      setLoadingProducts(false); // Products are loaded, stop the product loader
+      setLoadingProducts(false); // Products are loaded, stop the loader
+    } else {
+      setLoadingProducts(true); // Show loader if products are empty or undefined
     }
-  }, [currentUser, navigate]);
+  }, [products]); // Depend on `products` directly
+  
 
   const toProductListingPage = (category) => {
     navigate(`/new/${category}/collections`);
@@ -45,6 +46,7 @@ const ShopCategory = () => {
   };
 
   useEffect(() => {
+    dispatch(getProductStart())
     if (currentUser) {
       dispatch(getWishListStart(currentUser.id));
     }
