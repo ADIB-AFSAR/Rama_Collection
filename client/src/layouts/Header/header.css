@@ -53,12 +53,11 @@
   }
   @media (max-width : 546px){
     .navbar-brand .title{
-      font-size: 22px !important;
-      margin-top: 1rem;
-     } 
+      font-size: 26px !important;
+      } 
     .nav-item .nav-link .fas{
-      font-size: 16px !important;
-      margin: 0rem 0rem 0rem 0rem !important;
+      font-size: 20px !important;
+      margin: 0rem -.2rem 0rem 0rem !important;
      }
     .navbar .btn{
       font-size: 16px !important;
@@ -66,7 +65,7 @@
       padding: 0rem 0rem 0rem 0rem !important;
     }
     .btn:last-child{
-      margin-right: 0rem 1rem !important;
+      margin-right: 1rem !important;
     }
     .cart-number{
       font-size: 9px;
@@ -74,6 +73,7 @@
     .ul{
       padding: 0rem 0rem !important;
     }
+     
   }
 .input:focus, 
 textarea:focus, 

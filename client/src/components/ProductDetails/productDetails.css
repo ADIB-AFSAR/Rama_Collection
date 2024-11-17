@@ -210,7 +210,11 @@ body {
 .cart-button.clicked .added {
     animation: text2 1.5s ease-in-out forwards;
 }
-
+ @media (max-width:486px){
+    .cart-button .added , .add-to-wishlist{
+        font-size: 14px !important;
+    }    
+}
 @keyframes cart {
     0% {
         left: -10%;

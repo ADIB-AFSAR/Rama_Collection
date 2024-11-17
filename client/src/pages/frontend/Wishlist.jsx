@@ -19,6 +19,9 @@ const Wishlist = () => {
         dispatch(removeFromWishlistStart({ userId, productId }));
         localStorage.removeItem(`wishlist-${productId}`);
         // window.location.reload()
+        setTimeout(() => {
+            dispatch(getWishListStart(userId))
+        }, 1000);
     };
 
     const toProductDetailsPage = (id) => {
@@ -32,14 +35,14 @@ const Wishlist = () => {
         if (currentUser?.id) {
             dispatch(getWishListStart(currentUser?.id));
         }
-    }, [currentUser, dispatch]);
+    }, [currentUser, dispatch , wishlist?.length]);
 
     // Simulate local loading delay if necessary
     useEffect(() => {
         if (!loading) {
             setTimeout(() => setLocalLoading(false), 500); // Adjust the delay as needed
         }
-    }, [loading]);
+    }, [loading , wishlist]);
 
     return (
         <div>
