@@ -137,4 +137,181 @@ body {
     .product-title{
         text-align: start;
     }
+    .added{
+        font-size: 16px !important;
+    }
  }
+ /* ----------------Cart button css --------------------------- */
+
+
+ .cart-button {
+    position: relative;
+    /* width: 240px; */
+    height: 40px;
+    border-radius: 8px;
+    color: #fff;
+    background: #006995;
+    overflow: hidden;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.cart-button:active {
+    transform: scale(.9);
+}
+
+.cart-button .fa-shopping-cart {
+    position: absolute;
+    top: 50%;
+    left: -10%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    font-size: 1.5rem;
+}
+
+.cart-button .fa-box {
+    position: absolute;
+    top: -20%;
+    left: 52%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    font-size: 1rem;
+}
+
+.cart-button .add-to-cart,
+.cart-button .added {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font: 700 18px;
+}
+
+.cart-button .added{
+    opacity: 0;
+
+}
+.add-to-cart , .added{
+    font-size: 1rem;
+}
+
+.cart-button.clicked .fa-shopping-cart {
+    animation: cart 1.5s ease-in-out forwards;
+}
+
+.cart-button.clicked .fa-box {
+    animation: box 1.5s ease-in-out forwards;
+}
+
+.cart-button.clicked .add-to-cart {
+    animation: text1 1.5s ease-in-out forwards;
+}
+
+.cart-button.clicked .added {
+    animation: text2 1.5s ease-in-out forwards;
+}
+
+@keyframes cart {
+    0% {
+        left: -10%;
+    }
+
+    40%, 60% {
+        left: 50%;
+    }
+
+    100% {
+        left: 110%;
+    }
+}
+
+@keyframes box {
+    0%, 40% {
+        top: -20%;
+    }
+
+    60% {
+        top: 40%;
+        left: 52%;
+    }
+
+    100% {
+        top: 40%;
+        left: 112%;
+    }
+}
+
+@keyframes text1 {
+    0% {
+        opacity: 1;
+    }
+
+    20%, 100% {
+        opacity: 0;
+    }
+}
+
+@keyframes text2 {
+    0%, 80% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+/* -----------------wishlist button style----------------- */
+
+.like-button .heart-icon {
+    height: 100px;
+    width: 100px;
+    background: url("../../../public/images/heart.png");
+    background-position: left;
+    cursor: pointer;
+    position: absolute;
+  }
+  
+  .like-button .heart-icon.liked {
+    animation: like-anim 0.7s steps(28) forwards;
+  }
+  
+  @keyframes like-anim {
+    to {
+      background-position: right;
+    }
+  }
+  
+  .like-button .heart-bg {
+    background: rgba(255, 192, 200, 0);
+    border-radius: 50%;
+    height: 25px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 100ms ease;
+    padding: .5rem;
+  }
+  
+  /* .like-button .heart-bg:hover {
+    background: rgba(255, 192, 200, 0.7);
+  } */
+  
+  .like-button {
+    display: flex;
+    align-items: center;
+  }
+  
+  .like-button .likes-amount {
+    font-size: 20px;
+    font-family: "Roboto", sans-serif;
+    color: #888;
+    font-weight: 900;
+    margin-left: 0px;
+  }
+  .add-to-wishlist{
+    margin-right: 3rem;
+    margin-top: 0;
+  }

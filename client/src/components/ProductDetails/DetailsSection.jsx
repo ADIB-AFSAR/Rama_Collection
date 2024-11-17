@@ -44,6 +44,24 @@ const DetailsSection = ({ CurrentProductDetails }) => {
     } else {
       alert("You need to be logged in to add items to your wishlist.");
     }
+    
+    setTimeout(() => {
+      if (isInWishlist) {
+        // Remove from wishlist logic
+      } else {
+        // Add to wishlist logic
+      }
+      
+      setWishlistLoading(false);
+      
+      // Trigger animation class
+      const heartIcon = document.querySelector(`.heart-icon-${productId}`);
+      heartIcon.classList.add('animate');
+      setTimeout(() => {
+        heartIcon.classList.remove('animate');
+      }, 300); // Match the CSS animation duration
+    }, 500); // Simulating network request
+    
   };
 
   const handleDelete = (id) => {
@@ -108,23 +126,32 @@ const DetailsSection = ({ CurrentProductDetails }) => {
         handleCartToggle(CurrentProductDetails);
       }
     }}
-    className={`btn btn-outline-dark col-12 mt-3 ${isAddedToCart ? 'bg-dark text-white' : 'bg-white text-dark'}`}
+    className={`btn cart-button ${isAddedToCart ? 'clicked' : ''} btn-outline-dark col-12 mt-3 ${isAddedToCart ? 'bg-dark text-white' : 'bg-white text-dark'}`}
   >
-    {loading ? (
-      <Spinner animation="border" size="sm" />
-    ) : (
-      isAddedToCart ? "Proceed to Checkout" : "Add to Cart"
-    )}
+    <span className="add-to-cart">
+            Add To Cart
+        </span>
+        <span className="added">
+              Proceed To Checkout
+        </span>
+    <i className="fas fa-shopping-cart"></i>
+        <i className="fas fa-box"></i>
   </button>
 
-        <button onClick={() => handleAddToWishlist(CurrentProductDetails._id)} className="btn btn-outline-dark col-12 mt-2">
-          {wishlistLoading ? (
-            <Spinner animation="border" size="sm" className="text-danger" />
-          ) : (
-            <i className={`fa${isInWishlist ? 's' : 'r'} mx-1 fa-heart text-${isInWishlist ? 'danger' : 'dark'}`}></i>
-          )}
-          {!isInWishlist ? 'Add to Wishlist' : 'Remove from Wishlist'}
-        </button>
+  <button onClick={() => handleAddToWishlist(CurrentProductDetails._id)} className="btn btn-outline-dark like-button d-flex justify-content-center col-12 mt-2">
+  {wishlistLoading ? (
+    <Spinner animation="border" size="sm" className="text-danger" />
+  ) : (
+    <div className='heart-bg'>
+    <div
+      className={` heart-icon-${CurrentProductDetails._id} ${isInWishlist ? "liked" : ""} heart-icon text-${
+        isInWishlist ? 'danger' : 'dark'
+      }`}
+    ></div></div>
+  )}
+  <span className='add-to-wishlist'> {!isInWishlist ? 'Add to Wishlist' : 'Remove from Wishlist'}</span>
+</button>
+
 
         <div>
           <h5 className='fw-normal mt-5 mb-2'>Returns & Exchange Information</h5>

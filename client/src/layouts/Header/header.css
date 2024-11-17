@@ -5,6 +5,13 @@
     align-items: center;
     z-index: 100;
   }
+  .navbar .navbar-nav {
+    flex-wrap: wrap;
+  }
+  .navbar .nav-item {
+    margin: 0 10px;
+  }
+  
   .updock-regular{
     font-family: "Updock", cursive;
     font-weight: 400;
@@ -44,9 +51,40 @@
       display: block !important;
     }
   }
+  @media (max-width : 546px){
+    .navbar-brand .title{
+      font-size: 22px !important;
+      margin-top: 1rem;
+     } 
+    .nav-item .nav-link .fas{
+      font-size: 16px !important;
+      margin: 0rem 0rem 0rem 0rem !important;
+     }
+    .navbar .btn{
+      font-size: 16px !important;
+      border: none !important;
+      padding: 0rem 0rem 0rem 0rem !important;
+    }
+    .btn:last-child{
+      margin-right: 0rem 1rem !important;
+    }
+    .cart-number{
+      font-size: 9px;
+    }
+    .ul{
+      padding: 0rem 0rem !important;
+    }
+  }
+.input:focus, 
+textarea:focus, 
+select:focus {
+  outline:none !important;
+  box-shadow: none !important; /* Remove any additional shadows */
+}
+
 
   .product-list {
-    top: 60px; /* Adjust depending on the navbar height */
+    top: 70px !important; /* Adjust depending on the navbar height */
     right: 0;
     width: 100%; /* Adjust width as necessary */
     z-index: 1000;

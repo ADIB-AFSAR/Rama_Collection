@@ -51,6 +51,29 @@ const ShopCategory = () => {
       dispatch(getWishListStart(currentUser.id));
     }
   }, [currentUser, dispatch]);
+  useEffect(() => {
+  if (products?.length > 0) {
+    const initialLoadingState = products.reduce((acc, product) => {
+      acc[product._id] = true;
+      return acc;
+    }, {});
+    setLoadingImages(initialLoadingState);
+  }
+}, [products]);
+
+useEffect(() => {
+  const timeouts = shuffledProducts.map((product) => {
+    return setTimeout(() => {
+      setLoadingImages((prevState) => ({
+        ...prevState,
+        [product._id]: false, // Hide loader after timeout
+      }));
+    }, 5000); // Timeout set to 5 seconds
+  });
+
+  return () => timeouts.forEach((timeout) => clearTimeout(timeout));
+}, [shuffledProducts]);
+
 
   const renderCategorySection = (categoryName) => {
     const categoryProducts = shuffledProducts?.filter(
@@ -81,7 +104,7 @@ const ShopCategory = () => {
                 {/* Image with loader */}
                 <div className="image-container position-relative">
                   {/* Loader visibility */}
-                  {loadingImages[product.id] && (
+                  {loadingImages[product._id] && (
                     <div
                       className="image-loader position-absolute w-100 h-100 bg-light d-flex justify-content-center align-items-center"
                       style={{ display: "block" }}
@@ -94,7 +117,7 @@ const ShopCategory = () => {
                     src={product.images[0]}
                     alt={product.name}
                     className="card-img-top"
-                    onLoad={() => handleImageLoad(product.id)} // Hide loader on image load
+                    onLoad={() => handleImageLoad(product._id)} // Hide loader on image load
                     onMouseOver={(e) => (e.currentTarget.src = product.images[1] || product.images[0])}
                     onMouseOut={(e) => (e.currentTarget.src = product.images[0])}
                   />

@@ -55,7 +55,7 @@ const CartSidebar = ({ cartSidebarOpen, toggleCartSidebar }) => {
   
       // After deletion process, reset the deleting item ID
       setIsDeleting(null);
-    }, 3000); // Simulating a delay for deletion process (replace with real async call)
+    }, 5000); // Simulating a delay for deletion process (replace with real async call)
   };
   
 
@@ -120,10 +120,10 @@ const CartSidebar = ({ cartSidebarOpen, toggleCartSidebar }) => {
               )}
             </button>
                       </p>
-                      <span className='d-flex justify-content-between col'>
-                        <Form.Group className="input-group w-50">
+                      <span className='d-flex justify-content-between col quan-control'>
+                        <Form.Group className="input-group  ">
                           <Button disabled={isGrandTotalLoading} className='btn btn-sm' onClick={() => handleClickDecrease(index, item)} variant="outline-secondary">-</Button>
-                          <Form.Control type="text" className="text-center mx-0 px-0 border-0" value={quantities[index] || 1} />
+                          <Form.Control type="text" className="text-center mx-0 px-0 border-0 num" value={quantities[index] || 1} />
                           <Button disabled={isGrandTotalLoading} className='btn btn-sm' onClick={() => handleClickIncrease(index, item)} variant="outline-secondary">+</Button>
                         </Form.Group>
                       </span>

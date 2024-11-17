@@ -167,7 +167,7 @@ function Checkout() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {currentCart.items?.length > 0 && currentCart.items.map((item,index)=>{
+                                    {currentCart.items?.length > 0 ? currentCart.items.map((item,index)=>{
                                       return<tr key={index}>
                                             <th scope="row">
                                                 <div className="d-flex align-items-center mt-2">
@@ -179,7 +179,7 @@ function Checkout() {
                                             <td className="py-5">{item.quantity}</td>
                                             <td className="py-5">₹{+item.product.price * item.quantity}</td>
                                         </tr>
-                                    })}
+                                    }) : <h5>No Items!</h5>}
                                         
                                         <tr>
                                             <th scope="row">

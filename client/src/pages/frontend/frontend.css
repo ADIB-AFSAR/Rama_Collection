@@ -65,7 +65,17 @@
     .cart-sidebar.active {
       right: 0; /* Slide in from right when active */
     }
+    .cart-item-details .input-group{
+      border: 1px solid grey;
+      max-width: 150px;
   }
+  .quan-control{
+    padding: 0;
+  }
+  .btn-close{
+    margin-right: 1.5rem;
+  }
+}
   .total{ 
     position: sticky;
     bottom: 0;
