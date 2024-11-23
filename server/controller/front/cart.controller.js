@@ -178,7 +178,8 @@ const placeOrder = async (req, res) => {
 
 const stripePay = async (req, res) => {
     try {
-        const { name, amount, payment } = req.body;
+        console.log("Stripe pay controller:",req.body)
+        const { name, amount, payment } = req.body.billingAddress;
         const parsedDetails = JSON.parse(orderDetails);
 
         // Uploaded file information from Cloudinary
@@ -188,7 +189,7 @@ const stripePay = async (req, res) => {
          await recordPayment({
             payerName: name,
             amount,
-            type: "UPI",
+            type: payment,
             screenshotUrl: uploadedFileURL,
             orderDetails: parsedDetails,
         });
@@ -221,6 +222,7 @@ const stripePay = async (req, res) => {
 };
 
 const recordPayment = async ({ payerName, amount, type, screenshotUrl = null, orderDetails }) => {
+    consol.log("recordPayment : ",payerName , type)
     const newPayment = new Payment({
         payerName,
         amount,
