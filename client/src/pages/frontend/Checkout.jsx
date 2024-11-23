@@ -52,7 +52,7 @@ function Checkout() {
     try {
         await axios.post(
             `${process.env.REACT_APP_API_URL}/api/cart/stripe-pay`, 
-            NewFormData, // Form data is the second parameter
+            formData, // Form data is the second parameter
             {
               headers: {
                 "Authorization": getToken(),
