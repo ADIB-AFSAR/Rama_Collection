@@ -57,7 +57,20 @@ function Checkout() {
       console.error("Error sending email:", error.message);
     }
   };
-
+  useEffect(()=>{
+    console.log(currentCart)
+    if(!currentUser.name){
+       navigate('/login')
+  }
+  
+  setFormData((preValue)=>({
+    ...preValue,
+    name:currentUser.name,
+    contact :currentUser.contact,
+    email : currentUser.email
+   }))
+ 
+  },[currentUser.name , ])
 
   
   return (
