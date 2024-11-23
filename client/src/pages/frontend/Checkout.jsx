@@ -51,10 +51,16 @@ function Checkout() {
     }));
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/api/cart/stripe-pay`, {headers: {
-        "Authorization": getToken()
-      }
-    } , formData);
+        await axios.post(
+            `${process.env.REACT_APP_API_URL}/api/cart/stripe-pay`, 
+            formData, // Form data is the second parameter
+            {
+              headers: {
+                "Authorization": getToken(),
+                "Content-Type": "multipart/form-data", // Required for formData
+              }
+            }
+          );
       handleSubmit()
     } catch (error) {
       console.error("Error sending email:", error.message);
