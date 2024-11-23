@@ -37,10 +37,9 @@ function Checkout() {
   
  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("submited")
-    // const orderPlaced = { cartId: currentCart._id, billingAddress: formData };
-    // dispatch(placeOrderStart(orderPlaced));
-    // navigate("/thankyou");
+     const orderPlaced = { cartId: currentCart._id, billingAddress: formData };
+    dispatch(placeOrderStart(orderPlaced));
+    navigate("/thankyou");
   };
 
   const handleUPISubmit = async () => {
@@ -53,7 +52,7 @@ function Checkout() {
 
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/api/upi-payment`, formData);
-      navigate("/thankyou");
+      handleSubmit()
     } catch (error) {
       console.error("Error sending email:", error.message);
     }
@@ -204,7 +203,7 @@ function Checkout() {
                                     </div>
                                 </div>
                             </div>
-                            <button type={payment === "upi" ? 'button' : 'submit' } onClick={(event) => payment === "upi" ? setShowModal(true) : console.log('COD triggred')} className="btn border-secondary py-2 px-2 w-100 text-primary">{payment === 'upi' ? "Proceed to Pay" : "Place Order"}</button>
+                            <button type={payment === "upi" ? 'button' : 'submit' } onClick={(event) => payment === "upi" ? setShowModal(true) : handleSubmit()} className="btn border-secondary py-2 px-2 w-100 text-primary">{payment === 'upi' ? "Proceed to Pay" : "Place Order"}</button>
                             {/* <div className="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                                 <div className="col-12">
                                     <div className="form-check text-start my-3">
