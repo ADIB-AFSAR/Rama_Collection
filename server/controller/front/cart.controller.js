@@ -222,7 +222,7 @@ const stripePay = async (req, res) => {
 };
 
 const recordPayment = async ({ payerName, amount, type, screenshotUrl = null, orderDetails }) => {
-    consol.log("recordPayment : ",payerName , type)
+    console.log("recordPayment : ",payerName , type)
     const newPayment = new Payment({
         payerName,
         amount,
