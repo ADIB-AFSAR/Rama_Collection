@@ -203,7 +203,7 @@ function Checkout() {
                                     </div>
                                 </div>
                             </div>
-                            <button type={payment === "upi" ? 'button' : 'submit' } onClick={(event) => payment === "upi" ? setShowModal(true) : handleSubmit()} className="btn border-secondary py-2 px-2 w-100 text-primary">{payment === 'upi' ? "Proceed to Pay" : "Place Order"}</button>
+                            <button type={payment === "upi" ? 'button' : 'submit' } onClick={(event) => payment === "upi" ? setShowModal(true) : handleSubmit(event)} className="btn border-secondary py-2 px-2 w-100 text-primary">{payment === 'upi' ? "Proceed to Pay" : "Place Order"}</button>
                             {/* <div className="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                                 <div className="col-12">
                                     <div className="form-check text-start my-3">
