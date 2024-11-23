@@ -162,7 +162,9 @@
       margin-top: 2rem
     };
   }
-  
+  .modal-style .img{
+    height: 500px;
+  }
 
   /* -----LOGIN STYLE HERE */
 

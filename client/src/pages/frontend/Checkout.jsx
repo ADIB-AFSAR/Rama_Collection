@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useFormData } from '../../hooks/useFormData'
 import { placeOrderStart } from '../../redux/action/order.action'
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import axios from "axios";
 import Stripe from "react-stripe-checkout"
 import { getToken } from "../../redux/service/token.service";
 
@@ -27,72 +31,36 @@ function Checkout() {
   const { name,email,companyName,address,city,state,country,zipCode,contact,payment} = formData
  const navigate = useNavigate()
  const dispatch = useDispatch()
-  
- const submit = (event)=>{
-    event.preventDefault();
-    const orderPlaced = {cartId: currentCart._id, billingAddress : formData}
-    console.log(orderPlaced)
-    dispatch(placeOrderStart(orderPlaced))
-     navigate('/thankyou')
-    }
-  useEffect(()=>{
-    window.scrollTo(0, 0); 
-    console.log(currentCart)
-    if(!currentUser.name){
-       navigate('/login')
-  }
-  
-  setFormData((preValue)=>({
-    ...preValue,
-    name:currentUser.name,
-    contact :currentUser.contact,
-    email : currentUser.email
-   }))
- 
-  },[currentUser.name , ])
 
-  const handleToken = async (totalAmount, token) => {
-    console.log(token);
+ const [showModal, setShowModal] = useState(false);
+ const [screenshot, setScreenshot] = useState(null);
+  
+ const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log("submited")
+    // const orderPlaced = { cartId: currentCart._id, billingAddress: formData };
+    // dispatch(placeOrderStart(orderPlaced));
+    // navigate("/thankyou");
+  };
+
+  const handleUPISubmit = async () => {
+    const formData = new FormData();
+    formData.append("screenshot", screenshot);
+    formData.append("orderDetails", JSON.stringify({
+      user: { name, email },
+      order: currentCart,
+    }));
+
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/cart/stripe-pay`, {
-        method: "POST",
-        headers: {
-          "Authorization": getToken(),
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: token,
-          amount: totalAmount,
-        }),
-      });
-      
-      // Check if response is okay before parsing JSON
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
-      }
-  
-      // Parse response
-      const result = await response.json();
-      console.log(result);
-  
-      // Only call submit if result is valid
-      if (result.success) {
-        submit()
-        navigate("/thankyou");
-    } else {
-        console.log("Payment failed:", result.message);
-    }
-    } catch (err) {
-      console.log("Error occurred:", err);
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/upi-payment`, formData);
+      navigate("/thankyou");
+    } catch (error) {
+      console.error("Error sending email:", error.message);
     }
   };
+
+
   
-
-  const tokenHandler = (token)=>{
-
-    handleToken(currentCart.grandTotal,token)
-  }
-
   return (
     <>
      <a onClick={() => window.history.back()}>
@@ -107,51 +75,51 @@ function Checkout() {
         <div className="container-fluid py-5">
             <div className="container py-5">
                 <h1 className="mb-4">Billing details</h1>
-                <form onSubmit={(event) => { event.preventDefault(); submit(event); }}>
+                <form onSubmit={(event) => { event.preventDefault(); handleSubmit(event); }}>
                     <div className="row g-5">
                         <div className="col-md-12 col-lg-6 col-xl-7">
                             <div className="row">
                                 <div className="col-md-12 col-lg-12">
                                     <div className="form-item w-100">
-                                        <label className="form-label my-3">Name<sup>*</sup></label>
+                                        <label className="form-label my-3">Name<sup className='text-danger'>*</sup></label>
                                         <input type="text"
                                         onChange={handleChange}
                                         name='name'
-                                        value={name} className="form-control"/>
+                                        value={name} className="form-control" required={true}/>
                                     </div>
                                 </div>
                             </div>
                             <div className="form-item">
-                                <label className="form-label my-3">Company Name<sup>*</sup></label>
-                                <input onChange={handleChange} name='companyName' value={companyName} type="text" className="form-control"/>
+                                <label className="form-label my-3">Company Name<sup className='text-danger'>*</sup></label>
+                                <input onChange={handleChange} name='companyName' value={companyName} type="text" className="form-control" required={true}/>
                             </div>
                             <div className="form-item">
-                                <label className="form-label my-3">Address <sup>*</sup></label>
-                                <input onChange={handleChange} name='address' value={address} type="text" className="form-control" placeholder="House Number Street Name"/>
+                                <label className="form-label my-3">Address <sup className='text-danger'>*</sup></label>
+                                <input onChange={handleChange} name='address' value={address} type="text" className="form-control" required={true} placeholder="House Number Street Name"/>
                             </div>
                             <div className="form-item">
-                                <label className="form-label my-3">Town/City<sup>*</sup></label>
-                                <input onChange={handleChange} name='city' value={city} type="text" className="form-control"/>
+                                <label className="form-label my-3">Town/City<sup className='text-danger'>*</sup></label>
+                                <input onChange={handleChange} name='city' value={city} type="text" className="form-control" required={true}/>
                             </div>
                             <div className="form-item">
-                                <label className="form-label my-3">State<sup>*</sup></label>
-                                <input onChange={handleChange} name='state' value={state} type="text" className="form-control"/>
+                                <label className="form-label my-3">State<sup className='text-danger'>*</sup></label>
+                                <input onChange={handleChange} name='state' value={state} type="text" className="form-control" required={true}/>
                             </div>
                             <div className="form-item">
-                                <label className="form-label my-3">Country<sup>*</sup></label>
-                                <input onChange={handleChange} name='country' value={country} type="text" className="form-control"/>
+                                <label className="form-label my-3">Country<sup className='text-danger'>*</sup></label>
+                                <input onChange={handleChange} name='country' value={country} type="text" className="form-control" required={true}/>
                             </div>
                             <div className="form-item">
-                                <label className="form-label my-3">Postcode/Zip<sup>*</sup></label>
-                                <input onChange={handleChange} name='zipCode' value={zipCode} type="text" className="form-control"/>
+                                <label className="form-label my-3">Postcode/Zip<sup className='text-danger'>*</sup></label>
+                                <input onChange={handleChange} name='zipCode' value={zipCode} type="text" className="form-control" required={true}/>
                             </div>
                             <div className="form-item">
-                                <label className="form-label my-3">Mobile<sup>*</sup></label>
-                                <input onChange={handleChange} name='contact' value={contact} type="tel" className="form-control"/>
+                                <label className="form-label my-3">Mobile<sup className='text-danger'>*</sup></label>
+                                <input onChange={handleChange} name='contact' value={contact} type="tel" className="form-control" required={true}/>
                             </div>
                             <div className="form-item">
-                                <label className="form-label my-3">Email Address<sup>*</sup></label>
-                                <input onChange={handleChange} name='email' value={email} type="email" className="form-control"/>
+                                <label className="form-label my-3">Email Address<sup className='text-danger'>*</sup></label>
+                                <input onChange={handleChange} name='email' value={email} type="email" className="form-control" required={true}/>
                             </div>
                         </div>
                         <div className="col-md-12 col-lg-6 col-xl-5">
@@ -231,11 +199,13 @@ function Checkout() {
                                         <label className="form-check-label" htmlFor="delivery">Cash On Delivery</label>
                                     </div>
                                     <div className="form-check text-start my-3">
-                               
+                                        <input type="radio" className="form-check-input bg-primary border-0" checked={payment === 'upi' ? true : false} id="upi" onChange={handleChange} name="payment" value="upi"/>
+                                        <label className="form-check-label" htmlFor="delivery">Pay via UPI</label>
                                     </div>
                                 </div>
                             </div>
-                            <div className="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                            <button type={payment === "upi" ? 'button' : 'submit' } onClick={(event) => payment === "upi" ? setShowModal(true) : console.log('COD triggred')} className="btn border-secondary py-2 px-2 w-100 text-primary">{payment === 'upi' ? "Proceed to Pay" : "Place Order"}</button>
+                            {/* <div className="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                                 <div className="col-12">
                                     <div className="form-check text-start my-3">
                                         <input type="radio" className="form-check-input bg-primary border-0" checked={payment === 'stripe' ? true : false} id="stripe" onChange={handleChange} name="payment" value="stripe"/>
@@ -245,17 +215,38 @@ function Checkout() {
                                
                                     </div>
                                 </div>
-                            </div>
-                         <div className="row g-4 text-center align-items-center payment-button justify-content-center pt-4">
+                            </div> */}
+                         {/* <div className="row g-4 text-center align-items-center payment-button justify-content-center pt-4">
                                   {payment === "stripe" ? <Stripe 
                                  stripeKey={process.env.REACT_APP_STRIPE_KEY}
-                                  token={tokenHandler}/> : <button type="submit" onClick={submit} className="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Place Order</button>}
-                            </div>
+                                   /> : <button type="submit" onClick={submit} className="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Place Order</button>}
+                            </div> */}
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Pay via UPI</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className='modal-style'>
+          <img src="/images/paymnet-QR.jpg" alt="UPI QR Code" className="img-fluid img" />
+          <Form.Group controlId="formFile" className="mt-3">
+            <Form.Label className='fw-semibold'>Upload Screenshot Of Payment</Form.Label>
+            <Form.Control
+              type="file"
+              accept="image/*"
+              onChange={(e) => setScreenshot(e.target.files[0])}
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer> 
+          <Button variant="primary" onClick={handleUPISubmit}>
+            Submit Payment
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   )
 }

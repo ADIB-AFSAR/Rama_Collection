@@ -6,6 +6,8 @@ require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { v4: uuidv4 } = require("uuid");
 const productModel = require("../../models/product.model");
+const nodemailer = require('nodemailer');
+const Payment = require("../../models/payment.model");
 
 const getCart = async (req, res) => {
     try {
@@ -154,6 +156,19 @@ const placeOrder = async (req, res) => {
 
         // Mark the cart as ordered
         await cartModel.updateOne({ _id: cart._id }, { placedOrder: true });
+        // Record COD payment
+        await recordPayment({
+            payerName: name,
+            amount: cart.grandTotal,
+            type,
+            orderDetails: {
+                orderId: order._id,
+                items: cartItems.map((item) => ({
+                    productId: item.product,
+                    quantity: item.quantity,
+                })),
+            },
+        });
         return res.json({ message: "Order placed successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -163,26 +178,60 @@ const placeOrder = async (req, res) => {
 
 const stripePay = async (req, res) => {
     try {
-        const { token, amount } = req.body;
-        const idempotencyKey = uuidv4();
+        const { name, amount, payment } = req.body;
+        const parsedDetails = JSON.parse(orderDetails);
 
-        const customer = await stripe.customers.create({
-            email: token.email,
-            source: token.id
+        // Uploaded file information from Cloudinary
+        const uploadedFileURL = req.file ? req.file.path : null; // Cloudinary automatically assigns a URL to the uploaded file
+        
+         // Record UPI payment
+         await recordPayment({
+            payerName: name,
+            amount,
+            type: "UPI",
+            screenshotUrl: uploadedFileURL,
+            orderDetails: parsedDetails,
         });
-
-        const result = await stripe.charges.create({
-            amount: amount * 100,
-            currency: "USD",
-            customer: customer.id,
-            receipt_email: token.email,
-        }, { idempotencyKey });
-
-        res.status(200).json({ success: true, message: "Payment successful" , result :result });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
+     
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+          },
+        });
+    
+        const mailOptions = {
+          from: process.env.EMAIL_USER,
+          to: process.env.ADMIN_EMAIL,
+          subject: "New UPI Payment Received",
+          text: `Order Details:\n\n${JSON.stringify(parsedDetails, null, 2)}`,
+          attachments: uploadedFileURL
+          ? [{ filename: "UPI-Screenshot.jpeg", path: uploadedFileURL }]
+          : [],
+        };
+    
+        await transporter.sendMail(mailOptions); // Update payment status to 'Completed' after email success
+        
+        res.status(200).json({ success: true, message: "UPI payment processed and recorded" });
+      } catch (error) {
+        console.error("Error in payment processing:", error.message);
+        res.status(500).json({ success: false, message: "Payment failed" });
+      }
 };
+
+const recordPayment = async ({ payerName, amount, type, screenshotUrl = null, orderDetails }) => {
+    const newPayment = new Payment({
+        payerName,
+        amount,
+        screenshotUrl,
+        orderDetails,
+        type,
+        status: "Pending", // Default to Pending for all payment types
+    });
+    await newPayment.save();
+};
+
 
 module.exports = {
     getCart,
