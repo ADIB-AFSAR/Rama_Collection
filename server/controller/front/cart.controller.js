@@ -160,7 +160,7 @@ const placeOrder = async (req, res) => {
         await recordPayment({
             payerName: req.body.name,
             amount: cart.grandTotal,
-            type,
+            type : req.body.payment,
             orderDetails: {
                 orderId: order._id,
                 items: cartItems.map((item) => ({
