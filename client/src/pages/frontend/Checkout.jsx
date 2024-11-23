@@ -43,13 +43,12 @@ function Checkout() {
   };
 
   const handleUPISubmit = async () => {
-    const NewFormData = new FormData();
-    NewFormData.append("screenshot", screenshot);
-    NewFormData.append("orderDetails", JSON.stringify({
+    formData.append("screenshot", screenshot);
+    formData.append("orderDetails", JSON.stringify({
       user: { name, email },
       order: currentCart,
     }));
-    console.log("formData:",NewFormData)
+    console.log("formData:",formData)
     try {
         await axios.post(
             `${process.env.REACT_APP_API_URL}/api/cart/stripe-pay`, 
