@@ -70,8 +70,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   };
 
   const handleCartToggle = (product) => {
-    window.scrollTo(0, 0); 
-    if (!currentUser?.name) {
+     if (!currentUser?.name) {
      alert('Please Login To Add To Cart')
       navigate('/login');
       return

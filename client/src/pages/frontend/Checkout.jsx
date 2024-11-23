@@ -51,7 +51,7 @@ function Checkout() {
     }));
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/api/upi-payment`, formData);
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/stripe-pay`, formData);
       handleSubmit()
     } catch (error) {
       console.error("Error sending email:", error.message);
