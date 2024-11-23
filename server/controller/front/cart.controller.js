@@ -158,7 +158,7 @@ const placeOrder = async (req, res) => {
         await cartModel.updateOne({ _id: cart._id }, { placedOrder: true });
         // Record COD payment
         await recordPayment({
-            payerName: name,
+            payerName: req.body.name,
             amount: cart.grandTotal,
             type,
             orderDetails: {
