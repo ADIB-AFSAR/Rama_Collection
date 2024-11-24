@@ -49,6 +49,9 @@ function Orders() {
         }
         
     }
+    useEffect(()=>{
+
+    },[orders])
 
     return (
         <> 
@@ -84,11 +87,11 @@ function Orders() {
                                             <td>{order?.tax}</td>
                                             <td>{order?.grandTotal}</td>
                                             <td>
-                                                {currentUser.role === 'admin'&& order?.paymentId?.status && <button onClick={()=>handlePayment(order?.paymentId?._id)}  className='btn btn-info me-2'>Approve</button>}
-                                                {order?.paymentId?.status ? <button className={`btn btn-${order?.paymentId?.status && order?.paymentId?.status === "Pending" ? "warning" : "success"}`}>{order?.paymentId?.status ?? ''}</button>: "Not Found"}
+                                                {currentUser.role === 'admin'&& order?.paymentId?.status === "Pending" && order?.paymentId?.type === "upi" && <button onClick={()=>handlePayment(order?.paymentId?._id)}  className='btn btn-info me-2'>Approve</button>}
+                                                {order?.paymentId?.status ? <button className={`btn complete btn-${order?.paymentId?.status && order?.paymentId?.status === "Pending" ? "warning" : "success"}`}>{order?.paymentId?.type === "cod" && order?.paymentId?.status === "Pending" ? "COD" : order?.paymentId?.status}</button>: "Not Found"}
                                             </td>
                                             <td>
-                                                <Link to={`/order/view/${order._id}`} className='btn btn-info me-2'>View</Link>
+                                                <Link to={`/order/view/${order._id}`} className='btn btn-info complete me-2'>View</Link>
                                             </td>
                                         </tr>
                                     )) : (

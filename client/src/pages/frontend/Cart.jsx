@@ -123,7 +123,7 @@ const CartSidebar = ({ cartSidebarOpen, toggleCartSidebar }) => {
                       <span className='d-flex justify-content-between col quan-control'>
                         <Form.Group className="input-group  ">
                           <Button disabled={isGrandTotalLoading} className='btn btn-sm' onClick={() => handleClickDecrease(index, item)} variant="outline-secondary">-</Button>
-                          <Form.Control type="text" className="text-center mx-0 px-0 border-0 num" value={quantities[index] || 1} />
+                          <Form.Control type="text" className="text-center mx-0 px-0 border-0 num" value={quantities[index] ?? 1} />
                           <Button disabled={isGrandTotalLoading} className='btn btn-sm' onClick={() => handleClickIncrease(index, item)} variant="outline-secondary">+</Button>
                         </Form.Group>
                       </span>

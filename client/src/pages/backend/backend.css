@@ -34,6 +34,8 @@
     .editcategory,.editprofile,.edituser .btn-warning{
        margin-top: .5rem;
     }
-     
+     .complete{
+      font-size: 10px;
+     }
 
  }

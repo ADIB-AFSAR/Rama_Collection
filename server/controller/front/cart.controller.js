@@ -180,6 +180,7 @@ const placeOrder = async (req, res) => {
 
         // Mark the cart as ordered
         await cartModel.updateOne({ _id: cart._id }, { placedOrder: true});
+        await deleteCartDataFromLocalStorage()
         return res.json({ message: "Order placed successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -230,12 +231,53 @@ const stripePay = async (req, res) => {
             pass: process.env.EMAIL_PASS,
           },
         });
+
+        const emailBody = `
+            <h1>Verify the Screen Shot attached and Approve the Transaction from ADMIN panel</h1>
+            <h2>User Details</h2>
+            <p><strong>Name:</strong> ${parsedDetails.user.name}</p>
+            <p><strong>Email:</strong> ${parsedDetails.user.email}</p>
+            
+            <h2>Order Summary</h2>
+            <p><strong>Order ID:</strong> ${parsedDetails.order._id}</p>
+            <p><strong>Subtotal:</strong> $${parsedDetails.order.subTotal}</p>
+            <p><strong>Tax:</strong> $${parsedDetails.order.tax}</p>
+            <p><strong>Grand Total:</strong> $${parsedDetails.order.grandTotal}</p>
+            
+            <h2>Items Ordered</h2>
+            <table border="1" cellpadding="5" cellspacing="0" style="width:100%; border-collapse:collapse;">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${parsedDetails.order.items
+                        .map(
+                            (item) => `
+                        <tr>
+                            <td>${item.product.name}</td>
+                            <td>₹${item.product.price}</td>
+                            <td>${item.quantity}</td>
+                            <td>₹${item.product.price * item.quantity}</td>
+                        </tr>
+                    `
+                        )
+                        .join("")}
+                </tbody>
+            </table>
+            <a href=${'https://www.ramacollectionshop.com/order'}>Go To Orders Page</a>
+        `;
     
         const mailOptions = {
           from: process.env.EMAIL_USER,
           to: process.env.ADMIN_EMAIL,
-          subject: "New UPI Payment Received",
-          text: `Order Details:\n\n${JSON.stringify(parsedDetails, null, 2)}`,
+          subject: "Verification Required | New UPI Payment Received",
+        //   text: `Order Details:\n\n${JSON.stringify(parsedDetails, null, 2)}`,
+          html: emailBody,
           attachments: uploadedFileURL
           ? [{ filename: "UPI-Screenshot.jpeg", path: uploadedFileURL }]
           : [],
@@ -294,6 +336,29 @@ const recordPayment = async ({ payerName, amount, type, screenshotUrl = null, or
         throw new Error("Failed to record payment");
     }
 };
+
+const deleteCartDataFromLocalStorage = () => {
+    const keysToRemove = [];
+
+    // Identify all keys in localStorage that start with "cart-"
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith("cart-")) {
+            keysToRemove.push(key);
+        }
+    }
+
+    // Remove each identified key
+    keysToRemove.forEach((key) => {
+        localStorage.removeItem(key);
+    });
+
+    console.log("All cart-related data removed from localStorage.");
+};
+
+// Call this function when placing an order
+deleteCartDataFromLocalStorage();
+
 
 
 
