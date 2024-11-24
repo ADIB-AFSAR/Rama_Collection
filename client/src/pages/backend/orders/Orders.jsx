@@ -36,7 +36,7 @@ function Orders() {
          if (window.confirm('Are you sure you want to Approve this order payment')){
             try {
             await axios.post(
-                `${process.env.REACT_APP_API_URL}/api/admin/secure-payment/${paymentId}`,{},  
+                `${process.env.REACT_APP_API_URL}/api/admin/order/secure-payment/${paymentId}`,{},  
                 {
                   headers: {
                     "Authorization": getToken() 
