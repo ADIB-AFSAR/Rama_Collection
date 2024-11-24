@@ -252,6 +252,7 @@ const stripePay = async (req, res) => {
 
 const verifyPayment = async (req, res) => {
     const { paymentId } = req.params;
+    console.log("verifyPayment:", paymentId);
     try {
         const payment = await Payment.findById(paymentId);
 
@@ -302,5 +303,6 @@ module.exports = {
     deleteCart,
     updateCart,
     placeOrder,
-    stripePay
+    stripePay,
+    verifyPayment
 };

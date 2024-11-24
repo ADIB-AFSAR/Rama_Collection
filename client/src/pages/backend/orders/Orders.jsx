@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOrderStart } from '../../../redux/action/order.action';
 import Sidebar from '../Sidemenu/Sidemenu';
 import '../backend.css';
+import axios from 'axios';
+import { getToken } from '../../../redux/service/token.service';
 
 function Orders() {
     const [orders, setOrders] = useState([]);
@@ -28,6 +30,25 @@ function Orders() {
         }
     }, [orderState, currentUser ]); 
     console.log("Orders:",orders)
+    
+    const handlePayment = async(paymentId)=>{
+        console.log(paymentId)
+         if (window.confirm('Are you sure you want to Approve this order payment')){
+            try {
+            await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/admin/secure-payment/${paymentId}`,{},  
+                {
+                  headers: {
+                    "Authorization": getToken() 
+                  }
+                }
+              );
+         } catch (error) {
+          console.error("Error approving payment:", error.message);
+        }
+        }
+        
+    }
 
     return (
         <> 
@@ -50,6 +71,7 @@ function Orders() {
                                         <th scope="col">Sub total</th>
                                         <th scope="col">Tax</th>
                                         <th scope='col'>Grand Total</th>
+                                        <th scope='col'>Payment</th>
                                         <th scope='col'>Action</th>
                                     </tr>
                                 </thead>
@@ -61,6 +83,10 @@ function Orders() {
                                             <td>{order?.subTotal}</td>
                                             <td>{order?.tax}</td>
                                             <td>{order?.grandTotal}</td>
+                                            <td>
+                                                {currentUser.role === 'admin'&& order?.paymentId?.status && <button onClick={()=>handlePayment(order?.paymentId?._id)}  className='btn btn-info me-2'>Approve</button>}
+                                                {order?.paymentId?.status ? <button className={`btn btn-${order?.paymentId?.status && order?.paymentId?.status === "Pending" ? "warning" : "success"}`}>{order?.paymentId?.status ?? ''}</button>: "Not Found"}
+                                            </td>
                                             <td>
                                                 <Link to={`/order/view/${order._id}`} className='btn btn-info me-2'>View</Link>
                                             </td>

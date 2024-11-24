@@ -14,8 +14,7 @@ router.post('/update/:id',updateCart)
 router.delete('/delete/:id',deleteCart) 
 router.post('/place-order/:cartId',placeOrder)
 
+router.post('/stripe-pay',upload.single('image'), stripePay) 
 
-
-router.post('/stripe-pay',upload.single('image'), stripePay)
 
 module.exports = router
