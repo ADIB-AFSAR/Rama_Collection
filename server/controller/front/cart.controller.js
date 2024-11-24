@@ -179,8 +179,11 @@ const placeOrder = async (req, res) => {
 const stripePay = async (req, res) => {
     try {
         console.log("Stripe pay controller:",req.body)
-        const { name, amount, payment } = req.body.billingAddress;
+        console.log("file : ", req.file)
+        const { billingAddress, orderDetails } = req.body;
+        const { name, amount, payment } = JSON.parse(billingAddress);
         const parsedDetails = JSON.parse(orderDetails);
+
 
         // Uploaded file information from Cloudinary
         const uploadedFileURL = req.file ? req.file.path : null; // Cloudinary automatically assigns a URL to the uploaded file
