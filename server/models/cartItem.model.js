@@ -16,7 +16,12 @@ const cartItemSchema = new mongoose.Schema({
         type: Number,
         default: 1, // Default quantity set to 1
         min: [0, 'Quantity cannot be negative'] // Ensure quantity is not negative
-    }
+    },
+    orderId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Order', // Reference to the Order model
+        default: null // Initially, it will be null, but updated once the order is placed
+    },
     // size: {
     //     type: String,  
     //     required: true,  

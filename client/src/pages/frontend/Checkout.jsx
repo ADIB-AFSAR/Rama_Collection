@@ -37,7 +37,7 @@ function Checkout() {
   
  const handleSubmit = async (event) => {
     event.preventDefault();
-     const orderPlaced = { cartId: currentCart._id, billingAddress: formData };
+    const orderPlaced = { cartId: currentCart._id, billingAddress: formData };
     dispatch(placeOrderStart(orderPlaced));
     navigate("/thankyou");
   };

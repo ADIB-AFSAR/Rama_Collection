@@ -42,7 +42,11 @@ const OrderSchema = new mongoose.Schema({
     cart: {
         type: mongoose.Types.ObjectId,
         ref: "Cart"
-    }
+    },
+    paymentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Payment" 
+    }, 
 }, { timestamps: true }); // Adds createdAt and updatedAt fields
 
 // Create the order model

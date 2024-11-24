@@ -128,6 +128,27 @@ const placeOrder = async (req, res) => {
 
         const cartItems = await cartItemModel.find({ cart: cart._id });
 
+        // Check if the order has already been paid (either through Stripe or another method)
+        const existingPayment = await Payment.findOne({ 
+            "orderDetails.orderId": cart._id, 
+            status: "Completed" // Check for a completed payment
+        });
+
+        if (existingPayment) {
+            // If payment already exists, skip payment recording and just place the order
+            console.log("Payment already completed for this order. Skipping payment recording.");
+        } else {
+            // If no payment exists, proceed with payment recording
+            await recordPayment({
+                payerName: req.body.billingAddress.name,
+                amount: cart.grandTotal,
+                type: req.body.billingAddress.payment, // Payment type (UPI, COD, etc.)
+                orderDetails: { orderId: cart._id },
+                userID: cart.customer,
+                status: "Pending", // Default status, which can be updated later
+            });
+        }
+
         // Create the order
         const order = await orderModel.create({
             customer: cart.customer,
@@ -155,20 +176,7 @@ const placeOrder = async (req, res) => {
         }));
 
         // Mark the cart as ordered
-        await cartModel.updateOne({ _id: cart._id }, { placedOrder: true });
-        // Record COD payment
-        await recordPayment({
-            payerName: req.body.billingAddress.name,
-            amount: cart.grandTotal,
-            type : req.body.billingAddress.payment,
-            orderDetails: {
-                orderId: order._id,
-                items: cartItems.map((item) => ({
-                    productId: item.product,
-                    quantity: item.quantity,
-                })),
-            },
-        });
+        await cartModel.updateOne({ _id: cart._id }, { placedOrder: true});
         return res.json({ message: "Order placed successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -194,15 +202,23 @@ const stripePay = async (req, res) => {
         const uploadedFileURL = req.file ? req.file.path : null; // Cloudinary automatically assigns a URL to the uploaded file
         
          // Record UPI payment
-         await recordPayment({
+         const payment = new Payment({
+            userID: parsedDetails.order.customer._id,
             payerName: name,
-            amount : parsedDetails.order.grandTotal,
+            amount: parsedDetails.order.grandTotal,
             screenshotUrl: uploadedFileURL,
             orderDetails: parsedDetails,
-            userID : parsedDetails.order.customer._id,
             type: "upi",
             status: "Pending",
         });
+        await payment.save();
+
+        // Update the cart with the paymentId
+        await cartModel.updateOne(
+            { _id: parsedDetails.order._id },
+            { paymentId: payment._id }
+        );
+
      
         const transporter = nodemailer.createTransport({
           service: "gmail",
@@ -230,6 +246,27 @@ const stripePay = async (req, res) => {
         res.status(500).json({ success: false, message: "Payment failed" });
       }
 };
+
+const verifyPayment = async (req, res) => {
+    const { paymentId } = req.params;
+    try {
+        const payment = await Payment.findById(paymentId);
+
+        if (!payment) {
+            return res.status(404).json({ message: "Payment not found" });
+        }
+
+        // Update the payment status and verification flag
+        payment.status = "Completed"; // Change to 'Completed' once verified
+        await payment.save();
+
+        res.status(200).json({ message: "Payment successfully verified" });
+    } catch (error) {
+        console.error("Error verifying payment:", error.message);
+        res.status(500).json({ message: error.message });
+    }
+};
+
 
 const recordPayment = async ({ payerName, amount, type, screenshotUrl = null, orderDetails , userID }) => {
     console.log("recordPayment : ",payerName , type)
