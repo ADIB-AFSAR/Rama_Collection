@@ -101,7 +101,7 @@ function Checkout() {
         <div className="container-fluid py-5">
             <div className="container py-5">
                 <h1 className="mb-4">Billing details</h1>
-                <form onSubmit={(event) => { event.preventDefault(); handleSubmit(event); }}>
+                <form encType='multipart/form-data' onSubmit={(event) => { event.preventDefault(); handleSubmit(event); }}>
                     <div className="row g-5">
                         <div className="col-md-12 col-lg-6 col-xl-7">
                             <div className="row">
