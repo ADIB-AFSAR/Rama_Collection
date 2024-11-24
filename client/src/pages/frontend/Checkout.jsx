@@ -46,11 +46,10 @@ function Checkout() {
     const NewFormData = new FormData(); 
     NewFormData.append("billingAddress", JSON.stringify(formData)); // Stringify the form data
     NewFormData.append("image", screenshot); // Attach file
-    NewFormData.append("userID", currentUser?.id); // Attach file
-    NewFormData.append(
+     NewFormData.append(
         "orderDetails",
         JSON.stringify({
-      user: { name, email },
+      user: { userID : currentUser?.id , name, email },
       order: currentCart,
     })
   );

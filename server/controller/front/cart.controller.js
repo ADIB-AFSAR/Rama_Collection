@@ -181,14 +181,11 @@ const stripePay = async (req, res) => {
         console.log("Stripe pay controller:",req.body)
         console.log("file : ", req.file)
         
-        const { billingAddress, orderDetails , userID} = req.body;
-        if (!userID) {
-            return res.status(400).json({ success: false, message: "UserID is required." });
-          }
+        const { billingAddress, orderDetails} = req.body;
         if (!billingAddress) {
             throw new Error("Billing address is missing");
           }
-        const { name, amount } =  JSON.parse(billingAddress);
+        const { name } =  JSON.parse(billingAddress);
         const parsedDetails = JSON.parse(orderDetails);
 
 
@@ -198,10 +195,10 @@ const stripePay = async (req, res) => {
          // Record UPI payment
          await recordPayment({
             payerName: name,
-            amount,
+            amount : parsedDetails.order.grandTotal,
             screenshotUrl: uploadedFileURL,
             orderDetails: parsedDetails,
-            userID,
+            userID : orderDetails.user.userID,
             type: "upi",
             status: "Pending",
         });
