@@ -187,6 +187,7 @@ const stripePay = async (req, res) => {
           }
         const { name } =  JSON.parse(billingAddress);
         const parsedDetails = JSON.parse(orderDetails);
+        const {userID} = JSON.parse(orderDetails.user);
 
 
         // Uploaded file information from Cloudinary
@@ -198,7 +199,7 @@ const stripePay = async (req, res) => {
             amount : parsedDetails.order.grandTotal,
             screenshotUrl: uploadedFileURL,
             orderDetails: parsedDetails,
-            userID : orderDetails.user.userID,
+            userID,
             type: "upi",
             status: "Pending",
         });
