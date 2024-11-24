@@ -267,7 +267,7 @@ function Checkout() {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer> 
-          <Button variant="primary" onClick={handleUPISubmit}>
+          <Button variant="primary" onClick={(event)=>handleSubmit(event)}>
             Submit Payment
           </Button>
         </Modal.Footer>
