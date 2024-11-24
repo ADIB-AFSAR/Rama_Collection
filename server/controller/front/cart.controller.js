@@ -199,7 +199,7 @@ const stripePay = async (req, res) => {
             amount : parsedDetails.order.grandTotal,
             screenshotUrl: uploadedFileURL,
             orderDetails: parsedDetails,
-            userID : orderDetails.user.userID,
+            userID : orderDetails.order.customer._id,
             type: "upi",
             status: "Pending",
         });
