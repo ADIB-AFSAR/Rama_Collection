@@ -34,16 +34,24 @@ function Checkout() {
 
  const [showModal, setShowModal] = useState(false);
  const [screenshot, setScreenshot] = useState(null);
+ const [loading, setLoading] = useState(false); // State for the loader
+
   
  const handleSubmit = async (event) => {
+    setLoading(true); // Start the loader when the form is submitted
     event.preventDefault();
-    const orderPlaced = { cartId: currentCart._id, billingAddress: formData };
-    dispatch(placeOrderStart(orderPlaced));
-    deleteCartDataFromLocalStorage()
-    navigate("/thankyou");
+    const orderPlaced = { cartId: currentCart._id, billingAddress: formData };  
+    setTimeout(() => {
+        dispatch(placeOrderStart(orderPlaced));
+        setLoading(false); // Stop the loader after the order is placed
+        navigate("/thankyou");
+        deleteCartDataFromLocalStorage() 
+    }, 3000);
+    
   };
 
   const handleUPISubmit = async (event) => {
+    setLoading(true); // Start the loader when the button is clicked
     const NewFormData = new FormData(); 
     NewFormData.append("billingAddress", JSON.stringify(formData)); // Stringify the form data
     NewFormData.append("image", screenshot); // Attach file
@@ -69,6 +77,7 @@ function Checkout() {
       handleSubmit(event)
     } catch (error) {
       console.error("Error sending email:", error.message);
+      setLoading(false); // Stop the loader in case of an error
     }
   };
   useEffect(()=>{
@@ -248,7 +257,7 @@ function Checkout() {
                                     </div>
                                 </div>
                             </div>
-                            <button type={payment === "upi" ? 'button' : 'submit' } onClick={(event) => payment === "upi" ? setShowModal(true) : handleSubmit(event)} className="btn border-secondary py-2 px-2 w-100 text-primary">{payment === 'upi' ? "Proceed to Pay" : "Place Order"}</button>
+                            <button type={payment === "upi" ? 'button' : 'submit' } onClick={(event) => payment === "upi" ? setShowModal(true) : handleSubmit(event)} className="btn border-secondary py-2 px-2 w-100 text-primary">{payment === 'upi' ? "Proceed to Pay" : loading ? "Processing..." : "Place Order"}</button>
                             {/* <div className="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                                 <div className="col-12">
                                     <div className="form-check text-start my-3">
@@ -268,6 +277,7 @@ function Checkout() {
                         </div>
                     </div>
                 </form>
+                {loading && <div className="loader">Placing your order...</div>}
             </div>
         </div>
         <Modal show={showModal} onHide={() => setShowModal(false)}>
@@ -287,7 +297,7 @@ function Checkout() {
         </Modal.Body>
         <Modal.Footer> 
           <Button variant="primary" onClick={(event)=>handleUPISubmit(event)}>
-            Submit Payment
+          {loading ? "Processing..." : "Submit Payment"}
           </Button>
         </Modal.Footer>
       </Modal>

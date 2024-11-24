@@ -239,9 +239,9 @@ const stripePay = async (req, res) => {
             
             <h2>Order Summary</h2>
             <p><strong>Order ID:</strong> ${parsedDetails.order._id}</p>
-            <p><strong>Subtotal:</strong> $${parsedDetails.order.subTotal}</p>
-            <p><strong>Tax:</strong> $${parsedDetails.order.tax}</p>
-            <p><strong>Grand Total:</strong> $${parsedDetails.order.grandTotal}</p>
+            <p><strong>Subtotal:</strong> ₹${parsedDetails.order.subTotal}</p>
+            <p><strong>Tax:</strong> ₹${parsedDetails.order.tax}</p>
+            <h3><strong>Grand Total:</strong> ₹${parsedDetails.order.grandTotal}</h3>
             
             <h2>Items Ordered</h2>
             <table border="1" cellpadding="5" cellspacing="0" style="width:100%; border-collapse:collapse;">
@@ -268,7 +268,8 @@ const stripePay = async (req, res) => {
                         .join("")}
                 </tbody>
             </table>
-            <a href=${'https://www.ramacollectionshop.com/order'}>Go To Orders Page</a>
+            <br></br>
+            <h4><a href=${'https://www.ramacollectionshop.com/order'}>Go To Orders Page</a></h4>
         `;
     
         const mailOptions = {
