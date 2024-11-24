@@ -180,7 +180,7 @@ const stripePay = async (req, res) => {
     try {
         console.log("Stripe pay controller:",req.body)
         console.log("file : ", req.file)
-        console.log("userID:",req.body.orderDetails.user)
+        
         
         const { billingAddress, orderDetails} = req.body;
         if (!billingAddress) {
@@ -188,7 +188,7 @@ const stripePay = async (req, res) => {
           }
         const { name } =  JSON.parse(billingAddress);
         const parsedDetails = JSON.parse(orderDetails);
- 
+        console.log("userID:",parsedDetails.order.customer._id)
 
         // Uploaded file information from Cloudinary
         const uploadedFileURL = req.file ? req.file.path : null; // Cloudinary automatically assigns a URL to the uploaded file
@@ -199,7 +199,7 @@ const stripePay = async (req, res) => {
             amount : parsedDetails.order.grandTotal,
             screenshotUrl: uploadedFileURL,
             orderDetails: parsedDetails,
-            userID : orderDetails.order.customer._id,
+            userID : parsedDetails.order.customer._id,
             type: "upi",
             status: "Pending",
         });
