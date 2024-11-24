@@ -181,7 +181,7 @@ const stripePay = async (req, res) => {
         console.log("Stripe pay controller:",req.body)
         console.log("file : ", req.file)
         const { billingAddress, orderDetails } = req.body;
-        const { name, amount, payment } = JSON.parse(billingAddress);
+        const { name, amount, payment } =  billingAddress;
         const parsedDetails = JSON.parse(orderDetails);
 
 
