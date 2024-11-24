@@ -43,20 +43,23 @@ function Checkout() {
   };
 
   const handleUPISubmit = async () => {
-    formData.append("screenshot", screenshot);
-    formData.append("orderDetails", JSON.stringify({
+    const formData = new FormData(); 
+  formData.append("screenshot", screenshot);
+  formData.append(
+    "orderDetails",
+    JSON.stringify({
       user: { name, email },
       order: currentCart,
-    }));
-    console.log("formData:",formData)
+    })
+  );
+    console.log("formData:",[...formData.entries()])
     try {
         await axios.post(
             `${process.env.REACT_APP_API_URL}/api/cart/stripe-pay`, 
             formData, // Form data is the second parameter
             {
               headers: {
-                "Authorization": getToken(),
-                "Content-Type": "multipart/form-data", // Required for formData
+                "Authorization": getToken() 
               }
             }
           );
