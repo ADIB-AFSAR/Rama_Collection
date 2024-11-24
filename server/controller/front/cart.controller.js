@@ -251,10 +251,10 @@ const stripePay = async (req, res) => {
 };
 
 const verifyPayment = async (req, res) => {
-    const { paymentId } = req.params;
-    console.log("verifyPayment:", req.params);
+    const { id } = req.params;
+    console.log("verifyPayment:", req.params.id);
     try {
-        const payment = await Payment.findById(paymentId);
+        const payment = await Payment.findById(id);
 
         if (!payment) {
             return res.status(404).json({ message: "Payment not found" });
