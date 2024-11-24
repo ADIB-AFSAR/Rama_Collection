@@ -133,9 +133,11 @@ const placeOrder = async (req, res) => {
             "orderDetails.orderId": cart._id, 
             status: "Completed" // Check for a completed payment
         });
+        let payment;
 
         if (existingPayment) {
             // If payment already exists, skip payment recording and just place the order
+            payment = existingPayment;
             console.log("Payment already completed for this order. Skipping payment recording.");
         } else {
             // If no payment exists, proceed with payment recording
@@ -156,7 +158,8 @@ const placeOrder = async (req, res) => {
             tax: cart.tax,
             grandTotal: cart.grandTotal,
             billingAddress: req.body.billingAddress,
-            placedOrder: true
+            placedOrder: true,
+            paymentId : payment._id
         });
 
         // Iterate over each cart item to create order items and update product quantities

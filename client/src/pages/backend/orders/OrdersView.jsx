@@ -77,7 +77,7 @@ function OrdersView() {
                 <div>
                   <h5>Payment Type </h5>
                   <hr/>
-                  <p>{order.billingAddress?.payment === "cod" ? "Cash on delivery" : "Transaction through Stripe"}</p>
+                  <p>{order.billingAddress?.payment === "cod" ? "Cash on delivery" : "Transaction through UPI"}</p>
                   <hr/>
                   </div>
                   </div>
