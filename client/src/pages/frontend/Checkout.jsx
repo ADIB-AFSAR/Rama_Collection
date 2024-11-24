@@ -9,6 +9,7 @@ import Form from "react-bootstrap/Form";
 import axios from "axios";
 import Stripe from "react-stripe-checkout"
 import { getToken } from "../../redux/service/token.service";
+import { Spinner } from 'react-bootstrap'
 
 const initialState = {
   name :'',
@@ -296,8 +297,9 @@ function Checkout() {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer> 
-          <Button variant="primary" onClick={(event)=>handleUPISubmit(event)}>
-          {loading ? "Processing..." : "Submit Payment"}
+          <Button variant="primary" onClick={(event)=>handleUPISubmit(event)} className='d-flex justify-content-center'>
+          {/* {loading ? "Processing..." : "Submit Payment"} */}
+          {loading ? <Spinner animation="border" size="sm" className="text-danger" /> :"Submit Payment" }
           </Button>
         </Modal.Footer>
       </Modal>
