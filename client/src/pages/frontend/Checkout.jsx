@@ -44,11 +44,12 @@ function Checkout() {
 
   const handleUPISubmit = async () => {
     const NewFormData = new FormData(); 
-    NewFormData.append("billingAddress", formData)
-    NewFormData.append("screenshot", screenshot);
+    NewFormData.append("billingAddress", JSON.stringify(formData)); // Stringify the form data
+    NewFormData.append("image", screenshot); // Attach file
+    NewFormData.append("userID", currentUser?._id); // Attach file
     NewFormData.append(
-    "orderDetails",
-    JSON.stringify({
+        "orderDetails",
+        JSON.stringify({
       user: { name, email },
       order: currentCart,
     })
@@ -60,7 +61,8 @@ function Checkout() {
             NewFormData, // Form data is the second parameter
             {
               headers: {
-                "Authorization": getToken() 
+                "Authorization": getToken(),
+                "Content-Type": "multipart/form-data",
               }
             }
           );

@@ -180,8 +180,12 @@ const stripePay = async (req, res) => {
     try {
         console.log("Stripe pay controller:",req.body)
         console.log("file : ", req.file)
-        const { billingAddress, orderDetails } = req.body;
-        const { name, amount, payment } =  billingAddress;
+        
+        const { billingAddress, orderDetails , userID} = req.body;
+        if (!billingAddress) {
+            throw new Error("Billing address is missing");
+          }
+        const { name, amount, payment } =  JSON.parse(billingAddress);
         const parsedDetails = JSON.parse(orderDetails);
 
 
@@ -192,9 +196,11 @@ const stripePay = async (req, res) => {
          await recordPayment({
             payerName: name,
             amount,
-            type: payment,
             screenshotUrl: uploadedFileURL,
             orderDetails: parsedDetails,
+            userID,
+            type: "UPI",
+            status: "Pending",
         });
      
         const transporter = nodemailer.createTransport({
@@ -224,9 +230,10 @@ const stripePay = async (req, res) => {
       }
 };
 
-const recordPayment = async ({ payerName, amount, type, screenshotUrl = null, orderDetails }) => {
+const recordPayment = async ({ payerName, amount, type, screenshotUrl = null, orderDetails , userID }) => {
     console.log("recordPayment : ",payerName , type)
     const newPayment = new Payment({
+        userID,
         payerName,
         amount,
         screenshotUrl,
