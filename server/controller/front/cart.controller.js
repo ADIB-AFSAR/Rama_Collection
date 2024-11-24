@@ -141,7 +141,7 @@ const placeOrder = async (req, res) => {
             console.log("Payment already completed for this order. Skipping payment recording.");
         } else {
             // If no payment exists, proceed with payment recording
-            await recordPayment({
+           payment =  await recordPayment({
                 payerName: req.body.billingAddress.name,
                 amount: cart.grandTotal,
                 type: req.body.billingAddress.payment, // Payment type (UPI, COD, etc.)
