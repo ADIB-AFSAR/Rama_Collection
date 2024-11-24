@@ -53,7 +53,7 @@ function Checkout() {
       order: currentCart,
     })
   );
-    console.log("formData:",[...formData.entries()])
+    console.log("formData:",[...NewFormData.entries()])
     try {
         await axios.post(
             `${process.env.REACT_APP_API_URL}/api/cart/stripe-pay`, 
