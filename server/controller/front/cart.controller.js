@@ -180,7 +180,7 @@ const stripePay = async (req, res) => {
     try {
         console.log("Stripe pay controller:",req.body)
         console.log("file : ", req.file)
-        console.log("userID:",req.body.orderDetails.user.userID)
+        console.log("userID:",req.body.orderDetails.user)
         
         const { billingAddress, orderDetails} = req.body;
         if (!billingAddress) {
