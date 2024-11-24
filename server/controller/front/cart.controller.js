@@ -150,7 +150,7 @@ const placeOrder = async (req, res) => {
                 status: "Pending", // Default status, which can be updated later
             });
         }
-
+        console.log("Payment:",payment)
         // Create the order
         const order = await orderModel.create({
             customer: cart.customer,
@@ -159,7 +159,7 @@ const placeOrder = async (req, res) => {
             grandTotal: cart.grandTotal,
             billingAddress: req.body.billingAddress,
             placedOrder: true,
-            paymentId : payment._id
+            paymentId : payment?._id
         });
 
         // Iterate over each cart item to create order items and update product quantities
