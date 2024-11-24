@@ -271,19 +271,29 @@ const verifyPayment = async (req, res) => {
 };
 
 
-const recordPayment = async ({ payerName, amount, type, screenshotUrl = null, orderDetails , userID }) => {
-    console.log("recordPayment : ",payerName , type)
-    const newPayment = new Payment({
-        userID,
-        payerName,
-        amount,
-        screenshotUrl,
-        orderDetails,
-        type,
-        status: "Pending", // Default to Pending for all payment types
-    });
-    await newPayment.save();
+const recordPayment = async ({ payerName, amount, type, screenshotUrl = null, orderDetails, userID }) => {
+    console.log("recordPayment:", payerName, type);
+
+    try {
+        const newPayment = new Payment({
+            userID,
+            payerName,
+            amount,
+            screenshotUrl,
+            orderDetails,
+            type,
+            status: "Pending", // Default to Pending for all payment types
+        });
+
+        const savedPayment = await newPayment.save();
+        console.log("Saved Payment:", savedPayment); // Debugging log
+        return savedPayment; // Explicitly return the saved payment document
+    } catch (error) {
+        console.error("Error in recordPayment:", error);
+        throw new Error("Failed to record payment");
+    }
 };
+
 
 
 module.exports = {
