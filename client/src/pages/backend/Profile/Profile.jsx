@@ -18,7 +18,7 @@ function Profile() {
   const getUserById = () => {
     console.log("currentUSer id : ",currentUser?.id)
     if (users && currentUser) {
-      const onBoardUser = users.filter(user => user._id === currentUser._id);
+      const onBoardUser = users.filter(user => user._id === currentUser.id);
       if (onBoardUser.length > 0 && onBoardUser[0].image) {
         setImg(onBoardUser[0].image);
       }

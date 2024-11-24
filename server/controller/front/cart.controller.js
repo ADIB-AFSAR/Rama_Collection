@@ -182,10 +182,13 @@ const stripePay = async (req, res) => {
         console.log("file : ", req.file)
         
         const { billingAddress, orderDetails , userID} = req.body;
+        if (!userID) {
+            return res.status(400).json({ success: false, message: "UserID is required." });
+          }
         if (!billingAddress) {
             throw new Error("Billing address is missing");
           }
-        const { name, amount, payment } =  JSON.parse(billingAddress);
+        const { name, amount } =  JSON.parse(billingAddress);
         const parsedDetails = JSON.parse(orderDetails);
 
 
@@ -199,7 +202,7 @@ const stripePay = async (req, res) => {
             screenshotUrl: uploadedFileURL,
             orderDetails: parsedDetails,
             userID,
-            type: "UPI",
+            type: "upi",
             status: "Pending",
         });
      
