@@ -180,8 +180,7 @@ const placeOrder = async (req, res) => {
 
         // Mark the cart as ordered
         await cartModel.updateOne({ _id: cart._id }, { placedOrder: true});
-        await deleteCartDataFromLocalStorage()
-        return res.json({ message: "Order placed successfully" });
+         return res.json({ message: "Order placed successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -337,31 +336,7 @@ const recordPayment = async ({ payerName, amount, type, screenshotUrl = null, or
     }
 };
 
-const deleteCartDataFromLocalStorage = () => {
-    const keysToRemove = [];
-
-    // Identify all keys in localStorage that start with "cart-"
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key.startsWith("cart-")) {
-            keysToRemove.push(key);
-        }
-    }
-
-    // Remove each identified key
-    keysToRemove.forEach((key) => {
-        localStorage.removeItem(key);
-    });
-
-    console.log("All cart-related data removed from localStorage.");
-};
-
-// Call this function when placing an order
-deleteCartDataFromLocalStorage();
-
-
-
-
+ 
 module.exports = {
     getCart,
     addCart,

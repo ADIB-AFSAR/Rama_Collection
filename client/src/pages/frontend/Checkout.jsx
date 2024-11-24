@@ -39,6 +39,7 @@ function Checkout() {
     event.preventDefault();
     const orderPlaced = { cartId: currentCart._id, billingAddress: formData };
     dispatch(placeOrderStart(orderPlaced));
+    deleteCartDataFromLocalStorage()
     navigate("/thankyou");
   };
 
@@ -85,6 +86,24 @@ function Checkout() {
  
   },[currentUser.name , ])
 
+  const deleteCartDataFromLocalStorage = () => {
+    const keysToRemove = [];
+
+    // Identify all keys in localStorage that start with "cart-"
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith("cart-")) {
+            keysToRemove.push(key);
+        }
+    }
+
+    // Remove each identified key
+    keysToRemove.forEach((key) => {
+        localStorage.removeItem(key);
+    });
+
+    console.log("All cart-related data removed from localStorage.");
+};
   
   return (
     <>
