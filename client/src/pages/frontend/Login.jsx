@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './frontend.css'; // External CSS file for custom styles 
 import { loginUserStart, getUserStart } from '../../redux/action/user.acton'; // Adjust import based on your file structure
 import {useFormData} from '../../hooks/useFormData'; // Adjust import based on your file structure
+import { Spinner } from 'react-bootstrap';
 
 const Login = () => {
   const users = useSelector((state) => state.user.users);
@@ -12,6 +13,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [err, setErr] = useState("");
+  const [loading , setLoading] = useState(false);
   
   // Initialize form data using custom hook
   const [handleChange, formData] = useFormData({
@@ -22,8 +24,10 @@ const Login = () => {
   const { email, password } = formData;
 
     const submit = (event) => {
+      setLoading(true)
       event.preventDefault();
       dispatch(loginUserStart(formData));
+      setTimeout(()=>{setLoading(false)},2000)
     };
   
     // Watch for changes in currentUser
@@ -112,7 +116,7 @@ const Login = () => {
               </label>
             </div>
             <button type="submit" className="btn btn-primary w-100">
-              LOGIN
+              {loading ?<Spinner animation="border" size="sm" className="text-primary m-0 p-0" />:"LOGIN"}
             </button>
             {/* Uncomment if social login is needed */}
             {/* <div className="text-center my-3">or login with</div> */}
