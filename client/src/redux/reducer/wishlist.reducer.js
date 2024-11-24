@@ -8,7 +8,6 @@ const initialState = {
 };
 
 const wishlistReducer = (state = initialState, action) => {
-    console.log("suucess :",action.payload)
     switch (action.type) { 
         case GET_WISHLIST_SUCCESS:
             return {...state, items: action.payload };

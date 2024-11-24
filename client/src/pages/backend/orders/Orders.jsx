@@ -27,6 +27,7 @@ function Orders() {
             }
         }
     }, [orderState, currentUser ]); 
+    console.log("Orders:",orders)
 
     return (
         <> 
