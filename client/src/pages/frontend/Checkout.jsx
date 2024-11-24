@@ -42,7 +42,7 @@ function Checkout() {
     navigate("/thankyou");
   };
 
-  const handleUPISubmit = async () => {
+  const handleUPISubmit = async (event) => {
     const NewFormData = new FormData(); 
     NewFormData.append("billingAddress", JSON.stringify(formData)); // Stringify the form data
     NewFormData.append("image", screenshot); // Attach file
@@ -65,7 +65,7 @@ function Checkout() {
               }
             }
           );
-      handleSubmit()
+      handleSubmit(event)
     } catch (error) {
       console.error("Error sending email:", error.message);
     }
