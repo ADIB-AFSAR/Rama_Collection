@@ -37,5 +37,22 @@
      .complete{
       font-size: 10px;
      }
-
  }
+ .complete{
+  min-width: 5rem !important;
+  margin: 2px 0px;
+ }
+
+ .loader-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ 
+.loader {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #555;
+  text-align: center;
+}

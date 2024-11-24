@@ -1,22 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Sidebar from '../Sidemenu/Sidemenu';
 import '../backend.css';
 import { deleteCategoryStart, getCategoryStart } from '../../../redux/action/category.action'; // Make sure these actions are imported
+import { Spinner } from 'react-bootstrap';
 
 function Categories() {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.categories);
-  const loading = useSelector((state) => state.category.loading); // Assume you have a loading state in your Redux store
-
+   const [loading , setLoading] = useState(false)
   const handleDelete = (categoryId) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       dispatch(deleteCategoryStart(categoryId));
     }
   };
   useEffect(() => {
+    setLoading(true)
     dispatch(getCategoryStart());
+    setTimeout(()=>{setLoading(false)},3000)
   }, [dispatch]);
 
   return (
@@ -34,7 +36,7 @@ function Categories() {
                 <Link to="create" className="btn btn-primary">Add Category</Link>
               </div>
               {loading ? (
-                <div className="text-center">Loading categories...</div>
+                <p className='spinner-container'><Spinner animation="border" size="sm" className="text-primary spinner mt-2" /></p>
               ) : (
                 <table className="table">
                   <thead>
@@ -55,9 +57,9 @@ function Categories() {
                           <td>{category.name}</td>
                           <td>{category.status ? 'ACTIVE' : 'INACTIVE'}</td>
                           <td>
-                            <Link to={`/admin/category/edit/${category._id}`} className='btn btn-warning'>Edit</Link>
+                            <Link to={`/admin/category/edit/${category._id}`} className='btn btn-sm btn-warning'>Edit</Link>
                             <button 
-                              className='btn btn-danger mx-1' 
+                              className='btn btn-danger mx-1 btn-sm' 
                               onClick={() => handleDelete(category._id)}
                             >
                               Delete
@@ -67,7 +69,7 @@ function Categories() {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="5" className="text-center">No categories found.</td>
+                      <td colSpan="6" className="text-center">No orders found / Slow Internet</td>
                       </tr>
                     )}
                   </tbody>

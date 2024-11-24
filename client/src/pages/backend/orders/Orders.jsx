@@ -6,17 +6,21 @@ import Sidebar from '../Sidemenu/Sidemenu';
 import '../backend.css';
 import axios from 'axios';
 import { getToken } from '../../../redux/service/token.service';
+import { Spinner } from 'react-bootstrap';
 
 function Orders() {
     const [orders, setOrders] = useState([]);
+    const [loading , setLoading] = useState(false)
     const currentUser  = useSelector(state => state.user.currentUser );
     const orderState = useSelector(state => state.order.orders);
     const dispatch = useDispatch();
 
     useEffect(() => {
+        setLoading(true)
         // Fetch orders when the component mounts
         dispatch(getOrderStart());
-    }, [dispatch]);
+        setTimeout(() => {setLoading(false)}, 3000);
+    }, []);
 
     useEffect(() => {
         // Filter orders based on user role
@@ -49,9 +53,7 @@ function Orders() {
         }
         
     }
-    useEffect(()=>{
-
-    },[orders])
+ 
 
     return (
         <> 
@@ -66,7 +68,7 @@ function Orders() {
                             <div className="card-header bg-dark d-flex justify-content-between">
                                 <h4 className="card-title text-white fw-bold">Orders</h4>
                             </div>
-                            <table className="table">
+                           <div className='table-responsive'>{loading ?<p className='spinner-container'><Spinner animation="border" size="sm" className="text-primary spinner mt-2" /></p> : <table className="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -83,24 +85,24 @@ function Orders() {
                                         <tr key={order?._id}>
                                             <th scope="row">{index + 1}</th>
                                             <td>{order?.customer?.name || 'N/A'}</td>
-                                            <td>{order?.subTotal}</td>
-                                            <td>{order?.tax}</td>
-                                            <td>{order?.grandTotal}</td>
+                                            <td>₹{order?.subTotal}</td>
+                                            <td>₹{order?.tax}</td>
+                                            <td>₹{order?.grandTotal}</td>
                                             <td>
-                                                {currentUser.role === 'admin'&& order?.paymentId?.status === "Pending" && order?.paymentId?.type === "upi" && <button onClick={()=>handlePayment(order?.paymentId?._id)}  className='btn btn-info me-2'>Approve</button>}
-                                                {order?.paymentId?.status ? <button className={`btn complete btn-${order?.paymentId?.status && order?.paymentId?.status === "Pending" ? "warning" : "success"}`}>{order?.paymentId?.type === "cod" && order?.paymentId?.status === "Pending" ? "COD" : order?.paymentId?.status}</button>: "Not Found"}
+                                                
+                                                {order?.paymentId?.status ? <button className={`btn btn-sm complete btn-${order?.paymentId?.status && order?.paymentId?.status === "Pending" ? "warning" : "success"}`}>{order?.paymentId?.type === "cod" && order?.paymentId?.status === "Pending" ? "COD" : order?.paymentId?.status}</button>: "Not Found"}
                                             </td>
                                             <td>
-                                                <Link to={`/order/view/${order._id}`} className='btn btn-info complete me-2'>View</Link>
+                                                {currentUser.role === 'admin'&& order?.paymentId?.status === "Pending" && order?.paymentId?.type === "upi" && <button onClick={()=>handlePayment(order?.paymentId?._id)}  className='btn mx-1 mt-1 btn-sm btn-info complete'>Approve</button>}<Link to={`/order/view/${order._id}`} className='btn btn-dark btn-sm complete me-2'>View</Link>
                                             </td>
                                         </tr>
                                     )) : (
                                         <tr>
-                                            <td colSpan="6" className="text-center">No orders found</td>
+                                        <td colSpan="6" className="text-center">No orders found / Slow Internet</td>
                                         </tr>
                                     )}
                                 </tbody>
-                            </table>
+                            </table>}</div>
                         </div>
                     </div>
                 </div>

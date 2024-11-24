@@ -21,24 +21,26 @@ const Login = () => {
   
   const { email, password } = formData;
 
-  const submit = (event) => {
-    event.preventDefault();
-    dispatch(loginUserStart(formData));
-
-    // Wait for the user to be logged in before checking for token
-    setTimeout(() => {
-      let token = localStorage.getItem('jwt_token');
-      if (!token) {
-        console.error('Token is undefined');
-        return;
+    const submit = (event) => {
+      event.preventDefault();
+      dispatch(loginUserStart(formData));
+    };
+  
+    // Watch for changes in currentUser
+    useEffect(() => {
+      if (currentUser) {
+        let token = localStorage.getItem('jwt_token');
+        if (!token) {
+          console.error('Token is undefined');
+          return;
+        }
+        if (currentUser.role === 'admin') {
+          navigate('/dashboard');
+        } else {
+          navigate('/');
+        }
       }
-      if(currentUser.role === 'admin') {
-        navigate('/dashboard');
-      }else{
-        navigate('/')
-      }
-    }, 500);
-  };
+    }, [currentUser, navigate]);
 
   useEffect(() => {
     dispatch(getUserStart());

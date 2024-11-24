@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Sidebar from '../Sidemenu/Sidemenu';
 import '../backend.css';
 import { getUserStart, deleteUserStart } from '../../../redux/action/user.acton'; // Import your actions
+import { Spinner } from 'react-bootstrap';
 
 function Users() {
   const users = useSelector(state => state.user.users);
+  const [loading , setLoading] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -18,7 +20,9 @@ function Users() {
   };
 
   useEffect(() => {
+    setLoading(true)
     dispatch(getUserStart());
+    setTimeout(()=>{setLoading(false)},3000)
   }, [dispatch]);
 
   return (
@@ -36,7 +40,7 @@ function Users() {
                 <Link to="create" className="btn btn-primary">Add Users</Link>
               </div>
               <div className='table-responsive'>
-              <table className="table">
+              {loading ?<p className='spinner-container'><Spinner animation="border" size="sm" className="text-primary spinner mt-2" /></p>:<table className="table">
                 <thead>
                   <tr>
                     <th scope="col">#</th> 
@@ -62,19 +66,19 @@ function Users() {
                         <td>{user.contact}</td>
                         <td>{user.role}</td>
                         <td>
-                          <Link to={`/admin/user/edit/${user._id}`} className='btn btn-warning'>Edit</Link>
-                          <button 
+                          <Link to={`/admin/user/edit/${user._id}`} className='btn btn-sm btn-warning'>Edit</Link>
+                          {/* <button 
                             onClick={() => handleDelete(user._id)} 
-                            className='btn btn-danger mx-1'
+                            className='btn btn-sm btn-danger mx-1'
                           >
                             Delete
-                          </button>
+                          </button> */}
                         </td>
                       </tr>
                     ))
                   )}
                 </tbody>
-              </table>
+              </table>}
               </div>
             </div>
           </div>

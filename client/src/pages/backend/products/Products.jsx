@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'; 
+import React, { useEffect, useState } from 'react'; 
 import { Link } from 'react-router-dom'; 
 import { useDispatch, useSelector } from 'react-redux'; 
 import Sidebar from '../Sidemenu/Sidemenu'; 
 import '../backend.css'; 
 import { deleteProductStart, getProductStart } from '../../../redux/action/product.action';
+import { Spinner } from 'react-bootstrap';
 
 function Products() {
   const products = useSelector(state => state.product?.products);
+  const [loading , setLoading] = useState(false)
   const dispatch = useDispatch();
   console.log(products)
 
@@ -18,7 +20,9 @@ function Products() {
   }
 
   useEffect(() => {
+    setLoading(true)
     dispatch(getProductStart());   
+    setTimeout(()=>{setLoading(false)},3000)
   }, [dispatch]);
 
   return (
@@ -36,7 +40,7 @@ function Products() {
                 <Link to="create" className="btn btn-primary">Add Product</Link>
               </div>
               <div className='table-responsive '>
-              <table className="table table-striped">
+              { loading ? <p className='spinner-container'><Spinner animation="border" size="sm" className="text-primary spinner mt-2" /></p> : <table className="table table-striped">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -74,7 +78,7 @@ function Products() {
                     ))
                   )}
                 </tbody>
-              </table>
+              </table>}
               </div>
             </div>
           </div>
