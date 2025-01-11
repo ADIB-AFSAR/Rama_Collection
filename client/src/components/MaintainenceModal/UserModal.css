@@ -1,0 +1,74 @@
+/* MaintenanceModal.css */
+.maintenance-overlay {
+    background: rgba(0, 0, 0, 0.93); /* Darkened background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000000 !important; /* Ensure it stays on top */
+    overflow: hidden; /* Disable scrolling */ 
+  }
+  
+   .maintenance-gif {
+    /* background: url('./maintainence-picture.jpg') no-repeat center center; */
+    background-size: cover;
+    padding: 40px;
+    border-radius: 10px; 
+    height: 70vh; 
+    text-align: center;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    border: none !important;
+    outline: none !important; 
+   }
+
+   .maintenance-gif:focus {
+    outline: none !important; /* Prevent the focus border when clicked */
+  }
+  .maintenance-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .maintenance-message h2 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+  }
+  
+  .maintenance-message p {
+    font-size: 1.1em;
+    margin-top: 0;
+  }
+  
+  /* Mobile responsiveness */
+  @media screen and (max-width: 600px) {
+    .maintenance-gif {
+      padding: 15px;
+      height: 50vh;
+    }
+  
+    .maintenance-message h2 {
+      font-size: 1.5em;
+    }
+  
+    .maintenance-message p {
+      font-size: 1em;
+    }
+  }
+  @media screen and (max-width:486px){
+    .maintenance-gif {
+        padding: 25px;
+        height: 35vh;
+      }
+      .maintenance-message h2 {
+        font-size: 1.2em;
+      }
+  }
+  
