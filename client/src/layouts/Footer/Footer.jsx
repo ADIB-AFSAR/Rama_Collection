@@ -12,14 +12,14 @@ const Footer = () => {
           <Col md={4} className="text-center">
             <div className="line"></div>
             <div className="links">
-              <a href="#">Privacy Policy</a>
-              <a href="#">Terms & Conditions</a>
-              <a href="#">About</a>
+              <a href="./privacy-policy">Privacy Policy</a>
+              <a href="./terms&condition">Terms & Conditions</a>
+              <a href="./about">About</a>
             </div>
           </Col>
           <Col md={4} className="text-center">
             <div className="brand d-flex flex-column">
-            <span className="ml-2 h4"><span className='updock-regular fw-bold fs-2'>Rama Collections</span></span>
+            <span className="ml-2 h4"><span className='updock-regular fw-bold fs-2'><a className='text-decoration-none text-dark' href='https://www.ramacollectionshop.com'>Rama Collections</a></span></span>
            <img
               src="/images/logo.png" 
               className="d-inline-block align-top m-0 p-0"
@@ -28,26 +28,26 @@ const Footer = () => {
               <div>
               </div>
             </div>
-            <div className="social-icons">
+            {/* <div className="social-icons">
               <a href='www.twitter.com'><FontAwesomeIcon className='mx-2 fs-4 text-dark' icon={faTwitter}  /></a>
               <a href='www.pintrest.com'><FontAwesomeIcon className='mx-2 fs-4 text-dark' icon={faPinterest}  /></a>
               <a href='www.instagram.com'><FontAwesomeIcon className='mx-2 fs-4 text-dark' icon={faInstagram}  /></a>
-            </div>
+            </div> */}
             <div className="line mt-2"></div>
           </Col>
           <Col md={4} className="text-center">
             <div className="line"></div>
             <div className="links">
-              <a href="#">Shipping Info</a>
-              <a href="#">Returns / Exchanges</a>
-              <a href="#">Contact</a>
+              <a href="./contact-us">Contact Us</a>
+              <a href="./Shipping-details">Shipping / Returns / Exchanges</a>
+              <a href="./faqs">FAQs</a>
             </div>
           </Col>
         </Row>
         <Row>
           <Col className="text-center">
-          <p className='fw-bold text-muted small name'>ADIB AFSAR </p>
-            <p className="copyright">© 2024 Rama Collection Pvt. Ltd.</p>
+          {/* <p className='fw-bold text-muted small name'>ADIB AFSAR </p> */}
+            <p className="copyright">Brought to you by <a className='text-decoration-none' href='https://techhodu.com/'>Tech Hodu</a> 2024.</p>
           </Col>
         </Row>
       </Container>

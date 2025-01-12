@@ -19,6 +19,12 @@ import AddOrEditUser from "../pages/backend/users/AddOrEditUsers";
 import Auth from "../pages/backend/Auth";
 import Wishlist from "../pages/frontend/Wishlist";
 import ProductListingPage from "../components/ProductListingPage/ProductListingPage";
+import AboutUs from "../pages/frontend/AboutUs";
+import FAQs from "../pages/frontend/FAQs";
+import ContactUs from "../pages/frontend/ContactUs";
+import Shippingdetails from "../pages/frontend/Shippingdetails";
+import TermsCondition from "../pages/frontend/Terms&Condition";
+import PrivacyPolicy from "../pages/frontend/PrivacyPolicy";
 // import Cart from "../pages/frontend/Cart";
 // import Thankyou from "../pages/frontend/Thankyou";
 // import Details from "../pages/frontend/Details";
@@ -48,6 +54,12 @@ function AppRouter() {
       <Route path="/register" element={<Register/>}/> 
       <Route path="/thankyou" element={<ThankYou/>} />
       <Route path="/wishlist" element={<Wishlist/>} />
+      <Route path="/about" element={<AboutUs/>} />
+      <Route path="/faqs" element={<FAQs/>} />
+      <Route path="/contact-us" element={<ContactUs/>} />
+      <Route path="/Shipping-details" element={<Shippingdetails/>} />
+      <Route path="/terms&condition" element={<TermsCondition/>} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy/>} />
 
       {/* <Route path="/cart" element={<Cart />} />*/}
       

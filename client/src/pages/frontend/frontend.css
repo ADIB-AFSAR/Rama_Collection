@@ -498,3 +498,355 @@
   color: #555;
   text-align: center;
 }
+/* -------------------ABOUT US----------------- */
+.about-us-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 36px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 28px;
+  color: #555;
+  margin-top: 20px;
+}
+
+h3 {
+  font-size: 24px;
+  color: #222;
+  text-align: center;
+}
+
+p {
+  line-height: 1.6;
+  color: #666;
+}
+
+strong {
+  color: #000;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+/* -------------Contact Us------------ */
+.contact-us-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 36px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 28px;
+  color: #555;
+  margin-top: 20px;
+}
+
+p {
+  line-height: 1.6;
+  color: #666;
+}
+
+strong {
+  color: #000;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #444;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+/* ---------------FAQS----------------- */
+.faq-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 36px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  color: #555;
+  margin-top: 20px;
+}
+
+p, li {
+  line-height: 1.6;
+  color: #666;
+}
+
+strong {
+  color: #000;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.faq-item {
+  margin-bottom: 20px;
+}
+
+ol {
+  padding-left: 20px;
+}
+
+ol li {
+  margin-bottom: 10px;
+}
+/* ----------Privacy Policy--------------- */
+.privacy-policy-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 36px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  color: #555;
+  margin-top: 20px;
+}
+
+p, li {
+  line-height: 1.6;
+  color: #666;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.policy-section {
+  margin-bottom: 20px;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+ul li {
+  margin-bottom: 10px;
+}
+/* --------------Terms & Conditions--------------- */
+/* Terms and Conditions Styles */
+.terms-and-conditions {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+.terms-and-conditions h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #222;
+  text-align: center;
+  border-bottom: 2px solid #f4f4f4;
+  padding-bottom: 10px;
+}
+
+.terms-and-conditions h2 {
+  font-size: 24px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  color: #444;
+  border-left: 4px solid #ff6b6b;
+  padding-left: 10px;
+}
+
+.terms-and-conditions p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.terms-and-conditions ul {
+  margin-left: 20px;
+  padding-left: 20px;
+}
+
+.terms-and-conditions li {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.terms-and-conditions a {
+  color: #ff6b6b;
+  text-decoration: none;
+}
+
+.terms-and-conditions a:hover {
+  text-decoration: underline;
+}
+
+.terms-and-conditions p a {
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .terms-and-conditions {
+    padding: 15px;
+  }
+
+  .terms-and-conditions h1 {
+    font-size: 28px;
+  }
+
+  .terms-and-conditions h2 {
+    font-size: 20px;
+  }
+
+  .terms-and-conditions p,
+  .terms-and-conditions li {
+    font-size: 14px;
+  }
+}
+/* -------------Shippping Details-------------- */
+.shipping-and-returns {
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+.shipping-and-returns h1 {
+  font-size: 28px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #dcdcdc;
+  padding-bottom: 10px;
+}
+
+.shipping-and-returns h2 {
+  font-size: 24px;
+  color: #34495e;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #dcdcdc;
+  padding-bottom: 5px;
+}
+
+.shipping-and-returns h3 {
+  font-size: 20px;
+  color: #2c3e50;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: start;
+ }
+
+.shipping-and-returns ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.shipping-and-returns ul li {
+  margin-bottom: 10px;
+}
+
+.shipping-and-returns a {
+  color: #2980b9;
+  text-decoration: none;
+}
+
+.shipping-and-returns a:hover {
+  text-decoration: underline;
+}
+
+.shipping-and-returns p {
+  margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+  .shipping-and-returns {
+    padding: 15px;
+  }
+
+  .shipping-and-returns h1 {
+    font-size: 24px;
+  }
+
+  .shipping-and-returns h2 {
+    font-size: 20px;
+  }
+
+  .shipping-and-returns h3 {
+    font-size: 18px;
+  }
+}
