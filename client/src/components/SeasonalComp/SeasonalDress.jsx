@@ -27,7 +27,7 @@ const SeasonalFaves = () => {
                 className="card-img-top"
               />
               <div className="card-body">
-                <h5 className="card-title  text-overlay text-dark">{category?.name}</h5>
+                <h5 className="card-title  text-overlay">{category?.name}</h5>
               </div>
             </div>
           </a>
