@@ -9,6 +9,7 @@ import { Spinner } from 'react-bootstrap';
 function Categories() {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.categories);
+  console.log(categories)
    const [loading , setLoading] = useState(false)
   const handleDelete = (categoryId) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
@@ -42,7 +43,7 @@ function Categories() {
                   <thead>
                     <tr>
                       <th scope="col">#</th>
-                      {/* <th scope="col">Image</th> */}
+                      <th scope="col">Image</th>
                       <th scope="col">Name</th>
                       <th scope="col">Status</th>
                       <th scope='col'>Action</th>
@@ -53,17 +54,17 @@ function Categories() {
                       categories.map((category, index) => (
                         <tr key={category._id}>
                           <th scope="row">{index + 1}</th>
-                          {/* <td><img src={category.image || ''} alt={category.name} height={"80px"} /></td> */}
+                          <td><img src={category.image || ''} alt={category.name} height={"80px"} /></td>
                           <td>{category.name}</td>
                           <td>{category.status ? 'ACTIVE' : 'INACTIVE'}</td>
                           <td>
                             <Link to={`/admin/category/edit/${category._id}`} className='btn btn-sm btn-warning'>Edit</Link>
-                            <button 
+                            {/* <button 
                               className='btn btn-danger mx-1 btn-sm' 
                               onClick={() => handleDelete(category._id)}
                             >
                               Delete
-                            </button>
+                            </button> */}
                           </td>
                         </tr>
                       ))

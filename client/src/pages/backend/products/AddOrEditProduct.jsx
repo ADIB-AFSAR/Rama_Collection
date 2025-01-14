@@ -148,7 +148,7 @@ function AddOrEditProducts() {
 
                 <label htmlFor='category' className="form-label mt-3">Product Category</label>
                 <select 
-                   required
+                  //  required
                   name="category" 
                   id="category" 
                   className="form-control"

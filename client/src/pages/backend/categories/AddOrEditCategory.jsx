@@ -107,11 +107,11 @@ function AddOrEditCategories() {
                   className="form-control mb-1" 
                   id="image" 
                   onChange={handleImageChange} 
-                  disabled
+                   
                 />
                 {image && (
                   <img 
-                    src={URL.createObjectURL(image)} 
+                    src={image} 
                     className='mt-2' 
                     alt='Category preview' 
                     height={'80px'} 
