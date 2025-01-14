@@ -20,6 +20,7 @@ const ShopCategory = () => {
   const [loadingProducts, setLoadingProducts] = useState(true); // Track if products are loading
   const [loadingImages, setLoadingImages] = useState({}); // Track image loading state for each product
   const products = useSelector((state) => state.product.products);
+  const categories = useSelector((state) => state.category.categories);
   const currentUser = useSelector((state) => state.user.currentUser);
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -77,7 +78,7 @@ useEffect(() => {
 
   const renderCategorySection = (categoryName) => {
     const categoryProducts = shuffledProducts?.filter(
-      (product) => product.category.name === categoryName
+      (product) => product.category?.name === categoryName
     );
     return (
       <div className="category-section mb-5">
@@ -153,10 +154,9 @@ useEffect(() => {
         </div>
       ) : (
         <>
-          {renderCategorySection("saree")}
-          {renderCategorySection("salwar suit")}
-          {renderCategorySection("material")}
-          {renderCategorySection("occasion")}
+        {categories.length > 0 && categories.map((category)=>{
+          return renderCategorySection(category?.name)
+        })}
         </>
       )}
 
