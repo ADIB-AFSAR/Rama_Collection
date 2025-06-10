@@ -47,7 +47,7 @@ const Footer = () => {
         <Row>
           <Col className="text-center">
           {/* <p className='fw-bold text-muted small name'>ADIB AFSAR </p> */}
-            <p className="copyright">Brought to you by <a className='text-decoration-none' href='https://techhodu.com/'>Tech Hodu</a> 2024.</p>
+            {/* <p className="copyright">Brought to you by <a className='text-decoration-none' href='https://techhodu.com/'>Tech Hodu</a> 2024.</p> */}
           </Col>
         </Row>
       </Container>
