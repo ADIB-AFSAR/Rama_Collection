@@ -24,7 +24,7 @@ console.log("Connecting to database...");
 mongoose
   .connect(process.env.MONGO_URL)
   .then((response) => {
-    console.log("connected to mongodb atlas");
+    console.log("connected to mongodb atlas with DB"+mongoose.connection.name);
   })
   .catch((error) => {
     console.log("databse connection failed :" + error);
