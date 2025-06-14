@@ -59,7 +59,7 @@ function ProductListingPage() {
     if (categoryFilter === 'occasion' || "saree") {
       setPriceRange({ min: 0, max: 50000 });
     } else {
-      setPriceRange({ min: 0, max: 10000 });
+      setPriceRange({ min: 0, max: 15000 });
     }
   }, [categoryFilter]);
 
@@ -149,8 +149,8 @@ function ProductListingPage() {
                   id="priceRange"
                   className="form-range"
                   min={priceRange.min}
-                  max={categoryFilter === 'occasion' ? 50000 : 10000} // Set max dynamically
-                  step="100"
+                  max={categoryFilter === 'occasion' || "saree" ? 50000 : 15000} // Set max dynamically
+                  step="1000"
                   value={priceRange.max}
                   onChange={(e) =>
                     setPriceRange((prev) => ({
