@@ -56,7 +56,7 @@ function ProductListingPage() {
 
   useEffect(() => {
     console.log(categoryFilter)
-    if (categoryFilter === 'occasion') {
+    if (categoryFilter === 'occasion' || "saree") {
       setPriceRange({ min: 0, max: 50000 });
     } else {
       setPriceRange({ min: 0, max: 10000 });
@@ -67,7 +67,7 @@ function ProductListingPage() {
     let filtered = products?.filter((product) =>
       categoryFilter ? product?.category?.name === categoryFilter : true
     );
-    setFilteredProducts(filtered); 
+
     // Apply category-specific title filter
     if (selectedFilter) {
       filtered = filtered?.filter((product) =>
@@ -87,6 +87,8 @@ function ProductListingPage() {
     } else if (sortOrder === 'highToLow') {
       filtered = filtered.sort((a, b) => b.price - a.price);
     }
+
+    setFilteredProducts(filtered);
   }, [products, categoryFilter, selectedFilter, sortOrder, priceRange]);
 
   return (
