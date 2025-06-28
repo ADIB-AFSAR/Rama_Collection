@@ -8,7 +8,6 @@ const MaintenanceModal = ({ currentUser }) => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-
     handleResize(); // Set on load
     window.addEventListener('resize', handleResize);
 
