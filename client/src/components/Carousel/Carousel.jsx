@@ -12,14 +12,14 @@ function ImageCarousel() {
   const desktopImages = [
     "https://www.soch.com/media/wysiwyg/HB_Desktop-min_6.jpg",
     "https://www.soch.com/media/wysiwyg/HB_banner_Desktop-min_2.jpg",
-    "https://kalamandir.com/media/magiccart/magicslider/h/o/home-page-banner01.jpg",
+    "https://banarasiweaversshop.com/uploads/images/flash/banarasi_weavers_shop-banner3.jpg",
     "//naachiyars.in/cdn/shop/files/Artboard_3_0c498881-76bd-4f15-9329-6ace3333662b.jpg?v=1725001533"
   ];
 
   const mobileImages = [
     "https://www.soch.com/media/wysiwyg/HB_Mobile-min_6.jpg",
     "https://www.soch.com/media/wysiwyg/HB_banner_Mobile-min_2.jpg",
-    "https://kalamandir.com/media/magiccart/magicslider/mobile/m/o/mobile-banner01_1.jpg",
+    "https://rayethnic.com/cdn/shop/files/indian-summer-mobile-banner_1400x.webp?v=1715415127",
     "//naachiyars.in/cdn/shop/files/mob.jpg?v=1725001533"
   ];
 
