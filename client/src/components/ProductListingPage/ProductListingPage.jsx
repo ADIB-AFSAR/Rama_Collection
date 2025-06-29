@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProductStart } from '../../redux/action/product.action';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
+import { getToken } from '../../redux/service/token.service';
 
 function ProductListingPage() {
   const products = useSelector((state) => state.product.products);
@@ -17,6 +18,7 @@ function ProductListingPage() {
   const [selectedFilter, setSelectedFilter] = useState('');
   const [sortOrder, setSortOrder] = useState('none');
   const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
+  const [bannerUrl, setBannerUrl] = useState('');
   const [loading, setLoading] = useState(true); // State for loader
 
   const filterOptions = {
@@ -64,9 +66,49 @@ function ProductListingPage() {
   }, [categoryFilter]);
 
   useEffect(() => {
+    const fetchBanner = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/banner/all`, {
+          headers: {
+            Authorization: getToken(),
+          },
+        });
+
+        const data = await res.json();
+
+        if (!Array.isArray(data)) {
+          console.error('Unexpected response format:', data);
+          return;
+        }
+
+        const deviceType = isDesktop ? 'desktop' : 'mobile';
+
+        const banner = data.find(
+          (img) =>
+            img.device?.toLowerCase() === deviceType &&
+            img.type?.toLowerCase() === 'banner'
+        );
+
+        if (banner) {
+          setBannerUrl(banner.url);
+        }
+      } catch (err) {
+        console.error('Failed to load banner image:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBanner();
+  }, [isDesktop]);
+
+  useEffect(() => {
     let filtered = products?.filter((product) =>
       categoryFilter ? product?.category?.name === categoryFilter : true
     );
+
+    
 
     // Apply category-specific title filter
     if (selectedFilter) {
@@ -91,6 +133,10 @@ function ProductListingPage() {
     setFilteredProducts(filtered);
   }, [products, categoryFilter, selectedFilter, sortOrder, priceRange]);
 
+   if (loading) {
+    return <div className="text-center mt-3">Loading banner...</div>;
+  }
+
   return (
     <>
       <a onClick={() => window.history.back()}>
@@ -100,14 +146,16 @@ function ProductListingPage() {
         ></i>
       </a>
       <img
-        className="d-block w-100"
-        src={
-          isDesktop
-            ? '//naachiyars.in/cdn/shop/files/Site-offer-shipping.png?v=1728371856'
-            : 'https://naachiyars.in/cdn/shop/files/Site-offer-shipping-mobile.png?v=1728371856'
-        }
-        alt={`Banner Image`}
-      />
+      className="d-block w-100"
+      src={
+        bannerUrl ||
+        (isDesktop
+          ? '//naachiyars.in/cdn/shop/files/Site-offer-shipping.png?v=1728371856'
+          : 'https://naachiyars.in/cdn/shop/files/Site-offer-shipping-mobile.png?v=1728371856')
+      }
+      alt="Banner Image"
+      style={{ height: '300px',objectFit:"cover"}}
+    />
       <div className="container mx-auto px-0" style={{ width: '100%' }}>
         <div className="filters-section mb-4">
           {/* Filter Section */}

@@ -187,13 +187,23 @@ const handleSubmit = async (e) => {
       <td>{i + 1}</td>
       <td>{b.type}</td>
       <td>{b.device}</td>
-      <td>
-        <img src={b.url} alt="banner" width={150} className="img-thumbnail" />
+      <td className='d-flex justify-content-center'>
+        <img src={b.url} alt="banner" width={`${b.device == "desktop" ? '150px' : "75px" }`} className="img-thumbnail" />
       </td>
-      <td>{new Date(b.createdAt).toLocaleString()}</td>
+      <td>
+  {new Date(b.createdAt).toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: '2-digit'
+  })}{' '}
+  {new Date(b.createdAt).toLocaleTimeString('en-IN', {
+    hour: '2-digit',
+    minute: '2-digit'
+  })}
+</td>
       <td>
         <button className="btn btn-sm btn-danger" onClick={() => handleDelete(b._id)}>
-          Delete
+          <i className="bi bi-trash"></i>
         </button>
       </td>
     </tr>
