@@ -23,7 +23,7 @@ router.post('/upload', async (req, res) => {
     res.status(500).json({ error: 'Failed to upload image', err });
   }
 });
-router.delete('/banner/:id', authorization, async (req, res) => {
+router.delete('/:id', authorization, async (req, res) => {
     console.log("DELETE route hit with ID:", req.params.id);
   try {
     const bannerId = req.params.id;
