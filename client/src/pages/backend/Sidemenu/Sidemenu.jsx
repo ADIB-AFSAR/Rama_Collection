@@ -32,6 +32,7 @@ function Sidebar() {
               <Link to={'/admin/category'} className={`list-group-item text-decoration-none ${location.pathname.includes('category') ? 'bg-dark text-white' : 'bg-white'}`}>Category</Link>
               <Link to={'/admin/product'} className={`list-group-item text-decoration-none ${location.pathname.includes('product') ? 'bg-dark text-white' : 'bg-white'}`}>Product</Link>
               <Link to={'/admin/user'} className={`list-group-item text-decoration-none ${location.pathname.includes('user') ? 'bg-dark text-white' : 'bg-white'}`}>User</Link></>}
+              <Link to={'/admin/manage-banners'} className={`list-group-item text-decoration-none ${location.pathname.includes('manage-banners') ? 'bg-dark text-white' : 'bg-white'}`}>Manage Visuals</Link>
               <Link onClick={logout} className={`list-group-item text-danger text-decoration-none fw-bold`}>Logout</Link>
            </ul>
            </div>

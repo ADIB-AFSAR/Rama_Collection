@@ -25,6 +25,7 @@ import ContactUs from "../pages/frontend/ContactUs";
 import Shippingdetails from "../pages/frontend/Shippingdetails";
 import TermsCondition from "../pages/frontend/Terms&Condition";
 import PrivacyPolicy from "../pages/frontend/PrivacyPolicy";
+import ManageCarousel from "../pages/backend/manageCarousel/manageCarousel";
 // import Cart from "../pages/frontend/Cart";
 // import Thankyou from "../pages/frontend/Thankyou";
 // import Details from "../pages/frontend/Details";
@@ -91,6 +92,10 @@ function AppRouter() {
           <Route path="" element={<Users/>} />
           <Route path="create" element={<AddOrEditUser />} />
           <Route path="edit/:id" element={<AddOrEditUser />} />
+        </Route>
+
+        <Route path="manage-banners">
+          <Route path="" element={<ManageCarousel/>} />
         </Route>
 
         
