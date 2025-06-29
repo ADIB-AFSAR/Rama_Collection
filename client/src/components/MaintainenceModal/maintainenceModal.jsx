@@ -102,7 +102,7 @@ const MaintenanceModal = ({ currentUser }) => {
             <div style={contactTextStyle}>
               To order please connect on WhatsApp
               <a
-                href="https://wa.me/917205656169?text=Hey%2C%20I%20am%20interested%20in%20placing%20an%20order%20from%20your%20website."
+                href="https://wa.me/917263025531?text=Hey%2C%20I%20am%20interested%20in%20placing%20an%20order%20from%20your%20website."
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Chat on WhatsApp"
