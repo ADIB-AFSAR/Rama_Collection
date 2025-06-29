@@ -1,6 +1,6 @@
 const express = require('express')
 const ImageAsset = require('../../models/image.model');
-
+const { authorization } = require('../../middleware/authorization.middleware');
 const router = express.Router();
 
 // GET: Get all uploaded images
@@ -23,7 +23,22 @@ router.post('/upload', async (req, res) => {
     res.status(500).json({ error: 'Failed to upload image', err });
   }
 });
+router.delete('/banner/:id', authorization, async (req, res) => {
+    console.log("DELETE route hit with ID:", req.params.id);
+  try {
+    const bannerId = req.params.id;
+    const deleted = await ImageAsset.findByIdAndDelete(bannerId);
 
+    if (!deleted) {
+      return res.status(404).json({ message: 'Banner not found' });
+    }
+
+    res.status(200).json({ message: 'Banner deleted successfully' });
+  } catch (err) {
+    console.error('Delete banner error:', err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 // GET: Get images by type and device
 router.get('/:type/:device', async (req, res) => {
   const { type, device } = req.params;
@@ -34,6 +49,9 @@ router.get('/:type/:device', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch images', err });
   }
 });
+// delete :delete images by their id
+
+
 
 
 

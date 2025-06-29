@@ -25,7 +25,7 @@ function ManageBanners() {
                     Authorization: getToken()
                 }
             });
-            setBanners(res.data.banners);
+           setBanners(res.data);
         } catch (err) {
             console.error('Failed to fetch banners:', err.message);
         }
@@ -36,42 +36,47 @@ function ManageBanners() {
         setSelectedFile(e.target.files[0]);
     };
 
-    const handleImageUpload = async (file) => {
-  const formData = new FormData();
-  formData.append("image", file);
+    const handleDelete = async (id) => {
+        console.log(id)
+  const confirmDelete = window.confirm("Are you sure you want to delete this banner?");
+  if (!confirmDelete) return;
 
   try {
-    const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/admin/upload`, formData, {
-      headers: { 
-        "Content-Type": "multipart/form-data",
-        Authorization: getToken() },
-    });
-
-    return res.data.url; // Use this URL for your carousel
+    await axios.delete(
+      `${process.env.REACT_APP_API_URL}/api/admin/banner/${id}`,
+      {
+        headers: { Authorization: getToken() }
+      }
+    );
+    alert("Banner deleted!");
+    fetchBanners(); // refresh list
   } catch (err) {
-    console.error("Upload failed", err);
+    console.error("Delete failed:", err.response?.data || err.message);
+    alert("Delete failed!");
   }
 };
+
+
+
 const handleSubmit = async (e) => {
   e.preventDefault();
   if (!selectedFile) return;
 
   setUploading(true);
   try {
-    // 1. Upload image to Cloudinary
+    // 1. Upload image directly to Cloudinary
     const formData = new FormData();
-    formData.append("image", selectedFile);
+    formData.append("file", selectedFile);
+    formData.append("upload_preset", "unsigned_upload"); // replace with your preset
 
-    const uploadRes = await axios.post(`${process.env.REACT_APP_API_URL}/api/admin/upload`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: getToken()
-      },
-    });
+    const cloudinaryRes = await axios.post(
+      `https://api.cloudinary.com/v1_1/dssga1s2j/image/upload`,
+      formData
+    );
 
-    const cloudinaryUrl = uploadRes.data.url;
+    const cloudinaryUrl = cloudinaryRes.data.secure_url;
 
-    // 2. Save image metadata to MongoDB
+    // 2. Save Cloudinary image URL to your backend
     await axios.post(
       `${process.env.REACT_APP_API_URL}/api/admin/banner/upload`,
       {
@@ -82,22 +87,19 @@ const handleSubmit = async (e) => {
       {
         headers: {
           Authorization: getToken(),
-          "Content-Type": "application/json",
         },
       }
     );
 
-    // 3. Refresh the banner list
     fetchBanners();
     alert("Banner uploaded successfully!");
-    setSelectedFile(null); // clear file input
+    setSelectedFile(null);
   } catch (err) {
-    console.error("Banner upload failed:", err);
+    console.error("Upload failed:", err);
     alert("Upload failed!");
   }
   setUploading(false);
 };
-
 
 
     return (
@@ -176,18 +178,26 @@ const handleSubmit = async (e) => {
                                                     <th>Device</th>
                                                     <th>Image</th>
                                                     <th>Uploaded At</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {banners.map((b, i) => (
-                                                    <tr key={b._id}>
-                                                        <td>{i + 1}</td>
-                                                        <td>{b.type}</td>
-                                                        <td>{b.device}</td>
-                                                        <td><img src={b.imageUrl} alt="banner" width={150} className='img-thumbnail' /></td>
-                                                        <td>{new Date(b.createdAt).toLocaleString()}</td>
-                                                    </tr>
-                                                ))}
+    <tr key={b._id}>
+      <td>{i + 1}</td>
+      <td>{b.type}</td>
+      <td>{b.device}</td>
+      <td>
+        <img src={b.url} alt="banner" width={150} className="img-thumbnail" />
+      </td>
+      <td>{new Date(b.createdAt).toLocaleString()}</td>
+      <td>
+        <button className="btn btn-sm btn-danger" onClick={() => handleDelete(b._id)}>
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))}
                                             </tbody>
                                         </table>
                                     </div>
