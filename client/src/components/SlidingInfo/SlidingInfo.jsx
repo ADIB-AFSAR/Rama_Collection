@@ -8,7 +8,7 @@ const SlidingInfo = () => {
   useEffect(() => {
     const fetchSlidingText = async () => {
       try {
-        const res = await axios.get('/api/visual/slidingText');
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/banner/slidingtext`);
         setText(res.data?.text || 'Welcome to our store!');
       } catch (err) {
         console.error('Error fetching sliding text:', err);
@@ -20,7 +20,7 @@ const SlidingInfo = () => {
 
   return (
     <div className="running-text-container glowing-text">
-      <div className="running-text small fw-semibold">
+      <div className="running-text small fw-bold">
         {text}
       </div>
     </div>

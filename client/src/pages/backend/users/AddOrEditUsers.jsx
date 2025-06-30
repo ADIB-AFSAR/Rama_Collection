@@ -5,6 +5,7 @@ import Sidebar from '../Sidemenu/Sidemenu';
 import '../backend.css';
 import { addUserStart, registerUserStart, updateUserStart } from '../../../redux/action/user.acton'; // Ensure actions are correctly imported
 import {useFormData} from '../../../hooks/useFormData'; // Assuming you have this custom hook
+import {toast} from "react-toastify"
 
 const initialState = {
   name: '', 
@@ -32,12 +33,17 @@ function AddOrEditUser() {
   const { name, email, contact, status, password, role } = formData;
 
   const submit = async (event) => {
+    
     event.preventDefault();
     if (id) {
       await dispatch(updateUserStart({ ...formData, id }));
+      console.log("updated user")
+      
     } else {
       await dispatch(registerUserStart(formData));
+      
     }
+    console.error("submit hit")
     navigate('/admin/user');
   };
 

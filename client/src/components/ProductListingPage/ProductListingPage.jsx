@@ -5,6 +5,7 @@ import { getProductStart } from '../../redux/action/product.action';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { getToken } from '../../redux/service/token.service';
+import { Spinner } from 'react-bootstrap';
 
 function ProductListingPage() {
   const products = useSelector((state) => state.product.products);
@@ -134,7 +135,7 @@ function ProductListingPage() {
   }, [products, categoryFilter, selectedFilter, sortOrder, priceRange]);
 
    if (loading) {
-    return <div className="text-center mt-3">Loading banner...</div>;
+    return <div className="text-center mt-3"><Spinner/></div>;
   }
 
   return (

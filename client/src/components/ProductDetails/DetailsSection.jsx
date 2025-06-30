@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { addCartStart, deleteCartStart, getCartStart } from '../../redux/action/cart.action';
 import { addToWishlistStart, getWishListStart, removeFromWishlistStart } from '../../redux/action/wishlist.action';
 import { Spinner } from 'react-bootstrap'; // Import Spinner from react-bootstrap
+import { toast } from 'react-toastify';
 
 const DetailsSection = ({ CurrentProductDetails }) => {
   const currentUser = useSelector(state => state.user.currentUser);
@@ -33,10 +34,12 @@ const DetailsSection = ({ CurrentProductDetails }) => {
       if (isInWishlist) {
         dispatch(removeFromWishlistStart(data));
         setIsInWishlist(false);
+        toast.success("Item removed from wishlist")
         localStorage.removeItem(`wishlist-${productId}`);
       } else {
         dispatch(addToWishlistStart(data));
         setIsInWishlist(true);
+        toast.success('Item added to wishlist')
         localStorage.setItem(`wishlist-${productId}`, true);
       }
       dispatch(getWishListStart(currentUser?.id))
@@ -78,12 +81,14 @@ const DetailsSection = ({ CurrentProductDetails }) => {
       handleDelete(product._id);
       setIsAddedToCart(false);
       localStorage.removeItem(`cart-${product._id}`);
+      toast.success('Item removed from cart')
     } else {
       setLoading(true); // Start loading
       dispatch(addCartStart(product)); // Dispatch action to add to cart
       setTimeout(() => {
         setIsAddedToCart(true);
         localStorage.setItem(`cart-${product._id}`, true);
+        toast.success('Item added to cart')
         setLoading(false); // Stop loading after 3 seconds
       }, 3000); // Simulate delay of 3 seconds
     }

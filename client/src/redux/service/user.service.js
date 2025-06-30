@@ -118,29 +118,33 @@ export const registerUserToAPI = async (payload) => {
 };
 
 export const loginUserToAPI = async (payload) => {
-    console.log("service:",payload ,"BASE URL", `${process.env.REACT_APP_API_URL}/api/login`)
-    try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
-            method: 'POST',
-            body: JSON.stringify(payload),
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+  console.log("service:", payload, "BASE URL", `${process.env.REACT_APP_API_URL}/api/login`);
 
-        if (!response.ok) {
-            throw new Error(`Error logging in: ${response.statusText}`);
-        }
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
 
-        const data = await response.json();
-        console.log('token',data)
-        if (data.token) {
-            localStorage.setItem('jwt_token', data.token);
-            localStorage.setItem('currentUser', JSON.stringify(data.user));
-        }
-        
-        return data;
-    } catch (error) {
-        console.error(error);
+    const data = await response.json(); // parse even on error to get the message
+
+    if (!response.ok) {
+      // Throw structured error so saga can read .message
+      throw new Error(data.message || `Error logging in: ${response.statusText}`);
     }
+
+    if (data.token) {
+      localStorage.setItem('jwt_token', data.token);
+      localStorage.setItem('currentUser', JSON.stringify(data.user));
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Login error in service:", error);
+    throw error; // ✅ re-throw so saga can catch it
+  }
 };
+

@@ -5,6 +5,7 @@ import '../backend.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormData } from '../../../hooks/useFormData';
 import { addCategoryStart, updateCategoryStart } from '../../../redux/action/category.action';
+import {toast} from "react-toastify"
 
 const initialState = {
   name: '',
@@ -24,8 +25,10 @@ function AddOrEditCategories() {
     event.preventDefault();
     if (id) {
       dispatch(updateCategoryStart(formData));
+      toast.success("Category updated successfully")
     } else {
       dispatch(addCategoryStart(formData));
+      toast.success("Category added successfully")
     }
     navigate('/admin/category');
   };

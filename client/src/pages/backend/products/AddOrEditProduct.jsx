@@ -6,6 +6,7 @@ import { useFormData } from '../../../hooks/useFormData'; // Assuming you have a
 import { updateProductStart, addProductStart } from '../../../redux/action/product.action'; // Import your action creators
 import {getCategoryStart} from '../../../redux/action/category.action'
 import '../backend.css';
+import {toast} from "react-toastify"
 
 const initialState = {
   name: '',
@@ -48,9 +49,11 @@ function AddOrEditProducts() {
     if (id) {
       console.log("update start")
       dispatch(updateProductStart(formData));
+      toast.success("Product updated successfully")
     } else {
       console.log("add start")
       dispatch(addProductStart(formData));
+      toast.success("Product added successfully")
     }
     setTimeout(() => {
       navigate('/admin/product');

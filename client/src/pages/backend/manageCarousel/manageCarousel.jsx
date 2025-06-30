@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Spinner } from 'react-bootstrap';
+import { Spinner} from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import Sidebar from '../Sidemenu/Sidemenu';
 import { getToken } from '../../../redux/service/token.service';
@@ -13,8 +14,13 @@ function ManageBanners() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [slidingText, setSlidingText] = useState('');
-    const [slideSuccess, setSlideSuccess] = useState('');
-    const [slideError, setSlideError] = useState('');
+const [slidingTextInput, setSlidingTextInput] = useState('');
+const [slideSuccess, setSlideSuccess] = useState('');
+const [slideError, setSlideError] = useState('');
+const [slideLoading, setSlideLoading] = useState(false);
+
+
+
 
 // Fetch current sliding text
 useEffect(() => {
@@ -34,19 +40,26 @@ const handleSlidingTextSubmit = async (e) => {
   e.preventDefault();
   setSlideSuccess('');
   setSlideError('');
+  setSlideLoading(true); 
 
   try {
-    const res = await axios.post(
+    await axios.post(
       `${process.env.REACT_APP_API_URL}/api/admin/banner/slidingText`,
-      { text: slidingText },
+      { text: slidingTextInput },
       { headers: { Authorization: getToken() } }
     );
+
     setSlideSuccess('Sliding text updated successfully!');
+    setSlidingTextInput(''); // clear input
+    fetchSlidingText();      // refresh preview from backend
   } catch (err) {
     setSlideError('Failed to update sliding text.');
     console.error(err);
   }
+  setSlideLoading(false);
 };
+
+
 
     useEffect(() => {
         fetchBanners();
@@ -83,11 +96,11 @@ const handleSlidingTextSubmit = async (e) => {
         headers: { Authorization: getToken() }
       }
     );
-    alert("Banner deleted!");
+    toast.success("Banner deleted!");
     fetchBanners(); // refresh list
   } catch (err) {
     console.error("Delete failed:", err.response?.data || err.message);
-    alert("Delete failed!");
+    toast.error("Delete failed!");
   }
 };
 
@@ -97,12 +110,24 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   if (!selectedFile) return;
 
+  // ✅ Allow multiple carousel banners, but only one "banner" type per device
+  const isBannerType = type === "banner";
+
+  const bannerExists = isBannerType
+    ? banners.some(b => b.device === device && b.type === "banner")
+    : false;
+
+  if (bannerExists) {
+    toast.error(`Only one Product Listing Banner allowed for ${device}. Please delete the existing one first.`);
+    return;
+  }
+
   setUploading(true);
+
   try {
-    // 1. Upload image directly to Cloudinary
     const formData = new FormData();
     formData.append("file", selectedFile);
-    formData.append("upload_preset", "unsigned_upload"); // replace with your preset
+    formData.append("upload_preset", "unsigned_upload");
 
     const cloudinaryRes = await axios.post(
       `https://api.cloudinary.com/v1_1/dssga1s2j/image/upload`,
@@ -111,7 +136,6 @@ const handleSubmit = async (e) => {
 
     const cloudinaryUrl = cloudinaryRes.data.secure_url;
 
-    // 2. Save Cloudinary image URL to your backend
     await axios.post(
       `${process.env.REACT_APP_API_URL}/api/admin/banner/upload`,
       {
@@ -127,20 +151,32 @@ const handleSubmit = async (e) => {
     );
 
     fetchBanners();
-    alert("Banner uploaded successfully!");
+    toast.success("Banner uploaded successfully!");
+
+    // ✅ Clear input fields
     setSelectedFile(null);
+    setDevice("desktop");
+    setType("carousel");
+
+    const fileInput = document.getElementById("fileUpload");
+    if (fileInput) fileInput.value = "";
+
   } catch (err) {
     console.error("Upload failed:", err);
-    alert("Upload failed!");
+    toast.error("Upload failed!");
   }
+
   setUploading(false);
 };
 
 
+
+
+
     return (
         <>
-            <div className="container-fluid page-header mt-2">
-                <h1 className="text-center display-6">Manage Banners & Carousel</h1>
+            <div className="container-fluid page-header mt-3">
+                <h1 className="text-center">Manage Banners , Carousel & Sliding Text</h1>
             </div>
              
             <div className='container pt-4'>
@@ -148,140 +184,178 @@ const handleSubmit = async (e) => {
                     <Sidebar />
                     <div className="card col-9 order shadow">
                         <div className="card-body">
-                            <div className="card-header bg-dark d-flex justify-content-between">
+                            {/* <div className="card-header bg-dark d-flex justify-content-between">
                                 <h4 className="card-title text-white fw-bold">Upload New Banner</h4>
-                            </div>
+                            </div> */}
 {/* Sliding Text Update Section */}
 <div className="card mb-4 mt-4 shadow">
   <div className="card-header bg-dark text-white">
-    <h5 className="mb-0">Update Sliding Info Text</h5>
+    <h5 className="mb-0 small fw-semibold">Update Sliding Text</h5>
   </div>
   <div className="card-body">
     <form onSubmit={handleSlidingTextSubmit}>
-      <div className="mb-3">
-        <label htmlFor="slidingText" className="form-label">Enter Sliding Text</label>
-        <textarea
-          id="slidingText"
-          className="form-control"
-          rows="2"
-          value={slidingText}
-          onChange={(e) => setSlidingText(e.target.value)}
-          placeholder="e.g. Extra 40% off on all products"
-        ></textarea>
-      </div>
-      <button type="submit" className="btn btn-success">Update Text</button>
-      {slideSuccess && <div className="text-success mt-2">{slideSuccess}</div>}
-      {slideError && <div className="text-danger mt-2">{slideError}</div>}
-    </form>
+  <div className="mb-3">
+    <label htmlFor="slidingText" className="form-label">Enter Sliding Text</label>
+    <textarea
+      id="slidingText"
+      className="form-control"
+      rows="1"
+      value={slidingTextInput}
+      onChange={(e) => setSlidingTextInput(e.target.value)}
+      placeholder="e.g. Extra 40% off on all products"
+    ></textarea>
+  </div>
+  <button type="submit" className="btn btn-primary btn-sm" disabled={slideLoading}>
+  {slideLoading ? (
+    <>
+      <Spinner animation="border" size="sm" className="me-2" />
+      Updating...
+    </>
+  ) : (
+    'Update Text'
+  )}
+</button>
+  {slideSuccess && <div className="text-success mt-2">{slideSuccess}</div>}
+  {slideError && <div className="text-danger mt-2">{slideError}</div>}
+</form>
     <hr />
-<h6 className="mt-3">Preview:</h6>
+<h6 className="mt-3 small fw-bold">Current Preview:</h6>
 <div className="running-text-container glowing-text mt-2">
   <div className="running-text small fw-semibold">
-    {slidingText || 'Your sliding text will appear here...'}
+    {slidingTextInput || slidingText || 'Your sliding text will appear here...'}
   </div>
 </div>
   </div>
   
 </div>
 
-                            {/* Upload Form */}
-                            <form onSubmit={handleSubmit} className="mt-4">
-                                <div className="mb-3">
-                                    <label htmlFor="fileUpload" className="form-label">Select Image</label>
-                                    <input
-                                        type="file"
-                                        id="fileUpload"
-                                        accept="image/*"
-                                        className="form-control"
-                                        onChange={handleFileChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-6 mb-3">
-                                        <label htmlFor="type" className="form-label">Type</label>
-                                        <select
-                                            id="type"
-                                            className="form-select"
-                                            value={type}
-                                            onChange={(e) => setType(e.target.value)}
-                                        >
-                                            <option value="carousel">Carousel</option>
-                                            <option value="banner">Product Listing Banner</option>
-                                        </select>
-                                    </div>
-                                    <div className="col-md-6 mb-3">
-                                        <label htmlFor="device" className="form-label">Device</label>
-                                        <select
-                                            id="device"
-                                            className="form-select"
-                                            value={device}
-                                            onChange={(e) => setDevice(e.target.value)}
-                                        >
-                                            <option value="desktop">Desktop</option>
-                                            <option value="mobile">Mobile</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <button type="submit" className="btn btn-primary" disabled={uploading}>
-                                    {uploading ? "Uploading..." : "Upload"}
-                                </button>
-                            </form>
+ {/* Upload Banner Card */}
+<div className="card shadow mt-4">
+  <div className="card-header bg-dark text-white">
+    <h5 className="mb-0 small fw-semibold">Upload New Banner</h5>
+  </div>
+  <div className="card-body">
+    <form onSubmit={handleSubmit}>
+      <div className="mb-3">
+        <label htmlFor="fileUpload" className="form-label">Select Image</label>
+        <input
+          type="file"
+          id="fileUpload"
+          accept="image/*"
+          className="form-control"
+          onChange={handleFileChange}
+          required
+        />
+      </div>
 
-                            {/* Uploaded Banners Table */}
-                            <div className="mt-5">
-                                <h5 className="fw-bold">Uploaded Banners</h5>
-                                {loading ? (
-                                    <div className="spinner-container text-center mt-3">
-                                        <Spinner animation="border" size="sm" className="text-primary spinner" />
-                                    </div>
-                                ) : banners?.length > 0 ? (
-                                    <div className="table-responsive mt-3">
-                                        <table className="table table-bordered table-hover">
-                                            <thead className="table-dark">
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Type</th>
-                                                    <th>Device</th>
-                                                    <th>Image</th>
-                                                    <th>Uploaded At</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {banners.map((b, i) => (
-    <tr key={b._id}>
-      <td>{i + 1}</td>
-      <td>{b.type}</td>
-      <td>{b.device}</td>
-      <td className='d-flex justify-content-center'>
-        <img src={b.url} alt="banner" width={`${b.device == "desktop" ? '150px' : "75px" }`} className="img-thumbnail" />
-      </td>
-      <td>
-  {new Date(b.createdAt).toLocaleDateString('en-IN', {
-    day: '2-digit',
-    month: 'short',
-    year: '2-digit'
-  })}{' '}
-  {new Date(b.createdAt).toLocaleTimeString('en-IN', {
-    hour: '2-digit',
-    minute: '2-digit'
-  })}
-</td>
-      <td>
-        <button className="btn btn-sm btn-danger" onClick={() => handleDelete(b._id)}>
-          <i className="bi bi-trash"></i>
-        </button>
-      </td>
-    </tr>
-  ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                ) : (
-                                    <div className="text-center mt-3">No banners uploaded yet.</div>
-                                )}
-                            </div>
+      <div className="row">
+        <div className="col-md-6 mb-3">
+          <label htmlFor="type" className="form-label">Type</label>
+          <select
+            id="type"
+            className="form-select"
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+          >
+            <option value="carousel">Carousel</option>
+            <option value="banner">Product Listing Banner</option>
+          </select>
+        </div>
+        <div className="col-md-6 mb-3">
+          <label htmlFor="device" className="form-label">Device</label>
+          <select
+            id="device"
+            className="form-select"
+            value={device}
+            onChange={(e) => setDevice(e.target.value)}
+          >
+            <option value="desktop">Desktop</option>
+            <option value="mobile">Mobile</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" className="btn btn-primary" disabled={uploading}>
+  {uploading ? (
+    <>
+      <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      Uploading...
+    </>
+  ) : (
+    "Upload"
+  )}
+</button>
+    </form>
+  </div>
+</div>
+
+{/* Uploaded Banners Table Card */}
+<div className="card shadow mt-5">
+  <div className="card-header bg-dark text-white">
+    <h5 className="mb-0 small fw-semibold">Uploaded Banners</h5>
+  </div>
+  <div className="card-body">
+    {loading ? (
+      <div className="spinner-container text-center mt-3">
+        <Spinner animation="border" size="sm" className="text-primary spinner" />
+      </div>
+    ) : banners?.length > 0 ? (
+      <div className="table-responsive mt-3">
+        <table className="table table-bordered table-hover">
+          <thead className="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Type</th>
+              <th>Device</th>
+              <th>Image</th>
+              <th>Uploaded At</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {banners.map((b, i) => (
+              <tr key={b._id}>
+                <td>{i + 1}</td>
+                <td>{b.type}</td>
+                <td>{b.device}</td>
+                <td className='d-flex justify-content-center'>
+                  <img
+                    src={b.url}
+                    alt="banner"
+                    width={b.device === "desktop" ? "150px" : "75px"}
+                    className="img-thumbnail"
+                  />
+                </td>
+                <td>
+                  {new Date(b.createdAt).toLocaleDateString('en-IN', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: '2-digit'
+                  })}{' '}
+                  {new Date(b.createdAt).toLocaleTimeString('en-IN', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
+                </td>
+                <td>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => handleDelete(b._id)}
+                  >
+                    <i className="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ) : (
+      <div className="text-center mt-3">No banners uploaded yet.</div>
+    )}
+  </div>
+</div>
+
                         </div>
                     </div>
                 </div>

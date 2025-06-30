@@ -24,7 +24,7 @@
     }
   }
   .glowing-text {
-    font-size: 1rem;
+    font-size: .8rem;
     font-weight: bold;
     color: #fff;
     text-align: center;
@@ -32,6 +32,12 @@
     letter-spacing: 5px;
     animation: glow 1s ease-in-out infinite alternate;
   }
+
+  @media screen and (max-width: 480px) {
+  .running-text {
+    font-size: .5rem;
+  }
+}
   
   @keyframes glow {
     0% {
