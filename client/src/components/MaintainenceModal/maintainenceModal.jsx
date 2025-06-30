@@ -19,6 +19,7 @@ const MaintenanceModal = ({ currentUser }) => {
   }, []);
 
   const glowKeyframes = `
+   
     @keyframes glow {
       from {
         text-shadow: 0 0 5px #fff, 0 0 10px #ff00de, 0 0 20px #ff00de;

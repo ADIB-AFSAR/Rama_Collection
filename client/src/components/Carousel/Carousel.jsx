@@ -31,6 +31,7 @@ function ImageCarousel() {
         });
 
         const data = await res.json();
+        console.log(data)
 
         const device = isDesktop ? 'desktop' : 'mobile';
         const filtered = Array.isArray(data)
@@ -43,6 +44,7 @@ function ImageCarousel() {
 
         if (isMounted) {
           filtered.forEach((img) => preload(img.url));
+          console.log(filtered , "filtered")
           setImages(filtered.map((img) => img.url));
           setLoading(false);
         }
@@ -61,22 +63,12 @@ function ImageCarousel() {
     };
   }, [isDesktop]);
 
-  if (loading || images.length === 0) {
-    // ✅ Phase 1: Show fallback immediately, even during load
-    return (
-      <img
-        src={fallbackFirstImage}
-        alt="Initial banner"
-        className="d-block w-100"
-        style={{ objectFit: 'cover', height: '400px' }}
-      />
-    );
-  }
+  const carouselImages = images.length > 0 ? images : [fallbackFirstImage];
 
   // ✅ Phase 2: Render carousel after images are ready
   return (
-    <Carousel interval={3000} pause="hover">
-      {images.map((src, index) => (
+    <Carousel interval={3000} pause={false}>
+      {carouselImages?.map((src, index) => (
         <Carousel.Item key={index}>
           <img
             className="d-block w-100"

@@ -12,8 +12,18 @@ router.get('/all', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch all images', err });
   }
 });
+// GET: Get images by type and device
+router.get('/:type/:device', async (req, res) => {
+  const { type, device } = req.params;
+  try {
+    const images = await ImageAsset.find({ type, device });
+    res.status(200).json(images);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch images', err });
+  }
+});
 // POST: Upload a new image
-router.post('/upload', async (req, res) => {
+router.post('/upload',authorization, async (req, res) => {
   const { url, device, type } = req.body;
   try {
     const newImage = new ImageAsset({ url, device, type });
@@ -39,16 +49,7 @@ router.delete('/:id', authorization, async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
-// GET: Get images by type and device
-router.get('/:type/:device', async (req, res) => {
-  const { type, device } = req.params;
-  try {
-    const images = await ImageAsset.find({ type, device });
-    res.status(200).json(images);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch images', err });
-  }
-});
+
 // delete :delete images by their id
 
 
