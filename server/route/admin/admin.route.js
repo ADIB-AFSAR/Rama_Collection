@@ -7,7 +7,8 @@ const orderRoute = require('./order.route')
 const visualRoute = require('./visual.route')
 const {authorization} = require('../../middleware/authorization.middleware')
  
-router.use('/banner', visualRoute);
+router.use('/banner', visualRoute); //this route runs without JWT
+
 router.use(authorization)
 router.use('/category',categoryRoute)
 router.use('/product', productRoute)

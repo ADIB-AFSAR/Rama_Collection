@@ -12,6 +12,41 @@ function ManageBanners() {
     const [device, setDevice] = useState('desktop');
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploading, setUploading] = useState(false);
+    const [slidingText, setSlidingText] = useState('');
+    const [slideSuccess, setSlideSuccess] = useState('');
+    const [slideError, setSlideError] = useState('');
+
+// Fetch current sliding text
+useEffect(() => {
+  fetchSlidingText();
+}, []);
+
+const fetchSlidingText = async () => {
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/banner/slidingText`);
+    setSlidingText(res.data?.text || '');
+  } catch (err) {
+    console.error('Error fetching sliding text:', err);
+  }
+};
+
+const handleSlidingTextSubmit = async (e) => {
+  e.preventDefault();
+  setSlideSuccess('');
+  setSlideError('');
+
+  try {
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/admin/banner/slidingText`,
+      { text: slidingText },
+      { headers: { Authorization: getToken() } }
+    );
+    setSlideSuccess('Sliding text updated successfully!');
+  } catch (err) {
+    setSlideError('Failed to update sliding text.');
+    console.error(err);
+  }
+};
 
     useEffect(() => {
         fetchBanners();
@@ -107,7 +142,7 @@ const handleSubmit = async (e) => {
             <div className="container-fluid page-header mt-2">
                 <h1 className="text-center display-6">Manage Banners & Carousel</h1>
             </div>
-
+             
             <div className='container pt-4'>
                 <div className='row'>
                     <Sidebar />
@@ -116,6 +151,38 @@ const handleSubmit = async (e) => {
                             <div className="card-header bg-dark d-flex justify-content-between">
                                 <h4 className="card-title text-white fw-bold">Upload New Banner</h4>
                             </div>
+{/* Sliding Text Update Section */}
+<div className="card mb-4 mt-4 shadow">
+  <div className="card-header bg-dark text-white">
+    <h5 className="mb-0">Update Sliding Info Text</h5>
+  </div>
+  <div className="card-body">
+    <form onSubmit={handleSlidingTextSubmit}>
+      <div className="mb-3">
+        <label htmlFor="slidingText" className="form-label">Enter Sliding Text</label>
+        <textarea
+          id="slidingText"
+          className="form-control"
+          rows="2"
+          value={slidingText}
+          onChange={(e) => setSlidingText(e.target.value)}
+          placeholder="e.g. Extra 40% off on all products"
+        ></textarea>
+      </div>
+      <button type="submit" className="btn btn-success">Update Text</button>
+      {slideSuccess && <div className="text-success mt-2">{slideSuccess}</div>}
+      {slideError && <div className="text-danger mt-2">{slideError}</div>}
+    </form>
+    <hr />
+<h6 className="mt-3">Preview:</h6>
+<div className="running-text-container glowing-text mt-2">
+  <div className="running-text small fw-semibold">
+    {slidingText || 'Your sliding text will appear here...'}
+  </div>
+</div>
+  </div>
+  
+</div>
 
                             {/* Upload Form */}
                             <form onSubmit={handleSubmit} className="mt-4">

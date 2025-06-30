@@ -1,6 +1,7 @@
 const express = require('express')
 const ImageAsset = require('../../models/image.model');
 const { authorization } = require('../../middleware/authorization.middleware');
+const SlidingText = require('../../models/slidingText.model')
 const router = express.Router();
 
 // GET: Get all uploaded images
@@ -33,7 +34,10 @@ router.post('/upload',authorization, async (req, res) => {
     res.status(500).json({ error: 'Failed to upload image', err });
   }
 });
-router.delete('/:id', authorization, async (req, res) => {
+
+
+// delete :delete images by their id
+    router.delete('/:id', authorization, async (req, res) => {
     console.log("DELETE route hit with ID:", req.params.id);
   try {
     const bannerId = req.params.id;
@@ -50,10 +54,18 @@ router.delete('/:id', authorization, async (req, res) => {
   }
 });
 
-// delete :delete images by their id
+// GET latest sliding text
+router.get('/slidingText', async (req, res) => {
+  const text = await SlidingText.findOne().sort({ _id: -1 });
+  res.json(text);
+});
 
-
-
-
+// POST new sliding text (protected)
+router.post('/slidingText', authorization, async (req, res) => {
+  const { text } = req.body;
+  const newText = new SlidingText({ text });
+  await newText.save();
+  res.json(newText);
+});
 
 module.exports = router;
