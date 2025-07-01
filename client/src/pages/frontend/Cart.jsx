@@ -106,6 +106,7 @@ const CartSidebar = ({ cartSidebarOpen, toggleCartSidebar }) => {
                       <h5 className='fs-6'>{item?.product?.name}</h5>
                       <p className='fw-normal text-end d-flex justify-content-between'>
                       <span className="cart-item-price fw-semibold">INR {item?.product?.price}</span> 
+                      {item?.selectedSize && <p>Size :{item?.selectedSize}</p>}
                         {/* Show delete button with loader */}
                         <button
               style={{cursor:"pointer"}}

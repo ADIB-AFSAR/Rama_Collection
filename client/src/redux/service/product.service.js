@@ -22,29 +22,45 @@ export const getProductFromAPI = async () => {
 };
 
 export const addProductToAPI = async (payload) => {
-    const formData = new FormData();
-    for (const key in payload) {
-        formData.append(key, payload[key]);
-    }
+  const formData = new FormData();
 
-    try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/product/store`, {
-            method: 'POST',
-            body: formData,
-            headers: { 
-                'Authorization': getToken()
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error adding product: ${response.statusText}`);
+  for (const key in payload) {
+    if (key === 'sizes' && Array.isArray(payload[key])) {
+      payload[key].forEach(size => {
+        formData.append('sizes', size); // ✅ Append each size
+      });
+    } else if (key === 'images' && Array.isArray(payload[key])) {
+      payload[key].forEach(file => {
+        if (file instanceof File) {
+          formData.append('images', file); // ✅ Append each image
         }
-
-        return await response.json();
-    } catch (error) {
-        console.error(error);
+      });
+    } else {
+      formData.append(key, payload[key]); // ✅ Normal fields
     }
+  }
+
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/product/store`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Authorization': getToken() // ⚠️ Don't set 'Content-Type' manually
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error adding product: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Add product failed:', error);
+    throw error;
+  }
 };
+
+
 
 export const deleteProductFromAPI = async (id) => { 
     try {
@@ -65,28 +81,50 @@ export const deleteProductFromAPI = async (id) => {
     }
 };
 
-export const updateProductFromAPI = async (product) => {
-    console.log(product)
-    const formData = new FormData();
-    for (const key in product) {
-        formData.append(key, product[key]);
-    }
+export const updateProductFromAPI = async (payload) => {
+  const formData = new FormData();
+  console.log(payload)
 
-    try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/product/update/${product._id}`, {
-            method: 'POST',
-            body: formData,
-            headers: { 
-                'Authorization': getToken()
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error updating product: ${response.statusText}`);
+  for (const key in payload) {
+    if (key === 'sizes' && Array.isArray(payload[key])) {
+      payload[key].forEach(size => {
+        formData.append('sizes', size); // ✅ Add each size individually
+      });
+    } else if (key === 'images' && Array.isArray(payload[key])) {
+      payload[key].forEach(file => {
+        if (file instanceof File) {
+          formData.append('images', file); // ✅ Add each file individually
         }
-
-        return await response.json();
-    } catch (error) {
-        console.error(error);
+      });
+    } else {
+      formData.append(key, payload[key]);
     }
+  }
+
+  // Debug: Log FormData
+  for (let pair of formData.entries()) {
+    console.log(pair[0] + ':', pair[1]);
+  }
+
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/product/update/${payload._id}`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Authorization': getToken()
+        // ⚠️ Do not manually set 'Content-Type'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error updating product: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
+
+

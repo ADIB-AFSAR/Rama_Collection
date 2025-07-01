@@ -25,28 +25,29 @@ export const getCartFromAPI = async () => {
 };
 
 export const addCartToAPI = async (product) => {
-    console.log(product)
-    try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/cart/add/${product._id}`, {
-            method: 'POST',
-            body : JSON.stringify(product),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': getToken(),
-            },
-        });
+   console.warn(product)
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/cart/add/${product._id}`, {
+      method: 'POST',
+      body: JSON.stringify(product),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': getToken(),
+      },
+    });
 
-        if (!response.ok) {
-            throw new Error(`Error adding product: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        console.log(data, "Added");
-        return data; // Return data for further use if needed
-    } catch (error) {
-        console.error(error);
+    if (!response.ok) {
+      throw new Error(`Error adding product: ${response.statusText}`);
     }
+
+    const data = await response.json();
+    console.log(data, "Added");
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 };
+
 
 export const updateCartToApi = async (product) => {
     try {

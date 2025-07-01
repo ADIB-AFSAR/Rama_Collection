@@ -10,7 +10,7 @@ function Products() {
   const products = useSelector(state => state.product?.products);
   const [loading , setLoading] = useState(false)
   const dispatch = useDispatch();
-  // console.log(products)
+  console.log(products[31].enableSize)
 
   const handleDelete = (productId) => {
     if (window.confirm("Are you sure you want to delete this product?")){
@@ -44,14 +44,14 @@ function Products() {
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col-lg">Image</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Stock</th>
-                    <th scope="col">Size</th>
-                    <th scope='col'>Category</th>
-                    <th scope="col">Status</th>
-                    <th scope='col'>Action</th>
+                    <th scope="col-lg" className='text-center'>Image</th>
+                    <th scope="col" className='text-center'>Name</th>
+                    <th scope="col" className='text-center'>Price</th>
+                    <th scope="col" className='text-center'>Stock</th>
+                    <th scope="col" className='text-center' >Size</th>
+                    <th scope='col' className='text-center'>Category</th>
+                    <th scope="col" className='text-center'>Status</th>
+                    <th scope='col' className='text-center'>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -69,7 +69,14 @@ function Products() {
                         <td>{product?.name}</td>
                         <td>₹{product?.price}</td>
                         <td className='text-center'>{product?.quantity}</td>
-                        <td className='text-center'>{product?.enableSize}</td>
+                        <td className='text-center'>
+  {product?.enableSize ? (
+    product?.sizes?.length > 0 ? product.sizes.join(', ') : 'No Sizes'
+  ) : (
+    'Disabled'
+  )}
+</td>
+
                         <td className='text-center'>{product?.category?.name ?? "N/A"}</td>
                         <td>{product?.status === true ? 'Active' : 'Inactive'}</td>
                         <td>

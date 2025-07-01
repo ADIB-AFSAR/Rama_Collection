@@ -166,8 +166,8 @@ function AddOrEditProducts() {
     }));
   }}
 >
-  <option value={true}>Yes</option>
-  <option value={false}>No</option>
+  <option value={true}>Enable</option>
+  <option value={false}>Disable</option>
 </select>
 
 {/* Manual Size Selection */}

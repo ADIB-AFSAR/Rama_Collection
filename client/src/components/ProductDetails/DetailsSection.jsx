@@ -14,6 +14,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   const [isAddedToCart, setIsAddedToCart] = useState(false); // Track if product is added to cart
   const [loading, setLoading] = useState(false); // Track loading state for the button
   const [wishlistLoading, setWishlistLoading] = useState(false); // Track loading state for wishlist
+  const [selectedSize, setSelectedSize] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -73,26 +74,39 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   };
 
   const handleCartToggle = (product) => {
-     if (!currentUser?.name) {
-     alert('Please Login To Add To Cart')
-      navigate('/login');
-      return
-    } else if (isAddedToCart) {
-      handleDelete(product._id);
-      setIsAddedToCart(false);
-      localStorage.removeItem(`cart-${product._id}`);
-      toast.success('Item removed from cart')
-    } else {
-      setLoading(true); // Start loading
-      dispatch(addCartStart(product)); // Dispatch action to add to cart
-      setTimeout(() => {
-        setIsAddedToCart(true);
-        localStorage.setItem(`cart-${product._id}`, true);
-        toast.success('Item added to cart')
-        setLoading(false); // Stop loading after 3 seconds
-      }, 3000); // Simulate delay of 3 seconds
-    }
+  if (!currentUser?.name) {
+    alert('Please Login To Add To Cart');
+    navigate('/login');
+    return;
+  }
+
+  if (product.enableSize && !selectedSize) {
+    toast.error('Please select a size before adding to cart');
+    return;
+  }
+
+  const productToAdd = {
+    ...product,
+    selectedSize: selectedSize || '', // Add size if applicable
   };
+
+  if (isAddedToCart) {
+    handleDelete(product._id);
+    setIsAddedToCart(false);
+    localStorage.removeItem(`cart-${product._id}`);
+    toast.success('Item removed from cart');
+  } else {
+    setLoading(true);
+    dispatch(addCartStart(productToAdd));
+     setTimeout(() => {
+      setIsAddedToCart(true);
+      localStorage.setItem(`cart-${product._id}`, true);
+      toast.success('Item added to cart');
+      setLoading(false);
+    }, 3000);
+  }
+};
+
 
   useEffect(() => {
     const inCart = localStorage.getItem(`cart-${CurrentProductDetails._id}`);
@@ -120,14 +134,21 @@ const DetailsSection = ({ CurrentProductDetails }) => {
                   </div> */}
                  {CurrentProductDetails?.enableSize && CurrentProductDetails?.sizes?.length > 0 && (
   <div className="available-sizes">
-    <h6>Available Sizes:</h6>
+    <h6>Select Size:</h6>
     <div className="d-flex gap-2 flex-wrap">
       {CurrentProductDetails.sizes.map(size => (
-        <span key={size} className="badge bg-secondary">{size}</span>
+        <button
+          key={size}
+          className={`btn btn-sm ${selectedSize === size ? 'btn-dark text-white' : 'btn-outline-dark'}`}
+          onClick={() => setSelectedSize(size)}
+        >
+          {size}
+        </button>
       ))}
     </div>
   </div>
 )}
+
                   <button
     disabled={loading} // Only disable the button while loading
     onClick={() => {

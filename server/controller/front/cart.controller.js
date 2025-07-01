@@ -28,9 +28,10 @@ const getCart = async (req, res) => {
 };
 
 const addCart = async (req, res) => {
-    console.log(req.body)
     try {
         const { id: productId } = req.params;
+        const { selectedSize } = req.body; // 👈 Extract selectedSize from body
+
         let currentCart = await cartModel.findOne({
             customer: req.user._id,
             placedOrder: false
@@ -39,7 +40,8 @@ const addCart = async (req, res) => {
         if (currentCart) {
             const item = await cartItemModel.findOne({
                 product: productId,
-                cart: currentCart._id
+                cart: currentCart._id,
+                size: selectedSize // 👈 match on product + size
             });
 
             if (item) {
@@ -50,7 +52,8 @@ const addCart = async (req, res) => {
                 await cartItemModel.create({
                     cart: currentCart._id,
                     product: productId,
-                    quantity: 1
+                    quantity: 1,
+                    size: selectedSize // 👈 save size
                 });
             }
         } else {
@@ -58,7 +61,8 @@ const addCart = async (req, res) => {
             await cartItemModel.create({
                 cart: currentCart._id,
                 product: productId,
-                quantity: 1
+                quantity: 1,
+                size: selectedSize // 👈 save size on new cart too
             });
         }
 
@@ -68,6 +72,7 @@ const addCart = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 const updateCart = async (req, res) => {
     try {
@@ -101,21 +106,35 @@ const collectTotal = async (id) => {
     const cartItems = await cartItemModel.find({ cart: cart._id }).populate("product");
 
     let subTotal = 0;
-    for (const item of cartItems) {
-        subTotal += item.product?.price * item.quantity || 0; // Safely handle potential undefined price
-    }
 
-    const tax = 0; // You can adjust this based on your requirements
+    const formattedItems = cartItems.map(item => {
+        const total = item.product?.price * item.quantity || 0;
+        subTotal += total;
+
+        return {
+            _id: item._id,
+            product: item.product,
+            quantity: item.quantity,
+            size: item.size || item.selectedSize, // ✅ Ensure size is explicitly returned
+            total
+        };
+    });
+
+    const tax = 0;
     const grandTotal = subTotal + tax;
 
     await cartModel.updateOne({ _id: id }, {
-        subTotal: subTotal,
-        tax: tax,
-        grandTotal: grandTotal
+        subTotal,
+        tax,
+        grandTotal
     });
 
-    return { ...cart._doc, items: cartItems };
+    return {
+        ...cart._doc,
+        items: formattedItems // ✅ return formatted items
+    };
 };
+
 
 const placeOrder = async (req, res) => {
     console.log("placeorder:", req.body, req.params);

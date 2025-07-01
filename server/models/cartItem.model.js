@@ -22,11 +22,10 @@ const cartItemSchema = new mongoose.Schema({
         ref: 'Order', // Reference to the Order model
         default: null // Initially, it will be null, but updated once the order is placed
     },
-    // size: {
-    //     type: String,  
-    //     required: true,  
-    //     enum: ['s', 'm', 'x', 'xl'],  
-    // }
+    size: {
+        type: String,  
+        required: false,    
+    }
 }, { timestamps: true }); // Adds createdAt and updatedAt fields
 
 // Create the cart item model

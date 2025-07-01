@@ -33,6 +33,7 @@ function* getCart() {
 
 // Saga to add an item to the cart
 function* addCart({ payload }) {
+    console.warn("saga:",payload)
     try {
         yield addCartToAPI(payload);
         yield put(getCartStart()); // Refresh cart after adding an item

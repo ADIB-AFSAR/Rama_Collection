@@ -25,7 +25,11 @@ const CartSchema = new mongoose.Schema({
     placedOrder: {
         type: Boolean,
         default: false // Indicates if the order is placed
-    }
+    },
+    size: {
+    type: String,
+    required: false, // optional if product doesn't use sizes
+  }
 }, { timestamps: true }); // Adds createdAt and updatedAt fields
 
 // Create the cart model
