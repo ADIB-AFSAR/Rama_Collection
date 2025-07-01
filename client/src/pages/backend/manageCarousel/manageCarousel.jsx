@@ -268,7 +268,26 @@ const handleSubmit = async (e) => {
           onChange={handleFileChange}
           required
         />
-      </div>
+{device === "desktop" && type === "banner" && (
+    <p className="text-danger mx-2" style={{ fontSize: "10px" }}>
+      1920×640 resolution images are recommended*
+    </p>
+  )}
+  {device === "desktop" && type === "carousel" && (
+    <p className="text-danger mx-2" style={{ fontSize: "10px" }}>
+      1920×720 resolution images are recommended*
+    </p>
+  )}
+  {device === "mobile" && type === "banner" && (
+    <p className="text-danger mx-2" style={{ fontSize: "10px" }}>
+      680×720 resolution images are recommended*
+    </p>
+  )}
+  {device === "mobile" && type === "carousel" && (
+    <p className="text-danger mx-2" style={{ fontSize: "10px" }}>
+      720×1280 resolution images are recommended*
+    </p>
+  )}      </div>
 
       <div className="row">
         <div className="col-md-6 mb-3">

@@ -77,7 +77,7 @@ function OrdersView() {
                 <div>
                   <h5>Payment Type </h5>
                   <hr/>
-                  <p>{order.billingAddress?.payment === "cod" ? "Cash on delivery" : "Transaction through UPI"}</p>
+                  <p className='fw-bold'>{order.billingAddress?.payment === "cod" ? "Cash on delivery" : "Transaction through UPI"}</p>
                   <hr/>
                   </div>
                   </div>
@@ -89,6 +89,7 @@ function OrdersView() {
                   <th scope="col">Image</th>
                   <th scope="col">Name</th>
                   <th scope="col">Price</th>
+                  <th scope="col">Size</th>
                   <th scope='col'>Quantity</th> 
                   <th scope='col'>Total</th>
                 </tr>
@@ -100,6 +101,7 @@ function OrdersView() {
                         <td className="py-3 rounded"><img src={item?.product?.images[0]} alt={item?.name} height={'90px'}/></td>
                         <td className="py-3">{item?.product?.name}</td>
                         <td className="py-3">₹{item?.product?.price}</td>
+                        <td className="py-3">{item?.product?.size ? item?.product?.size : "N/A" }</td>
                         <td className="py-3 text-center">{item?.quantity}</td> 
                         <td className="py-3">₹{+item.product.price * item.quantity}</td>
                       </tr>

@@ -93,6 +93,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   if (isAddedToCart) {
     handleDelete(product._id);
     setIsAddedToCart(false);
+    setSelectedSize('');
     localStorage.removeItem(`cart-${product._id}`);
     toast.success('Item removed from cart');
   } else {
@@ -132,22 +133,23 @@ const DetailsSection = ({ CurrentProductDetails }) => {
                     <span className="text-dark">₹{Number(CurrentProductDetails?.price).toFixed(2)}</span>
                     
                   </div> */}
-                 {CurrentProductDetails?.enableSize && CurrentProductDetails?.sizes?.length > 0 && (
-  <div className="available-sizes">
-    <h6>Select Size:</h6>
-    <div className="d-flex gap-2 flex-wrap">
-      {CurrentProductDetails.sizes.map(size => (
-        <button
-          key={size}
-          className={`btn btn-sm ${selectedSize === size ? 'btn-dark text-white' : 'btn-outline-dark'}`}
-          onClick={() => setSelectedSize(size)}
-        >
-          {size}
-        </button>
-      ))}
-    </div>
-  </div>
-)}
+                 {CurrentProductDetails.sizes.map(size => (
+  <button
+    key={size}
+    className={`btn btn-sm mx-1 ${selectedSize === size ? 'btn-dark text-white' : 'btn-outline-dark'}`}
+    // disabled={isAddedToCart && selectedSize !== size} // Disable other sizes if added to cart
+    onClick={() => {
+      if (isAddedToCart && selectedSize !== size) {
+        toast.info('Please delete the item from cart first.');
+        return;
+      }
+      setSelectedSize(size);
+    }}
+  >
+    {size}
+  </button>
+))}
+
 
                   <button
     disabled={loading} // Only disable the button while loading

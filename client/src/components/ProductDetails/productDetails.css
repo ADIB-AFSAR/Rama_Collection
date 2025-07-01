@@ -25,6 +25,10 @@ body {
 .size-options {
     margin-top: 20px;
 }
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 .size-options button {
     margin-right: 10px;

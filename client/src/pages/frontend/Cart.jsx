@@ -11,7 +11,7 @@ const CartSidebar = ({ cartSidebarOpen, toggleCartSidebar }) => {
   const dispatch = useDispatch();
   const [, updateCart, deleteCart] = useCart();
   const currentCart = useSelector(state => state.cart.currentCart || []);
-  const [quantities, setQuantities] = useState(currentCart?.items?.map(item => item.quantity));
+const [quantities, setQuantities] = useState([]);
   const [isGrandTotalLoading, setIsGrandTotalLoading] = useState(false); // State to manage loader for Grand Total
   const [isDeleting, setIsDeleting] = useState(false); // State to manage loader for Deleting items
 
@@ -28,7 +28,7 @@ const CartSidebar = ({ cartSidebarOpen, toggleCartSidebar }) => {
     setQuantities(updatedQuantities);
     dispatch(updateCartStart({ itemId: item._id, quantity: updatedQuantities[index], cartId: currentCart._id }));
   };
-
+ console.log("Cart items on first render:", currentCart?.items);
   // Function to handle the decrease in quantity
   const handleClickDecrease = (index, item) => {
     if (quantities[index] > 1) {
@@ -90,9 +90,9 @@ const CartSidebar = ({ cartSidebarOpen, toggleCartSidebar }) => {
 
           {currentUser?.name && Array.isArray(currentCart?.items) && currentCart?.items?.length > 0 ? (
             currentCart?.items?.map((item, index) => {
-              const imageSrc = item?.product?.images && item?.product?.images.length > 0 
-                ? item?.product?.images[0] 
-                : '/images/loading.png';
+              const imageSrc = Array.isArray(item?.product?.images) && item?.product?.images.length > 0
+            ? item.product.images[0]
+            : '/images/loading.png';
               return (
                 <ListGroup variant="flush" key={item._id}>
                   <ListGroup.Item className="cart-item d-flex col">
@@ -106,7 +106,7 @@ const CartSidebar = ({ cartSidebarOpen, toggleCartSidebar }) => {
                       <h5 className='fs-6'>{item?.product?.name}</h5>
                       <p className='fw-normal text-end d-flex justify-content-between'>
                       <span className="cart-item-price fw-semibold">INR {item?.product?.price}</span> 
-                      {item?.selectedSize && <p>Size :{item?.selectedSize}</p>}
+                      
                         {/* Show delete button with loader */}
                         <button
               style={{cursor:"pointer"}}
@@ -121,6 +121,7 @@ const CartSidebar = ({ cartSidebarOpen, toggleCartSidebar }) => {
               )}
             </button>
                       </p>
+                      {item?.size && <p className='fw-semibold'>Size :{item?.size}</p>}
                       <span className='d-flex justify-content-between col quan-control'>
                         <Form.Group className="input-group  ">
                           <Button disabled={isGrandTotalLoading} className='btn btn-sm' onClick={() => handleClickDecrease(index, item)} variant="outline-secondary">-</Button>

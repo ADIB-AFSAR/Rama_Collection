@@ -1,4 +1,5 @@
 import { getToken } from "./token.service"; 
+import { toast } from "react-toastify";
 
 export const getOrderFromAPI = async () => {
     try {
@@ -36,11 +37,13 @@ export const placeOrderToAPI = async (payload) => {
         if (!response.ok) {
             throw new Error(`Error placing order: ${response.statusText}`);
         }
-
-        const data = await response.json();
-        console.log(data, "Order Added");
-        return data;
+    
+        const res = await response.json();
+        console.log(res, "Order Added");
+        toast.success(res.message)
+        return res;
     } catch (error) {
         console.error(error);
+        toast.error(error.message)
     }
 };
