@@ -14,6 +14,14 @@ const productSchema = new mongoose.Schema({
         type:Number,
         require : false,
     },
+    enableSize: {
+        type: Boolean,
+        default: false
+    },
+    sizes: {
+        type: [String],
+        default: []
+    },
     category:{
         type:mongoose.Types.ObjectId,
         ref : 'Category'

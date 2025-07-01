@@ -66,6 +66,7 @@ export const deleteProductFromAPI = async (id) => {
 };
 
 export const updateProductFromAPI = async (product) => {
+    console.log(product)
     const formData = new FormData();
     for (const key in product) {
         formData.append(key, product[key]);

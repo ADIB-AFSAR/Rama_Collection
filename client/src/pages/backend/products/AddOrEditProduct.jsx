@@ -17,6 +17,8 @@ const initialState = {
   price: 0,
   slug: '',
   quantity: 0,
+  enableSize: false,
+  sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'], // preselect all sizes
 };
 
 function AddOrEditProducts() {
@@ -31,7 +33,8 @@ function AddOrEditProducts() {
     buttonState,
     uploadFiles] = useFormData(initialState, 'product');
 
-  const { name, images, status, description, category, price, slug, quantity } = formData;
+  const { name, images, status, description, category, price, slug, quantity, enableSize, sizes } = formData;
+
 
   const getProductById = () => {
     const product = products.find((product) => product?._id === id);
@@ -148,6 +151,58 @@ function AddOrEditProducts() {
                   onChange={handleChange} 
                   required={true}
                 />
+                 {/* Enable Size Selection */}
+<label className="form-label mt-3">Enable Sizes</label>
+<select
+  name="enableSize"
+  className="form-control"
+  value={enableSize}
+  onChange={(e) => {
+    const value = e.target.value === 'true';
+    setFormData((prev) => ({
+      ...prev,
+      enableSize: value,
+      sizes: value ? ['XS', 'S', 'M', 'L', 'XL', 'XXL'] : [], // preselect all sizes if enabled
+    }));
+  }}
+>
+  <option value={true}>Yes</option>
+  <option value={false}>No</option>
+</select>
+
+{/* Manual Size Selection */}
+{enableSize === true || enableSize === 'true' ? (
+  <>
+    <label className="form-label mt-3">Select Available Sizes</label>
+    <div className="d-flex flex-wrap gap-2">
+      {["XS", "S", "M", "L", "XL", "XXL"].map((size) => (
+        <div key={size} className="form-check me-3">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            id={`size-${size}`}
+            value={size}
+            checked={sizes.includes(size)}
+            onChange={(e) => {
+              const checked = e.target.checked;
+              let updatedSizes = [...sizes];
+              if (checked) {
+                updatedSizes.push(size);
+              } else {
+                updatedSizes = updatedSizes.filter((s) => s !== size);
+              }
+              setFormData((prev) => ({ ...prev, sizes: updatedSizes }));
+            }}
+          />
+          <label className="form-check-label" htmlFor={`size-${size}`}>
+            {size}
+          </label>
+        </div>
+      ))}
+    </div>
+  </>
+) : null}
+
 
                 <label htmlFor='category' className="form-label mt-3">Product Category</label>
                 <select 

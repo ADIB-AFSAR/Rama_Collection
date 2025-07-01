@@ -118,7 +118,16 @@ const DetailsSection = ({ CurrentProductDetails }) => {
                     <span className="text-dark">₹{Number(CurrentProductDetails?.price).toFixed(2)}</span>
                     
                   </div> */}
-
+                 {CurrentProductDetails?.enableSize && CurrentProductDetails?.sizes?.length > 0 && (
+  <div className="available-sizes">
+    <h6>Available Sizes:</h6>
+    <div className="d-flex gap-2 flex-wrap">
+      {CurrentProductDetails.sizes.map(size => (
+        <span key={size} className="badge bg-secondary">{size}</span>
+      ))}
+    </div>
+  </div>
+)}
                   <button
     disabled={loading} // Only disable the button while loading
     onClick={() => {

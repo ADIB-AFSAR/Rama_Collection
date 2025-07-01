@@ -10,7 +10,7 @@ function Products() {
   const products = useSelector(state => state.product?.products);
   const [loading , setLoading] = useState(false)
   const dispatch = useDispatch();
-  console.log(products)
+  // console.log(products)
 
   const handleDelete = (productId) => {
     if (window.confirm("Are you sure you want to delete this product?")){
@@ -48,6 +48,7 @@ function Products() {
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
                     <th scope="col">Stock</th>
+                    <th scope="col">Size</th>
                     <th scope='col'>Category</th>
                     <th scope="col">Status</th>
                     <th scope='col'>Action</th>
@@ -68,6 +69,7 @@ function Products() {
                         <td>{product?.name}</td>
                         <td>₹{product?.price}</td>
                         <td className='text-center'>{product?.quantity}</td>
+                        <td className='text-center'>{product?.enableSize}</td>
                         <td className='text-center'>{product?.category?.name ?? "N/A"}</td>
                         <td>{product?.status === true ? 'Active' : 'Inactive'}</td>
                         <td>
