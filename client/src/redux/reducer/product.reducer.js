@@ -11,13 +11,15 @@ const initialState = {
 export const productReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_PRODUCT_SUCCESS:
-            // Update local storage with new products and return updated state
-            localStorage.setItem('products', JSON.stringify(action.payload));
-            return {
-                ...state,
-                products: [...action.payload], // Spread to create a new array
-                error: null, // Clear any existing errors on success
-            };
+    if (!Array.isArray(action.payload)) {
+        return state; // Don’t update state with invalid payload
+    }
+    localStorage.setItem('products', JSON.stringify(action.payload));
+    return {
+        ...state,
+        products: [...action.payload],
+        error: null,
+    };
         case GET_PRODUCT_ERROR:
             // Handle error and update state
             return {

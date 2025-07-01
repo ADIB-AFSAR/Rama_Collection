@@ -85,23 +85,45 @@ const handleSlidingTextSubmit = async (e) => {
     };
 
     const handleDelete = async (id) => {
-        console.log(id)
-  const confirmDelete = window.confirm("Are you sure you want to delete this banner?");
-  if (!confirmDelete) return;
-
-  try {
-    await axios.delete(
-      `${process.env.REACT_APP_API_URL}/api/admin/banner/${id}`,
-      {
-        headers: { Authorization: getToken() }
-      }
-    );
-    toast.success("Banner deleted!");
-    fetchBanners(); // refresh list
-  } catch (err) {
-    console.error("Delete failed:", err.response?.data || err.message);
-    toast.error("Delete failed!");
-  }
+  toast(({ closeToast }) => (
+    <div>
+      <p>Are you sure you want to delete this banner?</p>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
+        <button
+          onClick={async () => {
+            try {
+              await axios.delete(
+                `${process.env.REACT_APP_API_URL}/api/admin/banner/${id}`,
+                {
+                  headers: { Authorization: getToken() }
+                }
+              );
+              toast.success("Banner deleted!");
+              fetchBanners();
+            } catch (err) {
+              console.error("Delete failed:", err.response?.data || err.message);
+              toast.error("Delete failed!");
+            } finally {
+              closeToast();
+            }
+          }}
+          style={{ backgroundColor: 'red', color: 'white', border: 'none', padding: '5px 10px' }}
+        >
+          Yes
+        </button>
+        <button
+          onClick={closeToast}
+          style={{ backgroundColor: 'gray', color: 'white', border: 'none', padding: '5px 10px' }}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  ), {
+    autoClose: false,
+    closeOnClick: false,
+    draggable: false
+  });
 };
 
 

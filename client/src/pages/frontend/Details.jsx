@@ -42,11 +42,13 @@ useEffect(() => {
   }, [id, products]);
 
   return (
-    <div className="container my-5">
-      <a onClick={() => window.history.back()}>
-        <i style={{ cursor: 'pointer' }} className="bi bi-arrow-left fs-3 text-dark"></i>
+    <> <a onClick={() => window.history.back()}>
+        <i
+          style={{ cursor: 'pointer', left: '5%' }}
+          className="bi bi-arrow-left fs-3 text-dark position-absolute "
+        ></i>
       </a>
-
+       <div className="container my-5">
       {loading ? (
         <div className="d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
           <div className="spinner-border text-primary" role="status">
@@ -71,7 +73,8 @@ useEffect(() => {
           <p className="text-center text-danger">Product not found.</p>
         )
       )}
-    </div>
+    </div></>
+
   );
 };
 

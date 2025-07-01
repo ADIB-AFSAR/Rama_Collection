@@ -112,9 +112,12 @@ body {
     width: 150%; /* Larger size for zoom effect */
     
   }
+  .heading{
+    text-align: start;
+  }
  @media(max-width : 786px){
     .heading{
-        text-align: center; 
+        text-align: start; 
     }
     .price{
         font-size :medium;

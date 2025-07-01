@@ -24,7 +24,12 @@ import {
 function* getProduct() {
     try {
         const data = yield getProductFromAPI();
-        yield put(getProductSuccess(data));
+
+        if (data) {
+            yield put(getProductSuccess(data));
+        } else {
+            yield put(getProductError("No data received from API"));
+        }
     } catch (error) {
         yield put(getProductError(error.message));
     }

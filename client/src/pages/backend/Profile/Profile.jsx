@@ -43,6 +43,12 @@ function Profile() {
 
   return (
     <> 
+    <a onClick={() => window.history.back()}>
+        <i
+          style={{ cursor: 'pointer', left: '5%' }}
+          className="bi bi-arrow-left fs-3 text-dark position-absolute "
+        ></i>
+      </a>
       <div className="container-fluid page-header mt-3">
         <h1 className="text-center display-6 ">{currentUser.role ==='admin'? "Admin " :''}Profile</h1>
       </div>    

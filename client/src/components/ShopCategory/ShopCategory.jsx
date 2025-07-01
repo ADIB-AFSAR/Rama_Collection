@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./shopcat.css";
 import { getProductStart } from "../../redux/action/product.action";
 import { getWishListStart } from "../../redux/action/wishlist.action";
+import { getCategoryStart } from "../../redux/action/category.action";
 
 const shuffleArray = (array) => {
   let shuffledArray = [...array];
@@ -25,8 +26,9 @@ const ShopCategory = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
+
   useEffect(() => {
-     if (products?.length > 0) {
+     if (products && products?.length > 0) {
       setShuffledProducts(shuffleArray(products));
       setLoadingProducts(false); // Products are loaded, stop the loader
     } else {
@@ -48,8 +50,9 @@ const ShopCategory = () => {
 
   useEffect(() => {
     dispatch(getProductStart())
-    if (currentUser) {
-      dispatch(getWishListStart(currentUser.id));
+    dispatch(getCategoryStart())
+     if (currentUser) {
+      dispatch(getWishListStart(currentUser._id));
     }
   }, [currentUser, dispatch]);
   useEffect(() => {
@@ -61,6 +64,10 @@ const ShopCategory = () => {
     setLoadingImages(initialLoadingState);
   }
 }, [products]);
+
+console.log("Categories:", categories);
+console.log("Product Categories:", shuffledProducts.map(p => p.category?.name));
+
 
 useEffect(() => {
   const timeouts = shuffledProducts.map((product) => {
@@ -80,6 +87,8 @@ useEffect(() => {
     const categoryProducts = shuffledProducts?.filter(
       (product) => product.category?.name === categoryName
     );
+
+    
     return (
       <div className="category-section mb-5">
         <h5 className="text-center mb-3 satisfy-regular fs-1 text-capitalize">{categoryName}</h5>

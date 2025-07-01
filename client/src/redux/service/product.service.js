@@ -12,10 +12,12 @@ export const getProductFromAPI = async () => {
             throw new Error(`Error fetching products: ${response.statusText}`);
         }
 
-        return await response.json();
+        const data = await response.json();
+        console.log("Fetched products:", data);
+        return data;
     } catch (error) {
         console.error(error);
-        return null; // Return null or handle error accordingly
+        throw new Error("Failed to fetch product data"); // Force catch block in saga
     }
 };
 

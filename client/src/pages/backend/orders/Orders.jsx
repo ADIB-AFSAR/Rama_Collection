@@ -7,6 +7,7 @@ import '../backend.css';
 import axios from 'axios';
 import { getToken } from '../../../redux/service/token.service';
 import { Spinner } from 'react-bootstrap';
+import {toast} from "react-toastify"
 
 function Orders() {
     const [orders, setOrders] = useState([]);
@@ -35,24 +36,49 @@ function Orders() {
     }, [orderState, currentUser ]); 
     console.log("Orders:",orders)
     
-    const handlePayment = async(paymentId)=>{
-        console.log(paymentId)
-         if (window.confirm('Are you sure you want to Approve this order payment')){
+    const handlePayment = async (paymentId) => {
+  toast(({ closeToast }) => (
+    <div>
+      <p>Are you sure you want to approve this order payment?</p>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
+        <button
+          onClick={async () => {
             try {
-            await axios.post(
-                `${process.env.REACT_APP_API_URL}/api/admin/order/secure-payment/${paymentId}`,{},  
+              await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/admin/order/secure-payment/${paymentId}`, {},
                 {
                   headers: {
-                    "Authorization": getToken() 
+                    "Authorization": getToken()
                   }
                 }
               );
-         } catch (error) {
-          console.error("Error approving payment:", error.message);
-        }
-        }
-        
-    }
+              toast.success("Payment approved successfully");
+            } catch (error) {
+              console.error("Error approving payment:", error.message);
+              toast.error("Failed to approve payment");
+            } finally {
+              closeToast();
+            }
+          }}
+          style={{ backgroundColor: 'green', color: 'white', border: 'none', padding: '5px 10px' }}
+        >
+          Yes
+        </button>
+        <button
+          onClick={closeToast}
+          style={{ backgroundColor: 'gray', color: 'white', border: 'none', padding: '5px 10px' }}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  ), {
+    autoClose: false,
+    closeOnClick: false,
+    draggable: false,
+    closeButton: false
+  });
+};
  
 
     return (
