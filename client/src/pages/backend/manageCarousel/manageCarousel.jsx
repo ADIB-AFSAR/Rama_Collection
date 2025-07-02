@@ -269,22 +269,22 @@ const handleSubmit = async (e) => {
           required
         />
 {device === "desktop" && type === "banner" && (
-    <p className="mx-2" style={{ fontSize: "10px" }}>
+    <p className="mx-2 mob" style={{ fontSize: "10px" }}>
       1920×640 resolution images are recommended*
     </p>
   )}
   {device === "desktop" && type === "carousel" && (
-    <p className="mx-2" style={{ fontSize: "10px" }}>
+    <p className="mx-2 mob" style={{ fontSize: "10px" }}>
       1920×720 resolution images are recommended*
     </p>
   )}
   {device === "mobile" && type === "banner" && (
-    <p className="mx-2" style={{ fontSize: "10px" }}>
+    <p className="mx-2 mob" style={{ fontSize: "10px" }}>
       680×720 resolution images are recommended*
     </p>
   )}
   {device === "mobile" && type === "carousel" && (
-    <p className="mx-2" style={{ fontSize: "10px" }}>
+    <p className="mx-2 mob" style={{ fontSize: "10px" }}>
       720×1280 resolution images are recommended*
     </p>
   )}      </div>

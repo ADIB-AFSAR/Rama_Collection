@@ -56,3 +56,8 @@
   color: #555;
   text-align: center;
 }
+@media(max-width: 448px){
+  .mob{
+    font-size: 8px !important;
+  }
+}

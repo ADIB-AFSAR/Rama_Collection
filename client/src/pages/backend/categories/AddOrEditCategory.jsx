@@ -112,7 +112,7 @@ function AddOrEditCategories() {
                   onChange={handleImageChange} 
                    
                 />
-                <p className="mx-2 mb-0" style={{ fontSize: "10px" }}>
+                <p className="mx-2 mb-0 mob" style={{ fontSize: "10px" }}>
       480x640 resolution images are recommended*
     </p>
                 {image && image.length > 0 ? (
@@ -123,7 +123,7 @@ function AddOrEditCategories() {
                     height={'80px'} 
                     width={'80px'} 
                   />
-                ) : <p className='mx-2 mt-0' style={{fontSize:"9px"}}>After uploading image, please save to see the image preview</p>}
+                ) : <p className='mx-2 mt-0 mob' style={{fontSize:"9px"}}>After uploading image, please save to see the image preview</p>}
 
                 <div className="row mt-3 mb-2">
                   <div className="col-sm-6 d-grid">
