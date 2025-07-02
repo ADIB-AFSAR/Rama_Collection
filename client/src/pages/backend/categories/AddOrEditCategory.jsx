@@ -112,7 +112,7 @@ function AddOrEditCategories() {
                   onChange={handleImageChange} 
                    
                 />
-                <p className="text-danger mx-2 mb-0" style={{ fontSize: "10px" }}>
+                <p className="mx-2 mb-0" style={{ fontSize: "10px" }}>
       480x640 resolution images are recommended*
     </p>
                 {image && image.length > 0 ? (

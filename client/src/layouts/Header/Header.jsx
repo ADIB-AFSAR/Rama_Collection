@@ -63,7 +63,7 @@ function Header() {
           <div className="d-flex align-items-center w-100 justify-content-end">
  
               {!searchVisible && <ul className="navbar-nav d-flex flex-row align-items-center me-3">
-                <li className="nav-item">
+                {currentUser.name && <><li className="nav-item">
                   <a className="nav-link" href="/wishlist">
                     <i className="fas fa-heart text-danger fs-4">
                       <span className="cart-number">
@@ -83,18 +83,18 @@ function Header() {
                   <a className="nav-link" href="/dashboard">
                     <i className="fas fa-user fs-4"></i>
                   </a>
-                </li>
+                </li></>}
               </ul>}
  
             {/* Search Toggle */}
-            {!searchVisible && (
-              <button className="btn btn-outline-secondary me-2" onClick={toggleSearch}>
-                <i className="bi bi-search"></i>
-              </button>
-            )}
+            {!searchVisible && currentUser?.name && (
+  <button className="btn btn-outline-secondary me-2" onClick={toggleSearch}>
+    <i className="bi bi-search"></i>
+  </button>
+)}
 
             {/* Search Form */}
-            {searchVisible && (
+            {searchVisible && currentUser?.name && (
               <form className="d-flex justify-content-end w-100">
                 <input
                   className="form-control input me-2 flex-grow-1"
