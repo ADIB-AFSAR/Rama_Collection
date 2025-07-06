@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { getToken } from '../../redux/service/token.service';
 import { Spinner } from 'react-bootstrap';
+import SkeletonLoader from '../SkeletonLoader/skeletonLoader';
 
 function ProductListingPage() {
   const products = useSelector((state) => state.product.products);
@@ -20,6 +21,7 @@ function ProductListingPage() {
   const [sortOrder, setSortOrder] = useState('none');
   const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
   const [bannerUrl, setBannerUrl] = useState('');
+    const [loadingImages, setLoadingImages] = useState({}); // Track image loading state for each product
   const [loading, setLoading] = useState(true); // State for loader
 
   const filterOptions = {
@@ -42,6 +44,13 @@ function ProductListingPage() {
 
   const toProductDetailsPage = (id) => {
     navigate(`/details/${id}`);
+  };
+
+  const handleImageLoad = (productId) => {
+    setLoadingImages((prevState) => ({
+      ...prevState,
+      [productId]: false, // Mark image as loaded
+    }));
   };
 
   useEffect(() => {
@@ -134,9 +143,7 @@ function ProductListingPage() {
     setFilteredProducts(filtered);
   }, [products, categoryFilter, selectedFilter, sortOrder, priceRange]);
 
-   if (loading) {
-    return <div className="text-center mt-3"><Spinner/></div>;
-  }
+  
 
   return (
     <>
@@ -157,6 +164,7 @@ function ProductListingPage() {
       alt="Banner Image"
       style={{ height: '300px',objectFit:"cover"}}
     />
+    
       <div className="container mx-auto px-0" style={{ width: '100%' }}>
         <div className="filters-section mb-4">
           {/* Filter Section */}
@@ -215,57 +223,59 @@ function ProductListingPage() {
 
         {/* Display Loader while loading */}
         {loading ? (
-          <div className="spinner-container">
-            <div className="spinner"></div> {/* Spinner */}
-          </div>
+          <SkeletonLoader/>
         ) : (
           <div className="row justify-content-center">
-            {filteredProducts?.length > 0 &&
+            {filteredProducts?.length > 0 ?
               filteredProducts.map((product, index) => (
-                <div key={index} className="col-lg-3 col-md-4 col-6 mb-4 product-card h-100">
-                  {/* Ribbon for quantity less than 10 */}
-                  {product.quantity < 10 && (
-                    <div
-                      className="position-absolute bg-danger left text-white py-1 px-2 mx-2 fw-bold"
-                      style={{
-                        top: '10px',
-                        right: '10px',
-                        borderRadius: '5px',
-                        zIndex: 10,
-                      }}
-                    >
-                      {product.quantity} left
-                    </div>
-                  )}
-                  <img
-                    onClick={() => {
-                      toProductDetailsPage(product._id);
-                    }}
-                    alt={product?.name}
-                    className="img primary"
-                    src={product?.images[0]}
-                  />
-                  <img
-                    onClick={() => {
-                      toProductDetailsPage(product._id);
-                    }}
-                    alt={`${product.name} Back`}
-                    className="secondary img"
-                    height="300"
-                    src={product?.images[1] || product?.images[0]}
-                    width="220"
-                  />
-                  <div className="product-title text-left mb-1">{product?.name}</div>
-                  <div className="product-price text-left fs-6">
-                    <span className="mx-1 text-dark">
-                      ₹{Number(product?.price).toFixed(2)}
-                    </span>
-                    <span className="text-decoration-line-through small">
-                      ₹{(Number(product?.price) * 1.5).toFixed(2)}
-                    </span>
-                  </div>
-                </div>
-              ))}
+                <div className="col-lg-3 col-md-4 col-sm-6 col-6 mb-4" key={index}>
+              <div className="card position-relative">
+                {/* Ribbon for quantity less than 10 */}
+                {product.quantity < 10 && (
+  <div className="stock-badge">
+    {product.quantity} left
+  </div>
+)}
+
+                {/* Image with loader */}
+                <div
+  className="image-container position-relative"
+  onClick={() => toProductDetailsPage(product._id)}
+>
+  {loadingImages[product._id] && (
+    <div className="image-loader position-absolute w-100 h-100 bg-light d-flex justify-content-center align-items-center">
+      <div className="spinner-border text-primary" role="status"></div>
+    </div>
+  )}
+
+  <img
+    src={product.images[0]}
+    alt={product.name}
+    className="product-image primary"
+    onLoad={() => handleImageLoad(product._id)}
+  />
+  <img
+    src={product.images[1] || product.images[0]}
+    alt={product.name}
+    className="product-image secondary"
+  />
+</div>
+
+
+  <div className="card-body p-0">
+  <h5 className="card-title product-name text-left text-capitalize">
+    {product.name}
+  </h5>
+  <div className="product-price text-left">
+    <span className="text-dark">₹{Number(product?.price).toFixed(2)}</span>
+    <span className="mx-1 text-decoration-line-through small">
+      ₹{(Number(product?.price) * 1.5).toFixed(2)}
+    </span>
+  </div>
+</div>
+              </div>
+            </div>
+              )):<div className="text-center text-muted fs-5 py-5">No products to show</div>}
           </div>
         )}
       </div>

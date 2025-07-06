@@ -1,4 +1,4 @@
-import { takeLatest, put, putResolve, call } from 'redux-saga/effects';
+import { takeLatest, put, putResolve, call, take } from 'redux-saga/effects';
 import { 
     ADD_CART_START, 
     DELETE_CART_START, 
@@ -21,6 +21,8 @@ import {
     updateCartSuccess
 } from '../action/cart.action';
 
+import { toast } from 'react-toastify';
+
 // Saga to get cart items
 function* getCart() {
     try {
@@ -36,9 +38,13 @@ function* addCart({ payload }) {
     console.warn("saga:",payload)
     try {
         yield addCartToAPI(payload);
-        yield put(getCartStart()); // Refresh cart after adding an item
+        yield put(getCartStart());
+         yield take('GET_CART_SUCCESS');
+    yield put({ type: 'TOGGLE_CART' });
+    //  yield call(toast.success, 'Item added to cart');
     } catch (error) {
         yield put(addCartError(error.message));
+        // yield call(toast.error,error.message);
     }
 }
 
@@ -53,6 +59,8 @@ function* addCart({ payload }) {
             
             // Optionally refresh the cart after updating
             yield put(getCartStart());
+
+            
         } catch (error) {
             yield put(updateCartError(error.message));
         }

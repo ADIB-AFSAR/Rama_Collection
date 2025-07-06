@@ -67,3 +67,38 @@ body {
     font-weight: 500;
   }
   
+
+  /* skeleton css */
+  .placeholder-card {
+  border: none;
+  background: none;
+}
+
+.skeleton-image {
+  width: 100%;
+  height: 200px;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  animation: pulse 1.5s infinite;
+}
+
+.skeleton-text {
+  width: 60%;
+  height: 20px;
+  background-color: #d0d0d0;
+  border-radius: 4px;
+  margin-top: 10px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}

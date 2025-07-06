@@ -1,0 +1,57 @@
+
+
+.placeholder-glow {
+  display: inline-block;
+  height: 1em;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+.image-placeholder,
+.placeholder {
+  border-radius: 10px;
+  animation: shimmer 1.2s infinite linear;
+  background: linear-gradient(
+    to right,
+    #eeeeee 8%,
+    #dddddd 18%,
+    #eeeeee 33%
+  );
+  background-size: 1000px 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #f0f0f0;
+  }
+  50% {
+    background-color: #e0e0e0;
+  }
+  100% {
+    background-color: #f0f0f0;
+  }
+}
+.image-placeholder,
+.placeholder {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+
+.image-container img {
+  opacity: 0;
+  transition: opacity 0.4s ease-in;
+}
+
+.image-container img.loaded {
+  opacity: 1;
+}

@@ -1,4 +1,4 @@
-import { GET_CART_ERROR, GET_CART_SUCCESS } from "../constant/cart.constant";
+import { GET_CART_ERROR, GET_CART_SUCCESS, SET_CART, TOGGLE_CART } from "../constant/cart.constant";
 
 // Default value for the cart
 export const defaultValue = {
@@ -18,6 +18,7 @@ const previousCart = localStorage.getItem("cart")
 const initialState = {
     currentCart: previousCart, // Load previous cart if available
     error: null, // Initialize error state
+    isCartOpen: false,
 };
 
 export const cartReducer = (state = initialState, action) => {
@@ -30,11 +31,22 @@ export const cartReducer = (state = initialState, action) => {
                 currentCart: { ...action.payload }, // Spread to ensure a new object reference
                 error: null, // Clear any existing errors on success
             };
-        case GET_CART_ERROR:
+            case GET_CART_ERROR:
             // Handle errors and update state
             return {
                 ...state,
                 error: action.payload, // Set error details
+            };
+            case SET_CART:
+            localStorage.setItem('cart', JSON.stringify(action.payload));
+            return {
+                ...state,
+                currentCart: { ...action.payload },
+            };
+            case TOGGLE_CART: // ✅ New action to toggle cart modal
+            return {
+                ...state,
+                isCartOpen: !state.isCartOpen,
             };
         default:
             // Return the current state for unrecognized actions

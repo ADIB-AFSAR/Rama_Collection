@@ -1,23 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './sidebar.css'; // Ensure this path is correct
 import CartSidebar from '../../pages/frontend/Cart';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Sidebar({ sidebarOpen, toggleSidebar }) {
-  const [cartSidebarOpen, setCartSidebarOpen] = useState(false); // For cart sidebar
+const isCartOpen = useSelector(state => state.cart.isCartOpen);
   const currentUser = useSelector(state=>state.user.currentUser)
+  const dispatch = useDispatch()
 
   // Toggle cart sidebar
   const toggleCartSidebar = () => {
-   if(!currentUser && !currentUser?.name){
-      alert('Please login to user bag')
+   if(!currentUser?.name){
+      alert('Please login to use bag')
       return 0
    }
-    setCartSidebarOpen(!cartSidebarOpen); 
     if(sidebarOpen){
       toggleSidebar(); // Close the main sidebar when the cart sidebar is opened or closed
     }
+    dispatch({ type: 'TOGGLE_CART' });
   };
+  useEffect(() => {
+  if (!currentUser?.name && isCartOpen) {
+    dispatch({ type: 'TOGGLE_CART' });
+  }
+}, [currentUser, isCartOpen, dispatch]);
   return (
     <>
       {/* Sidebar */}
@@ -48,7 +54,7 @@ function Sidebar({ sidebarOpen, toggleSidebar }) {
         </div>
       </div>
       {sidebarOpen && <div className="sidebar-overlay" onClick={toggleSidebar}></div>}
-      <CartSidebar cartSidebarOpen={cartSidebarOpen} toggleCartSidebar={toggleCartSidebar} />
+      <CartSidebar cartSidebarOpen={isCartOpen} toggleCartSidebar={toggleCartSidebar} />
     </>
   );
 }

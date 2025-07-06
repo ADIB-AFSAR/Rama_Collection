@@ -2,93 +2,137 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Image, ListGroup, Form, Spinner } from 'react-bootstrap';
 import { addCartStart, deleteCartStart, getCartStart, updateCartStart } from '../../redux/action/cart.action';
+import debounce from 'lodash/debounce';
+import { useCallback } from 'react';
 import useCart from '../../hooks/useCart';
-import './frontend.css'; // Custom CSS for CartSidebar
-
+import './frontend.css';  
 const CartSidebar = ({ cartSidebarOpen, toggleCartSidebar }) => {
 
   const currentUser = useSelector(state => state.user.currentUser);
+  const iscartopen = useSelector(state => state.cart.isCartOpen)
   const dispatch = useDispatch();
   const [, updateCart, deleteCart] = useCart();
   const currentCart = useSelector(state => state.cart.currentCart || []);
 const [quantities, setQuantities] = useState([]);
   const [isGrandTotalLoading, setIsGrandTotalLoading] = useState(false); // State to manage loader for Grand Total
   const [isDeleting, setIsDeleting] = useState(false); // State to manage loader for Deleting items
-
+  
   const item = currentCart?.items ? currentCart.items.map(item => item) : [];
+
+  const debouncedUpdate = useCallback(
+  debounce((itemId, quantity, cartId) => {
+    dispatch(updateCartStart({ itemId, quantity, cartId }));
+  }, 300),
+  []
+);
 
   // Function to handle the increase in quantity
   const handleClickIncrease = (index, item) => {
-    const updatedQuantities = [...quantities];
-    updatedQuantities[index] = (updatedQuantities[index] || 0) + 1;
-    
-    // Immediately show the loader for grand total
-    setIsGrandTotalLoading(true);
+  const updatedItems = [...currentCart.items];
+  const newQuantity = (updatedItems[index].quantity || 1) + 1;
+  updatedItems[index] = { ...updatedItems[index], quantity: newQuantity };
 
-    setQuantities(updatedQuantities);
-    dispatch(updateCartStart({ itemId: item._id, quantity: updatedQuantities[index], cartId: currentCart._id }));
+  const subTotal = updatedItems.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
+  const grandTotal = subTotal;
+
+  const updatedCart = {
+    ...currentCart,
+    items: updatedItems,
+    subTotal,
+    grandTotal,
   };
+
+  dispatch({ type: 'SET_CART', payload: updatedCart });
+
+  debouncedUpdate(item._id, newQuantity, currentCart._id);
+};
+
+
  console.log("Cart items on first render:", currentCart?.items);
   // Function to handle the decrease in quantity
   const handleClickDecrease = (index, item) => {
-    if (quantities[index] > 1) {
-      const updatedQuantities = [...quantities];
-      updatedQuantities[index] = Math.max(1, (updatedQuantities[index] || 0) - 1);
-      
-      // Immediately show the loader for grand total
-      setIsGrandTotalLoading(true);
+  if ((item.quantity || 1) > 1) {
+    const updatedItems = [...currentCart.items];
+    const newQuantity = Math.max(1, (updatedItems[index].quantity || 1) - 1);
+    updatedItems[index] = { ...updatedItems[index], quantity: newQuantity };
 
-      setQuantities(updatedQuantities);
-      dispatch(updateCartStart({ itemId: item._id, quantity: updatedQuantities[index], cartId: currentCart._id }));
-    }
-  };
+    const subTotal = updatedItems.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
+    const grandTotal = subTotal;
 
-  // Function to handle item deletion with a loader
+    const updatedCart = {
+      ...currentCart,
+      items: updatedItems,
+      subTotal,
+      grandTotal,
+    };
+
+    dispatch({ type: 'SET_CART', payload: updatedCart });
+
+debouncedUpdate(item._id, newQuantity, currentCart._id);
+}
+};
+// Function to handle item deletion with a loader
   const handleDelete = (item) => {
     setIsDeleting(item._id); // Set the ID of the item being deleted
   
     // Simulate a delay (replace this with actual async action)
-    setTimeout(() => {
+     
       localStorage.removeItem(`cart-${item.product._id}`);
-      dispatch(deleteCartStart(item._id));
-      dispatch(getCartStart());
-  
-      // After deletion process, reset the deleting item ID
-      setIsDeleting(null);
-    }, 5000); // Simulating a delay for deletion process (replace with real async call)
+      const updatedItems = currentCart.items.filter(i => i._id !== item._id);
+const updatedCart = {
+  ...currentCart,
+  items: updatedItems,
+  subTotal: updatedItems.reduce((sum, i) => sum + i.product.price * i.quantity, 0),
+  grandTotal: updatedItems.reduce((sum, i) => sum + i.product.price * i.quantity, 0),
+};
+
+dispatch({ type: 'SET_CART', payload: updatedCart });
+dispatch(deleteCartStart(item._id));
+
+// Optional: refetch from server later if needed
+setTimeout(() => {
+  dispatch(getCartStart());
+  setIsDeleting(null);
+}, 500);
+
   };
-  
 
+  const handleCloseCart = () => {
+  dispatch({ type: 'TOGGLE_CART' });
+};
+ 
   // Use effect to simulate loading of Grand Total
-  useEffect(() => {
-    if (currentCart?.items) {
-      setQuantities(currentCart.items.map(item => item.quantity || 1));
-      
-      // Simulate loading of grand total for demonstration purposes
-      setTimeout(() => {
-        setIsGrandTotalLoading(false); // Hide loader after a short delay (to simulate a network request)
-      }, 500); // In a real case, replace this with an actual API call or calculation logic
-    }
-  }, [currentCart?.items]);
-
-  // Check if currentCart exists and has items before rendering
-  if (!currentCart || currentCart.length === 0) {
-    return <p>No items in cart</p>;
+ useEffect(() => {
+  if (currentCart?.items) {
+    setQuantities(currentCart.items.map(item => item.quantity || 1));
   }
+}, []);
+console.log(iscartopen)
+//   if (!currentCart || !Array.isArray(currentCart.items)) {
+//   return (
+//   <div className="d-flex justify-content-center align-items-center mt-5">
+//     <Spinner animation="border" variant="dark" />
+//   </div>
+// );
+// }
+
+// if (currentCart.items.length === 0) {
+//   return <></>;
+// }
 
   return (
     <>
       {/* Cart Sidebar */}
-      <div className={`cart-sidebar ${cartSidebarOpen ? 'active' : ''} d-flex row`}>
+      <div className={`cart-sidebar ${iscartopen ? 'active' : ''} d-flex row`}>
         <span className='mx-2'>
           <span className='bag'>
             <div className="cart-header bg-white">
-              <h2 className='fw-normal'>BAG<span><Button variant="close" className="float-end px-3" onClick={toggleCartSidebar}></Button></span></h2>
+              <h2 className='fw-normal'>BAG<span><Button variant="close" className="float-end px-3" onClick={handleCloseCart}></Button></span></h2>
               <hr></hr>
             </div>
           </span>
 
-          {currentUser?.name && Array.isArray(currentCart?.items) && currentCart?.items?.length > 0 ? (
+          {currentUser?.name && Array.isArray(currentCart?.items) && currentCart.items.length > 0 ? (
             currentCart?.items?.map((item, index) => {
               const imageSrc = Array.isArray(item?.product?.images) && item?.product?.images.length > 0
             ? item.product.images[0]
@@ -125,7 +169,7 @@ const [quantities, setQuantities] = useState([]);
                       <span className='d-flex justify-content-between col quan-control'>
                         <Form.Group className="input-group  ">
                           <Button disabled={isGrandTotalLoading} className='btn btn-sm' onClick={() => handleClickDecrease(index, item)} variant="outline-secondary">-</Button>
-                          <Form.Control type="text" className="text-center mx-0 px-0 border-0 num" value={quantities[index] ?? 1} />
+                          <Form.Control type="text" className="text-center mx-0 px-0 border-0 num" value={item.quantity ?? 1} readOnly/>
                           <Button disabled={isGrandTotalLoading} className='btn btn-sm' onClick={() => handleClickIncrease(index, item)} variant="outline-secondary">+</Button>
                         </Form.Group>
                       </span>
@@ -162,11 +206,9 @@ const [quantities, setQuantities] = useState([]);
             <h4 className='d-flex justify-content-between fw-semibold px-2'>
               <span>Grand Total</span>
               <span>
-                {isGrandTotalLoading ? (
-                  <Spinner animation="border" size="sm" /> // Loader while calculating grand total
-                ) : (
-                  `₹${currentCart?.grandTotal || 0}` // Display grand total when available
-                )}
+                
+                  {`₹${currentCart?.grandTotal || 0}`} 
+      
               </span>
             </h4>
 
@@ -180,7 +222,7 @@ const [quantities, setQuantities] = useState([]);
       </div>
 
       {/* Blur and Overlay for main content */}
-      {cartSidebarOpen && <div className="overlay" onClick={toggleCartSidebar}></div>}
+      {cartSidebarOpen && <div className="overlay" onClick={handleCloseCart}></div>}
     </>
   );
 };

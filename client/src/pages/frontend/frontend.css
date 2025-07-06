@@ -511,45 +511,81 @@
  /* ---------WISHLIST STYLE HERE----------- */
 
  .image-container {
-    position: relative;
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
 }
 
-.heart-button {
-    position: absolute;
-    bottom: 10px; /* Adjust this value to move it up or down */
-    left: 10px; /* Adjust this value to move it left or right */
-     border: none; /* Remove default button border */
-    cursor: pointer; /* Change cursor to pointer */
-    z-index: 1; /* Ensure it's above the images */
-    background-color: transparent;
+/* Shared styles for both images */
+.img.primary,
+.img.secondary {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: opacity 0.3s ease-in-out;
 }
-.heart-button:hover{
+
+/* Secondary image overlays first */
+.img.secondary {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 2;
+}
+
+.image-container:hover .secondary {
+  opacity: 1;
+}
+
+/* Heart icon button */
+.heart-button {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  border: none;
+  background-color: transparent;
+  z-index: 3;
+  cursor: pointer;
+}
+
+.heart-button:hover {
   font-size: 2rem !important;
 }
 
-.img {
-    display: block; /* Ensure images are block elements */
-    width: 100%; /* Make images responsive */
-    height: auto; /* Maintain aspect ratio */
+/* Title and price styles */
+.product-title {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  text-align: left;
 }
 
-.loader-container {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.product-price {
+  font-size: 0.95rem;
+  text-align: left;
+  margin-bottom: 1rem;
 }
 
-.spinner-border {
-  width: 3rem;
-  height: 3rem;
+/* Responsive layout adjustments */
+@media (max-width: 768px) {
+  .product-title {
+    font-size: 0.9rem;
+  }
+
+  .product-price {
+    font-size: 0.85rem;
+  }
+
+  .heart-button {
+    bottom: 5px;
+    left: 5px;
+    font-size: 1.2rem;
+  }
 }
-.loader {
-  margin-top: 20px;
-  font-size: 16px;
-  color: #555;
-  text-align: center;
-}
+
 /* -------------------ABOUT US----------------- */
 .about-us-container {
   padding: 20px;
@@ -597,6 +633,7 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
 /* -------------Contact Us------------ */
 .contact-us-container {
   padding: 20px;

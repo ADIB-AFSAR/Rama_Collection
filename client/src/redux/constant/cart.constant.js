@@ -14,5 +14,9 @@ export const UPDATE_CART_START = 'UPDATE_CART_START'
 export const UPDATE_CART_SUCCESS = 'UPDATE_CART_SUCCESS'
 export const UPDATE_CART_ERROR = 'UPDATE_CART_ERROR'
 
+export const SET_CART = 'SET_CART'
+
+export const TOGGLE_CART = "TOGGLE_CART"
+
  
  

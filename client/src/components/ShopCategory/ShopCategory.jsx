@@ -6,6 +6,7 @@ import "./shopcat.css";
 import { getProductStart } from "../../redux/action/product.action";
 import { getWishListStart } from "../../redux/action/wishlist.action";
 import { getCategoryStart } from "../../redux/action/category.action";
+import SkeletonLoader from "../SkeletonLoader/skeletonLoader";
 
 const shuffleArray = (array) => {
   let shuffledArray = [...array];
@@ -18,23 +19,20 @@ const shuffleArray = (array) => {
 
 const ShopCategory = () => {
   const [shuffledProducts, setShuffledProducts] = useState([]);
-  const [loadingProducts, setLoadingProducts] = useState(true); // Track if products are loading
   const [loadingImages, setLoadingImages] = useState({}); // Track image loading state for each product
   const products = useSelector((state) => state.product.products);
   const categories = useSelector((state) => state.category.categories);
   const currentUser = useSelector((state) => state.user.currentUser);
+  const isFetching = useSelector((state) => state.product.isFetching);
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
 
-  useEffect(() => {
-     if (products && products?.length > 0) {
-      setShuffledProducts(shuffleArray(products));
-      setLoadingProducts(false); // Products are loaded, stop the loader
-    } else {
-      setLoadingProducts(true); // Show loader if products are empty or undefined
-    }
-  }, [products]); // Depend on `products` directly
+ useEffect(() => {
+  if (products && products.length > 0) {
+    setShuffledProducts(shuffleArray(products));
+  }
+}, [products]);
   
 
   const toProductListingPage = (category) => {
@@ -71,109 +69,101 @@ console.log("Product Categories:", shuffledProducts.map(p => p.category?.name));
 
 useEffect(() => {
   const timeouts = shuffledProducts.map((product) => {
-    return setTimeout(() => {
-      setLoadingImages((prevState) => ({
+    return setLoadingImages((prevState) => ({
         ...prevState,
         [product._id]: false, // Hide loader after timeout
       }));
-    }, 5000); // Timeout set to 5 seconds
   });
 
   return () => timeouts.forEach((timeout) => clearTimeout(timeout));
 }, [shuffledProducts]);
 
-
   const renderCategorySection = (categoryName) => {
     const categoryProducts = shuffledProducts?.filter(
       (product) => product.category?.name === categoryName
-    );
-
-    
+    );  
     return (
       <div className="category-section mb-5">
         <h5 className="text-center mb-3 satisfy-regular fs-1 text-capitalize">{categoryName}</h5>
-        <div className="row">
+         <div className="row">
           {categoryProducts.map((product, index) => (
             <div className="col-lg-3 col-md-4 col-sm-6 col-6 mb-4" key={index}>
               <div className="card position-relative">
                 {/* Ribbon for quantity less than 10 */}
                 {product.quantity < 10 && (
-                  <div
-                    className="position-absolute bg-danger text-white py-1 px-2 fw-bold"
-                    style={{
-                      top: "10px",
-                      right: "10px",
-                      borderRadius: "5px",
-                      zIndex: 10,
-                    }}
-                  >
-                    {product.quantity} left
-                  </div>
-                )}
+  <div className="stock-badge">
+    {product.quantity} left
+  </div>
+)}
 
                 {/* Image with loader */}
-                <div className="image-container position-relative">
-                  {/* Loader visibility */}
-                  {loadingImages[product._id] && (
-                    <div
-                      className="image-loader position-absolute w-100 h-100 bg-light d-flex justify-content-center align-items-center"
-                      style={{ display: "block" }}
-                    >
-                      <div className="spinner-border text-primary" role="status"></div>
-                    </div>
-                  )}
-                  <img
-                    onClick={() => toProductListingPage(product.category.name)}
-                    src={product.images[0]}
-                    alt={product.name}
-                    className="card-img-top"
-                    onLoad={() => handleImageLoad(product._id)} // Hide loader on image load
-                    onMouseOver={(e) => (e.currentTarget.src = product.images[1] || product.images[0])}
-                    onMouseOut={(e) => (e.currentTarget.src = product.images[0])}
-                  />
-                </div>
+                <div
+  className="image-container position-relative"
+  onClick={() => toProductListingPage(product.category.name)}
+>
+  {loadingImages[product._id] && (
+    <div className="image-loader position-absolute w-100 h-100 bg-light d-flex justify-content-center align-items-center">
+      <div className="spinner-border text-primary" role="status"></div>
+    </div>
+  )}
+
+  <img
+    src={product.images[0]}
+    alt={product.name}
+    className="product-image primary"
+    onLoad={() => handleImageLoad(product._id)}
+  />
+  <img
+    src={product.images[1] || product.images[0]}
+    alt={product.name}
+    className="product-image secondary"
+  />
+</div>
+
 
                 <div className="card-body p-0">
-                  <h5 className="card-title text-left text-capitalize">{product.name}</h5>
-                  <div className="product-price text-left">
-                    <span className="text-dark">₹{Number(product?.price).toFixed(2)}</span>
-                    <span className="mx-1 text-decoration-line-through small">
-                      ₹{(Number(product?.price) * 1.5).toFixed(2)}
-                    </span>
-                  </div>
-                </div>
+  <h5 className="card-title product-name text-left text-capitalize">
+    {product.name}
+  </h5>
+  <div className="product-price text-left">
+    <span className="text-dark">₹{Number(product?.price).toFixed(2)}</span>
+    <span className="mx-1 text-decoration-line-through small">
+      ₹{(Number(product?.price) * 1.5).toFixed(2)}
+    </span>
+  </div>
+</div>
               </div>
             </div>
           ))}
         </div>
+        
       </div>
     );
   };
 
   return (
-    <div className="container mx-auto px-0">
-      <p className="text-center mb-4">
-        <span className="text-center ribbon-heading">Shop By Category</span>
-      </p>
+  <div className="container mx-auto px-0">
+    <p className="text-center mb-4">
+      <span className="text-center ribbon-heading">Shop By Category</span>
+    </p>
 
-      {/* Show loader for products if loading */}
-      {loadingProducts ? (
-        <div className="d-flex justify-content-center align-items-center">
-          <div className="spinner-border text-primary" role="status"></div>
-        </div>
-      ) : (
-        <>
-        {categories.length > 0 && categories.map((category)=>{
-          return renderCategorySection(category?.name)
+    {isFetching ? (
+      // Show global loader only once before categories load
+      <SkeletonLoader/>
+    ) : (
+      <>
+        {categories.length > 0 && categories.map((category) => {
+          return renderCategorySection(category?.name);
         })}
-        </>
-      )}
+      </>
+    )}
 
-      <button onClick={() => toProductListingPage("all")} className="rewards-button position-sticky float-end">
-        View All
-      </button>
-    </div>
-  );
+    <button onClick={() => toProductListingPage("all")} className="rewards-button position-sticky float-end">
+      View All
+    </button>
+  </div>
+);
+
 };
 
 export default ShopCategory;

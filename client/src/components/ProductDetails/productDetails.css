@@ -326,3 +326,26 @@ button:disabled {
     margin-right: 3rem;
     margin-top: 0;
   }
+  /* photo section */
+  @keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+
+
+@media (max-width: 520px){
+ .badge-in-phone{
+    margin-top: 1.5rem;
+    margin-right: 1rem !important;
+    font-size: 10px !important;
+ }
+}

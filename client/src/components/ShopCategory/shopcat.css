@@ -120,3 +120,162 @@
     font-size:12px;
   }
 }
+
+
+
+
+.placeholder-glow {
+  display: inline-block;
+  height: 1em;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+.image-placeholder,
+.placeholder {
+  border-radius: 10px;
+  animation: shimmer 1.2s infinite linear;
+  background: linear-gradient(
+    to right,
+    #eeeeee 8%,
+    #dddddd 18%,
+    #eeeeee 33%
+  );
+  background-size: 1000px 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #f0f0f0;
+  }
+  50% {
+    background-color: #e0e0e0;
+  }
+  100% {
+    background-color: #f0f0f0;
+  }
+}
+.image-placeholder,
+.placeholder {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+
+.image-container img {
+  opacity: 0;
+  transition: opacity 0.4s ease-in;
+}
+
+.image-container img.loaded {
+  opacity: 1;
+}
+
+/* smooth hover */
+
+.image-container {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.product-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: opacity 0.4s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.product-image.primary {
+  position: relative;
+  z-index: 1;
+  opacity: 1;
+}
+
+.product-image.secondary {
+  z-index: 2;
+  opacity: 0;
+}
+
+.image-container:hover .secondary {
+  opacity: 1;
+}
+
+.image-container:hover .primary {
+  opacity: 0;
+}
+/* price visiblity */
+.card-body {
+  background: white;
+  padding: 0.5rem;
+  z-index: 3;
+  position: relative;
+}
+/* Slight Hover Zoom */
+
+.image-container:hover img {
+  transform: scale(1.05);
+}
+
+.product-image {
+  transition: transform 0.3s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+/* quantity left ribbon */
+.stock-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, #f5882e, #f33d3d); /* red-orange gradient */
+  color: white; 
+  font-weight: 600;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border-radius: 20px;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  animation: pulse 1.5s infinite;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width : 486px){
+  .stock-badge{
+    font-size: 0.55rem;
+    padding: 2px 8px;
+  }
+  
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.product-name {
+  min-height: 40px;         /* Keeps height consistent */
+  max-height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;      /* One line only */
+  margin-bottom: 8px;       /* Space between name and price */
+}

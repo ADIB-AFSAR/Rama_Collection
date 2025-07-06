@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { addCartStart, deleteCartStart, getCartStart } from '../../redux/action/cart.action';
 import { addToWishlistStart, getWishListStart, removeFromWishlistStart } from '../../redux/action/wishlist.action';
 import { Spinner } from 'react-bootstrap'; // Import Spinner from react-bootstrap
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'; 
+import product from '../../redux/saga/product.saga';
 
 const DetailsSection = ({ CurrentProductDetails }) => {
   const currentUser = useSelector(state => state.user.currentUser);
@@ -16,7 +17,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   const [wishlistLoading, setWishlistLoading] = useState(false); // Track loading state for wishlist
   const [selectedSize, setSelectedSize] = useState('');
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   const handleAddToWishlist = (productId) => {
     if(!currentUser.name){
@@ -98,15 +99,17 @@ const DetailsSection = ({ CurrentProductDetails }) => {
     toast.success('Item removed from cart');
   } else {
     setLoading(true);
-    dispatch(addCartStart(productToAdd));
+    dispatch(addCartStart(productToAdd)); 
      setTimeout(() => {
       setIsAddedToCart(true);
       localStorage.setItem(`cart-${product._id}`, true);
       toast.success('Item added to cart');
+      
       setLoading(false);
     }, 3000);
   }
 };
+
 
 
   useEffect(() => {
@@ -133,6 +136,10 @@ const DetailsSection = ({ CurrentProductDetails }) => {
                     <span className="text-dark">₹{Number(CurrentProductDetails?.price).toFixed(2)}</span>
                     
                   </div> */}
+                  
+                  {CurrentProductDetails?.quantity < 10 && (<div className="stock-badge badge-in-phone mx-3">
+    {CurrentProductDetails?.quantity} left
+  </div>)}
                  {CurrentProductDetails.sizes.map(size => (
   <button
     key={size}

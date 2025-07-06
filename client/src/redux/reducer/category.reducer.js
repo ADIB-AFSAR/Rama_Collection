@@ -1,4 +1,4 @@
-import { GET_CATEGORY_ERROR, GET_CATEGORY_SUCCESS } from "../constant/category.constant";
+ import { GET_CATEGORY_ERROR, GET_CATEGORY_START, GET_CATEGORY_SUCCESS } from "../constant/category.constant";
 
 // Initial state with categories loaded from local storage or set to an empty array
 const initialState = {
@@ -6,10 +6,16 @@ const initialState = {
         ? JSON.parse(localStorage.getItem('categories')) 
         : [], // Fallback to empty array if not found
     error: null, // Initialize error state
+    loading : false
 };
 
 export const categoryReducer = (state = initialState, action) => {
     switch (action.type) {
+        case GET_CATEGORY_START:
+            return{
+                ...state,
+                loading :true
+            }
         case GET_CATEGORY_SUCCESS:
             // Update local storage with new categories and return updated state
             localStorage.setItem('categories', JSON.stringify(action.payload));
@@ -17,12 +23,14 @@ export const categoryReducer = (state = initialState, action) => {
                 ...state,
                 categories: [...action.payload], // Spread to create a new array
                 error: null, // Clear any existing errors on success
+                loading :false
             };
         case GET_CATEGORY_ERROR:
             // Handle error and update state
             return {
                 ...state,
                 error: action.payload, // Set error details
+                loading :false
             };
         default:
             // Return the current state for unrecognized actions

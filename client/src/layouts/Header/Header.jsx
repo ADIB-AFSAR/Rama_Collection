@@ -15,11 +15,11 @@ function Header() {
   const currentUser = useSelector(state => state.user.currentUser);
   const wishlist = useSelector(state => state.wishlist.items);
   const isUpdated = useSelector(state => state.wishlist.isUpdated);
-  const dispatch = useDispatch();
+   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const toggleCartSidebar = () => {
-    setCartSidebarOpen(!cartSidebarOpen);
+    dispatch({ type: 'TOGGLE_CART' });
   };
 
   const toggleSearch = () => {
@@ -44,8 +44,9 @@ function Header() {
   };
 
   useEffect(() => {
-    if (isUpdated && currentUser) {
-      dispatch(getWishListStart(currentUser.id));
+    if (currentUser) {
+      dispatch(getWishListStart(currentUser?.id));
+      console.log("currentuserid -",currentUser.id)
     }
   }, [isUpdated, currentUser, dispatch]);
 
