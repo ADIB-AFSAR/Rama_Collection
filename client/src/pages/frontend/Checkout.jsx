@@ -52,6 +52,7 @@ function Checkout() {
     
   };
 
+  
   const handleUPISubmit = async (event) => {
     setLoading(true); // Start the loader when the button is clicked
     const NewFormData = new FormData(); 
