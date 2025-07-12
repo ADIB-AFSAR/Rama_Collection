@@ -1,6 +1,6 @@
 const express = require("express")
-import { getUserOrders } from "../../controller/front/order.controller";
-import { authorization } from "../../middleware/authorization.middleware";
+const { getUserOrders } = require("../../controller/front/order.controller");
+const { authorization } = require('../../middleware/authorization.middleware');
 
 const router = express.Router();
 router.use(authorization)

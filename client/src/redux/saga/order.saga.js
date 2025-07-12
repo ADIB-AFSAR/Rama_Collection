@@ -34,7 +34,7 @@ import { getToken } from '../service/token.service';
 function* getAllOrders() {
   try {
     const res = yield call(() =>
-  axios.get('/api/admin/order', {
+  axios.get(`${process.env.REACT_APP_API_URL}/api/admin/order`, {
     headers: {
       Authorization: getToken(),
     },

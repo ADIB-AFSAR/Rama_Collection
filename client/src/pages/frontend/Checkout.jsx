@@ -130,7 +130,7 @@ function Checkout() {
     if (device === "mobile") {
       const message = `Hi, I just placed an order from your website.\n\nOrder ID: ${orderDetails._id}\nName: ${orderDetails.billingAddress.name}\nEmail: ${orderDetails.billingAddress.email}\nTotal: ₹${orderDetails.grandTotal}`;
       const encodedMsg = encodeURIComponent(message);
-      const adminPhone = "91XXXXXXXXXX"; // Replace with real number
+      const adminPhone = process.env.ADMIN_PHONE; // Replace with real number
 
       localStorage.setItem("showThankYou", "1");
       window.location.href = `https://wa.me/${adminPhone}?text=${encodedMsg}`;
