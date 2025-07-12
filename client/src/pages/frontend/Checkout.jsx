@@ -30,7 +30,7 @@ function Checkout() {
   const currentCart = useSelector(state=>state.cart.currentCart)
   const currentUser = useSelector(state=>state.user.currentUser)
   const { orderDetails, device, loading } = useSelector(state => state.order);
-  
+  let toastId = null;  
 
   const [handleChange,formData,setFormData,,,] = useFormData(initialState,'');
   const { name,email,companyName,address,city,state,country,zipCode,contact,payment} = formData
@@ -136,10 +136,9 @@ function Checkout() {
       localStorage.setItem("showThankYou", "1");
       localStorage.setItem('orderPlaced', 'true');
       navigate("/thankyou");
-      setTimeout(() => {
-        window.location.href = `https://wa.me/${adminPhone}?text=${encodedMsg}`;
-      }, 2000);
-      
+       
+      const url = `https://wa.me/${adminPhone}?text=${encodedMsg}`;
+       redirectWithToast(url,10)      
     } else {
       navigate("/thankyou");
     }
@@ -150,6 +149,31 @@ useEffect(() => {
       navigate('/'); // Redirect to cart if empty
     }
   }, [currentCart, navigate]);
+
+  // toast code
+ const redirectWithToast = (url, seconds = 10) => {
+  let countdown = seconds;
+
+  toastId = toast.info(`Redirecting in ${countdown} seconds...`, {
+    position: 'top-center',
+    autoClose: false,
+    closeOnClick: false,
+    draggable: false,
+  });
+
+  const interval = setInterval(() => {
+    countdown -= 1;
+    if (countdown > 0) {
+      toast.update(toastId, {
+        render: `Redirecting in ${countdown} seconds...`,
+      });
+    } else {
+      clearInterval(interval);
+      toast.dismiss(toastId); // Dismiss toast before redirect
+      window.location.href = url;
+    }
+  }, 1000);
+};
 
   return (
     <>

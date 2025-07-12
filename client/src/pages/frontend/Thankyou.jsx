@@ -9,8 +9,12 @@ const ThankYou = () => {
   useEffect(() => {
     setTimeout(() => {
       localStorage.removeItem("showThankYou");
-    }, 2000);
+    }, 10000);
   }, []);
+
+  useEffect(() => {
+  window.scrollTo(0, 0);
+}, []);
 
   useEffect(() => {
   const placed = localStorage.getItem('orderPlaced');

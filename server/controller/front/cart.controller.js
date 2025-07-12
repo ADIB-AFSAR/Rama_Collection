@@ -389,9 +389,12 @@ const sendOrderEmail = async (order, adminEmail) => {
       <p><strong>Email:</strong> ${order.billingAddress.email}</p>
       <p><strong>Phone:</strong> ${order.billingAddress.contact}</p>
       <p><strong>Order ID:</strong> ${order._id}</p>
-      <p><strong>Grand Total:</strong> ₹${order.grandTotal}</p>c
+      <p><strong>Grand Total:</strong> ₹${order.grandTotal}</p>
       <p><strong>Items:</strong></p>
       <ul>${productList}</ul>
+      <br>
+      <br>
+      <p><a href="https://www.ramacollectionshop.com">Rama Collection<a/><p/>
     `
   };
 
