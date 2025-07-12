@@ -9,7 +9,6 @@ router.use('/reviews', reviewRoutes)
 router.use('/', authenticationRoute)
 router.use('/cart',cartRoutes)
 router.use('/order',order)
-router.use('/reviews/:id',postReview)
 
 
 
