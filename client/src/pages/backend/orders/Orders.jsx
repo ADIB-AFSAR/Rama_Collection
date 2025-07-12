@@ -54,6 +54,11 @@ function Orders() {
                 }
               );
               toast.success("Payment approved successfully");
+              if(currentUser && currentUser.role == "admin"){
+              dispatch(getAllOrdersStart())
+            }else{
+              dispatch(getUserOrdersStart(currentUser.id))
+            }
             } catch (error) {
               console.error("Error approving payment:", error.message);
               toast.error("Failed to approve payment");
@@ -95,7 +100,7 @@ function Orders() {
                             <div className="card-header bg-dark d-flex justify-content-between">
                                 <h4 className="card-title text-white fw-bold">Orders</h4>
                             </div>
-                           <div className='table-responsive'>{loading ?<p className='spinner-container'><Spinner animation="border" size="sm" className="text-primary spinner mt-2" /></p> : <table className="table">
+                           <div className='table-responsive'>{loading ?<p className='spinner-container'><Spinner animation="border" className="text-primary spinner mt-2" /></p> : <table className="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>

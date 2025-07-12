@@ -229,11 +229,17 @@ function ProductListingPage() {
             {filteredProducts?.length > 0 ?
               filteredProducts.map((product, index) => (
                 <div className="col-lg-3 col-md-4 col-sm-6 col-6 mb-4" key={index}>
-              <div className="card position-relative">
+              <div className={`card position-relative ${product.quantity <= 0 ? 'fade-card' : ''}`}>
                 {/* Ribbon for quantity less than 10 */}
-                {product.quantity < 10 && (
-  <div className="stock-badge">
+                {product.quantity > 0 && product.quantity < 10 && (
+  <div className="stock-badge bg-warning text-dark">
     {product.quantity} left
+  </div>
+)}
+
+{product.quantity <= 0 && (
+  <div className="stock-badge bg-danger text-white">
+    Out of Stock
   </div>
 )}
 

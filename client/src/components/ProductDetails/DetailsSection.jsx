@@ -137,9 +137,20 @@ const DetailsSection = ({ CurrentProductDetails }) => {
                     
                   </div> */}
                   
-                  {CurrentProductDetails?.quantity < 10 && (<div className="stock-badge badge-in-phone mx-3">
+                  {/* {CurrentProductDetails?.quantity < 10 && (<div className="stock-badge badge-in-phone mx-3">
     {CurrentProductDetails?.quantity} left
-  </div>)}
+  </div>)} */}
+  {CurrentProductDetails.quantity > 0 && CurrentProductDetails.quantity < 10 && (
+  <div className="stock-badge bg-warning text-dark badge-in-phone mx-3">
+    {CurrentProductDetails.quantity} left
+  </div>
+)}
+
+{CurrentProductDetails.quantity <= 0 && (
+  <div className="stock-badge bg-danger text-white badge-in-phone mx-3">
+    Out of Stock
+  </div>
+)}
                  {CurrentProductDetails.sizes.map(size => (
   <button
     key={size}
@@ -158,7 +169,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
 ))}
 
 
-                  <button
+                  {CurrentProductDetails?.quantity > 0 && <button
     disabled={loading} // Only disable the button while loading
     onClick={() => {
       if (isAddedToCart) {
@@ -179,7 +190,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
         </span>
     <i className="fas fa-shopping-cart"></i>
         <i className="fas fa-box"></i>
-  </button>
+  </button>}
 
   <button onClick={() => handleAddToWishlist(CurrentProductDetails._id)} className="btn btn-outline-dark like-button d-flex justify-content-center col-12 mt-2">
   {wishlistLoading ? (
@@ -196,7 +207,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
 </button>
 
 
-        <div>
+        <div className='return-info'>
           <h5 className='fw-normal mt-5 mb-2'>Returns & Exchange Information</h5>
           <p className='m-0 p-0 small text-muted'>1. Hassle-free returns within 7 days; </p>
           <p className='m-0 p-0 small text-muted'> 2. specific conditions apply based on products and promotions.</p>

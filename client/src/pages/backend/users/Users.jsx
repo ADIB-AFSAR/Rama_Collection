@@ -8,8 +8,8 @@ import { Spinner } from 'react-bootstrap';
 
 function Users() {
   const users = useSelector(state => state.user.users);
-  const [loading , setLoading] = useState(false)
-  const dispatch = useDispatch();
+  const loading = useSelector(state => state.user.loading);
+   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleDelete = (userId) => {
@@ -20,9 +20,7 @@ function Users() {
   };
 
   useEffect(() => {
-    setLoading(true)
     dispatch(getUserStart());
-    setTimeout(()=>{setLoading(false)},3000)
   }, [dispatch]);
 
   return (
@@ -40,7 +38,7 @@ function Users() {
                 <Link to="create" className="btn btn-primary">Add Users</Link>
               </div>
               <div className='table-responsive'>
-              {loading ?<p className='spinner-container'><Spinner animation="border" size="sm" className="text-primary spinner mt-2" /></p>:<table className="table">
+              {loading ?<p className='spinner-container'><Spinner animation="border" className="text-primary spinner mt-2" /></p>:<table className="table">
                 <thead>
                   <tr>
                     <th scope="col">#</th> 

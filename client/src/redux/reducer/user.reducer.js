@@ -1,5 +1,6 @@
 import { 
     GET_USER_ERROR, 
+    GET_USER_START, 
     GET_USER_SUCCESS, 
     LOGIN_USER_SUCCESS, 
     LOGOUT_USER_SUCCESS, 
@@ -19,24 +20,32 @@ const initialState = {
             email: '',
             contact: '', 
         },
+        loading : false
 };
 
 // User reducer to manage user-related state
 export const userReducer = (state = initialState, action) => {
     switch (action.type) {
+        case GET_USER_START:
+            return {
+                ...state,
+                loading : true
+            }
         case GET_USER_SUCCESS:
             localStorage.setItem('users', JSON.stringify(action.payload));
             return {
                 ...state,
-                users: [...action.payload]
+                users: [...action.payload],
+                loading :false
             };
 
         case GET_USER_ERROR:
             return {
                 ...state,
-                error: action.payload
+                error: action.payload,
+                loading :false
             };
-
+        
         case LOGIN_USER_SUCCESS:
             localStorage.setItem('currentUser', JSON.stringify(action.payload));
             return {

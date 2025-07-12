@@ -8,10 +8,9 @@ import { Spinner } from 'react-bootstrap';
 
 function Products() {
   const products = useSelector(state => state.product?.products);
-  const [loading , setLoading] = useState(false)
+  const loading =  useSelector(state => state.product?.isFetching);
   const dispatch = useDispatch();
-  console.log(products[31].enableSize)
-
+ 
   const handleDelete = (productId) => {
     if (window.confirm("Are you sure you want to delete this product?")){
       dispatch(deleteProductStart(productId));
@@ -20,9 +19,7 @@ function Products() {
   }
 
   useEffect(() => {
-    setLoading(true)
     dispatch(getProductStart());   
-    setTimeout(()=>{setLoading(false)},3000)
   }, [dispatch]);
 
   return (
@@ -40,7 +37,7 @@ function Products() {
                 <Link to="create" className="btn btn-primary">Add Product</Link>
               </div>
               <div className='table-responsive '>
-              { loading ? <p className='spinner-container'><Spinner animation="border" size="sm" className="text-primary spinner mt-2" /></p> : <table className="table table-striped">
+              { loading ? <p className='spinner-container'><Spinner animation="border" className="text-primary spinner mt-2" /></p> : <table className="table table-striped">
                 <thead>
                   <tr>
                     <th scope="col">#</th>

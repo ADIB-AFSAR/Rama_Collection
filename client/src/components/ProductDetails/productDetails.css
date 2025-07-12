@@ -339,13 +339,16 @@ button:disabled {
   }
 }
 
-
-
-
 @media (max-width: 520px){
  .badge-in-phone{
     margin-top: 1.5rem;
     margin-right: 1rem !important;
     font-size: 10px !important;
+ }
+ .return-info{
+    font-size: 12px;
+ }
+ .return-info h5{
+    font-size: 14px;
  }
 }

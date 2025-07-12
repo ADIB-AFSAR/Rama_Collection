@@ -279,3 +279,10 @@
   white-space: nowrap;      /* One line only */
   margin-bottom: 8px;       /* Space between name and price */
 }
+
+.fade-card {
+  opacity: 0.5;
+  filter: grayscale(100%);
+  /* pointer-events: none;  */
+  /* cursor: not-allowed; */
+}

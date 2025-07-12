@@ -9,17 +9,15 @@ import { Spinner } from 'react-bootstrap';
 function Categories() {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.categories);
-  console.log(categories)
-   const [loading , setLoading] = useState(false)
-  const handleDelete = (categoryId) => {
+  const loading = useSelector((state) => state.category.loading);
+
+    const handleDelete = (categoryId) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       dispatch(deleteCategoryStart(categoryId));
     }
   };
   useEffect(() => {
-    setLoading(true)
     dispatch(getCategoryStart());
-    setTimeout(()=>{setLoading(false)},3000)
   }, [dispatch]);
 
   return (
@@ -37,7 +35,7 @@ function Categories() {
                 <Link to="create" className="btn btn-primary">Add Category</Link>
               </div>
               {loading ? (
-                <p className='spinner-container'><Spinner animation="border" size="sm" className="text-primary spinner mt-2" /></p>
+                <p className='spinner-container'><Spinner animation="border" className="text-primary spinner mt-2" /></p>
               ) : (
                 <table className="table">
                   <thead>
