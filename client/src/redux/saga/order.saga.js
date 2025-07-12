@@ -19,6 +19,7 @@ import {
 import { getCartStart } from '../action/cart.action';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { getToken } from '../service/token.service';
 
 // Saga to get all orders
 // function* getOrder() {
@@ -32,7 +33,13 @@ import axios from 'axios';
 
 function* getAllOrders() {
   try {
-    const res = yield call(() => axios.get('/api/admin/order'));
+    const res = yield call(() =>
+  axios.get('/api/admin/order', {
+    headers: {
+      Authorization: getToken(),
+    },
+  })
+);
     yield put(getOrderSuccess(res.data.order));
   } catch (err) {
     yield put(getOrderError(err.message));
@@ -42,8 +49,18 @@ function* getAllOrders() {
 
 function* getUserOrders(action) {
   try {
-    const res = yield call(() => axios.post(`${process.env.REACT_APP_API_URL}/api/admin/order/user`, { userId: action.payload }));
-    yield put(getOrderSuccess(res.data.order));
+const res = yield call(() =>
+  axios.post(
+    `${process.env.REACT_APP_API_URL}/api/order/user`,
+    { userId: action.payload },
+    {
+      headers: {
+        Authorization: getToken(),
+        'Content-Type': 'application/json',
+      },
+    }
+  )
+);    yield put(getOrderSuccess(res.data.order));
   } catch (err) {
     yield put(getOrderError(err.message));
   }
