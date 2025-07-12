@@ -6,8 +6,9 @@ import {getToken} from "../service/token.service"
 
 // Fetch reviews
 function* fetchReviewsSaga(action) {
+const productId = action.payload.productId;
   try {
-    const { data } = yield call(axios.get, `${process.env.REACT_APP_API_URL}/api/reviews/${action.payload}`)
+    const { data } = yield call(axios.get, `${process.env.REACT_APP_API_URL}/api/reviews/${productId}`)
     yield put(fetchReviewsRequest({ productId: action.payload, reviews: data }))
   } catch (error) {
     yield put({ type: FETCH_REVIEWS_FAILURE, payload: error.message });

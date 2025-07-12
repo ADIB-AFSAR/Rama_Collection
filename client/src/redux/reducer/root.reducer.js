@@ -15,5 +15,5 @@ export const rootReducer = combineReducers({
     cart: cartReducer, // Manages cart state
     order: orderReducer, // Manages order state
     wishlist : wishlistReducer, //manage wishlist items
-    review: reviewReducer //Manage review data
+    reviews: reviewReducer //Manage review data
 });

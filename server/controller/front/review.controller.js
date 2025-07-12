@@ -4,9 +4,18 @@ const Review = require('../../models/review.model');
 // GET (no auth needed)
 const getReview = async (req, res) => {
   const { productId } = req.params;
-  const reviews = await Review.find({ productId }).sort({ createdAt: -1 });
-  res.json(reviews);
+  if (!productId || productId === 'undefined') {
+    return res.status(400).json({ message: "Invalid productId" });
+  }
+
+  try {
+    const reviews = await Review.find({ productId }).sort({ createdAt: -1 });
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
 }
+
 
 // POST (auth required)
 const addreview =  async (req, res) => {

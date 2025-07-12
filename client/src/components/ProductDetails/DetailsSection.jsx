@@ -13,7 +13,7 @@ const selectReviewState = state => state.review;
 
   const getReviews = createSelector(
   [selectReviewState],
-  (review) => review.reviews
+  (review) => review?.reviews
 );
 
 const DetailsSection = ({ CurrentProductDetails }) => {
@@ -26,12 +26,11 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   const [wishlistLoading, setWishlistLoading] = useState(false); // Track loading state for wishlist
   const [selectedSize, setSelectedSize] = useState('');
   const [comment, setComment] = useState('');
-  const [rating, setRating] = useState(0);
-
-  const selectReviewState = state => state.review;
- 
+  const [rating, setRating] = useState(0); 
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
+
+  console.log(reviews)
 
   const handleAddToWishlist = (productId) => {
     if(!currentUser.name){
@@ -142,7 +141,12 @@ const DetailsSection = ({ CurrentProductDetails }) => {
     }, 3000);
   }
 };
-
+ useEffect(() => {
+  if (CurrentProductDetails?._id) {
+    console.log("productID:",CurrentProductDetails._id)
+    dispatch(fetchReviewsRequest({productId :CurrentProductDetails._id}));
+  }
+}, [CurrentProductDetails?._id]);
 
 
   useEffect(() => {
@@ -248,10 +252,10 @@ const DetailsSection = ({ CurrentProductDetails }) => {
     reviews?.map((rev, idx) => (
       <div key={idx} className="border rounded p-3 mb-3 shadow-sm bg-light">
         <div className="d-flex justify-content-between align-items-center">
-          <strong className="text-capitalize">{rev.user.name}</strong>
+          <strong className="text-capitalize">{rev?.user.name}</strong>
           <span className="text-warning">
-            {'⭐'.repeat(rev.rating)}{' '}
-            <small className="text-muted">({rev.rating}/5)</small>
+            {'⭐'.repeat(rev?.rating)}{' '}
+            <small className="text-muted">({rev?.rating}/5)</small>
           </span>
         </div>
         <p className="mb-0 mt-2 text-secondary">{rev.comment}</p>
