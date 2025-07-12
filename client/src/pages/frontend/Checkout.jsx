@@ -128,7 +128,7 @@ function Checkout() {
     localStorage.removeItem("orderPlacedOnce"); // Prevent future triggers
 
     if (device === "mobile") {
-      const message = `Hi, I just placed an order from your website.\n\nOrder ID: ${orderDetails._id}\nName: ${orderDetails.billingAddress.name}\nEmail: ${orderDetails.billingAddress.email}\nTotal: ₹${orderDetails.grandTotal}`;
+      const message = `Hi, I just placed an order from your website.\n\nOrder ID: ${orderDetails._id}\nName: ${orderDetails.billingAddress.name}\nEmail: ${orderDetails.billingAddress.email}\nPhone:${orderDetails.billingAddress.contact}\nTotal: ₹${orderDetails.grandTotal}`;
       const encodedMsg = encodeURIComponent(message);
       const adminPhone = process.env.ADMIN_PHONE; // Replace with real number
 

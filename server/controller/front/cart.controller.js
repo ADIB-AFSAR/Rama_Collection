@@ -387,9 +387,9 @@ const sendOrderEmail = async (order, adminEmail) => {
       <h3>New Order Placed</h3>
       <p><strong>Customer Name:</strong> ${order.billingAddress.name}</p>
       <p><strong>Email:</strong> ${order.billingAddress.email}</p>
-      <p><strong>Phone:</strong> ${order.billingAddress.phone}</p>
+      <p><strong>Phone:</strong> ${order.billingAddress.contact}</p>
       <p><strong>Order ID:</strong> ${order._id}</p>
-      <p><strong>Grand Total:</strong> ₹${order.grandTotal}</p>
+      <p><strong>Grand Total:</strong> ₹${order.grandTotal}</p>c
       <p><strong>Items:</strong></p>
       <ul>${productList}</ul>
     `
