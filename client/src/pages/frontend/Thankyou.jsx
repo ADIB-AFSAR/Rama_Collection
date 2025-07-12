@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Button } from 'react-bootstrap';
 import './frontend.css'; // External CSS file for custom styles
+import { useNavigate } from 'react-router-dom';
 
 const ThankYou = () => {
+    const navigate = useNavigate()
+  
+  useEffect(() => {
+  const flag = localStorage.getItem("showThankYou");
+  if (!flag) {
+    navigate("/"); // prevent direct access
+  }
+  localStorage.removeItem("showThankYou");
+}, []);
   return (
     <div className="thankyou-container">
       <Container className="thankyou-box text-center shadow-lg">

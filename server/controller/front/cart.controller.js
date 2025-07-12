@@ -140,6 +140,7 @@ const placeOrder = async (req, res) => {
     console.log("placeorder:", req.body, req.params);
     try {
         const cart = await cartModel.findOne({ _id: req.params.cartId });
+        const device = req.body.device
 
         if (!cart) {
             return res.status(404).json({ message: "Cart not found" });
@@ -199,6 +200,7 @@ const placeOrder = async (req, res) => {
 
         // Mark the cart as ordered
         await cartModel.updateOne({ _id: cart._id }, { placedOrder: true});
+        await sendOrderEmail(order, process.env.ADMIN_EMAIL);
          return res.json({ message: "Order placed successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -356,6 +358,37 @@ const recordPayment = async ({ payerName, amount, type, screenshotUrl = null, or
     }
 };
 
+const sendOrderEmail = async (order, adminEmail) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+          },
+  });
+
+  const productList = order.products.map((item, index) => (
+    `<li>${index + 1}. ${item.name} - ${item.quantity} x ₹${item.price}</li>`
+  )).join("");
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: adminEmail,
+    subject: `New Order Received - ID ${order._id}`,
+    html: `
+      <h3>New Order Placed</h3>
+      <p><strong>Customer Name:</strong> ${order.billingAddress.name}</p>
+      <p><strong>Email:</strong> ${order.billingAddress.email}</p>
+      <p><strong>Phone:</strong> ${order.billingAddress.phone}</p>
+      <p><strong>Order ID:</strong> ${order._id}</p>
+      <p><strong>Total:</strong> ₹${order.grandTotal}</p>
+      <p><strong>Items:</strong></p>
+      <ul>${productList}</ul>
+    `
+  };
+
+  await transporter.sendMail(mailOptions);
+};
  
 module.exports = {
     getCart,
@@ -364,5 +397,6 @@ module.exports = {
     updateCart,
     placeOrder,
     stripePay,
-    verifyPayment
+    verifyPayment,
+    sendOrderEmail
 };

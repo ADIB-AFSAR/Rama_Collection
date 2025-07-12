@@ -6,10 +6,20 @@ import ShopCategory from '../../components/ShopCategory/ShopCategory'
  import '../../App.css'
 import { useSelector } from 'react-redux'
 import MaintenanceModal from '../../components/MaintainenceModal/maintainenceModal'
+import { useNavigate } from 'react-router-dom'
+
 
 function Home() {
+ 
   const currentUser = useSelector(state => state.user.currentUser);
+  const navigate = useNavigate()
   console.log(!currentUser?.role)
+  useEffect(() => {
+  if (localStorage.getItem("showThankYou") === "1") {
+    localStorage.removeItem("showThankYou");
+    navigate("/thank-you");
+  }
+}, []);
   useEffect(()=>{
     window.scrollTo(0, 0); 
   },[])

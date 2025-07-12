@@ -22,67 +22,72 @@ const initialState = {
   country : '',
   zipCode : '',
   contact : '',
-  payment : 'cod'
+  payment : 'upi'
 }
 
 
 function Checkout() {
   const currentCart = useSelector(state=>state.cart.currentCart)
   const currentUser = useSelector(state=>state.user.currentUser)
+  const { orderDetails, device, loading } = useSelector(state => state.order);
+  
+
   const [handleChange,formData,setFormData,,,] = useFormData(initialState,'');
   const { name,email,companyName,address,city,state,country,zipCode,contact,payment} = formData
  const navigate = useNavigate()
  const dispatch = useDispatch()
+ 
 
  const [showModal, setShowModal] = useState(false);
  const [screenshot, setScreenshot] = useState(null);
- const [loading, setLoading] = useState(false); // State for the loader
 
   
- const handleSubmit = async (event) => {
-    setLoading(true); // Start the loader when the form is submitted
-    event.preventDefault();
-    const orderPlaced = { cartId: currentCart._id, billingAddress: formData };  
-    setTimeout(() => {
-        dispatch(placeOrderStart(orderPlaced));    
-        setLoading(false); // Stop the loader after the order is placed
-        navigate("/thankyou");
-        deleteCartDataFromLocalStorage() 
-    }, 3000);
-    
-  };
+ const handlePlaceOrder = (e) => {
+  e.preventDefault()
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-  
-  const handleUPISubmit = async (event) => {
-    setLoading(true); // Start the loader when the button is clicked
-    const NewFormData = new FormData(); 
-    NewFormData.append("billingAddress", JSON.stringify(formData)); // Stringify the form data
-    NewFormData.append("image", screenshot); // Attach file
-     NewFormData.append(
-        "orderDetails",
-        JSON.stringify({
-      user: { userID : currentUser?.id , name, email },
-      order: currentCart,
-    })
-  );
-    console.log("formData:",[...NewFormData.entries()])
-    try {
-        await axios.post(
-            `${process.env.REACT_APP_API_URL}/api/cart/stripe-pay`, 
-            NewFormData, // Form data is the second parameter
-            {
-              headers: {
-                "Authorization": getToken(),
-                "Content-Type": "multipart/form-data",
-              }
-            }
-          );
-      handleSubmit(event)
-    } catch (error) {
-      console.error("Error sending email:", error.message);
-      setLoading(false); // Stop the loader in case of an error
-    }
-  };
+  const billingAddress = formData
+  const cartId = currentCart._id
+
+  dispatch(placeOrderStart({
+    billingAddress,
+    cartId,
+    device: isMobile ? "mobile" : "desktop"
+  }));
+};
+
+
+
+  // const handleUPISubmit = async (event) => {
+  //   setLoading(true); // Start the loader when the button is clicked
+  //   const NewFormData = new FormData(); 
+  //   NewFormData.append("billingAddress", JSON.stringify(formData)); // Stringify the form data
+  //   NewFormData.append("image", screenshot); // Attach file
+  //    NewFormData.append(
+  //       "orderDetails",
+  //       JSON.stringify({
+  //     user: { userID : currentUser?.id , name, email },
+  //     order: currentCart,
+  //   })
+  // );
+  //   console.log("formData:",[...NewFormData.entries()])
+  //   try {
+  //       await axios.post(
+  //           `${process.env.REACT_APP_API_URL}/api/cart/stripe-pay`, 
+  //           NewFormData, // Form data is the second parameter
+  //           {
+  //             headers: {
+  //               "Authorization": getToken(),
+  //               "Content-Type": "multipart/form-data",
+  //             }
+  //           }
+  //         );
+  //     handlePlaceOrder(event)
+  //   } catch (error) {
+  //     console.error("Error sending email:", error.message);
+  //     setLoading(false); // Stop the loader in case of an error
+  //   }
+  // };
   useEffect(()=>{
     console.log(currentCart)
     if(!currentUser.name){
@@ -116,7 +121,25 @@ function Checkout() {
 
     console.log("All cart-related data removed from localStorage.");
 };
-  
+  useEffect(() => {
+  const hasPlacedOrder = localStorage.getItem("orderPlacedOnce");
+
+  if (orderDetails && device && hasPlacedOrder === "1") {
+    localStorage.removeItem("orderPlacedOnce"); // Prevent future triggers
+
+    if (device === "mobile") {
+      const message = `Hi, I just placed an order from your website.\n\nOrder ID: ${orderDetails._id}\nName: ${orderDetails.billingAddress.name}\nEmail: ${orderDetails.billingAddress.email}\nTotal: ₹${orderDetails.grandTotal}`;
+      const encodedMsg = encodeURIComponent(message);
+      const adminPhone = "91XXXXXXXXXX"; // Replace with real number
+
+      localStorage.setItem("showThankYou", "1");
+      window.location.href = `https://wa.me/${adminPhone}?text=${encodedMsg}`;
+    } else {
+      navigate("/thank-you");
+    }
+  }
+}, [orderDetails, device, navigate]);
+
   return (
     <>
      <a onClick={() => window.history.back()}>
@@ -131,7 +154,7 @@ function Checkout() {
         <div className="container-fluid py-5">
             <div className="container py-5">
                 <h1 className="mb-4">Billing details</h1>
-                <form encType='multipart/form-data' className="checkout-form" onSubmit={(event) => { event.preventDefault(); handleSubmit(event); }}>
+                <form encType='multipart/form-data' className="checkout-form" onSubmit={(event) => { event.preventDefault(); handlePlaceOrder(event); }}>
                     <div className="row g-5">
                        <div className="col-md-12 col-lg-6 col-xl-7">
   <div className="row">
@@ -356,7 +379,7 @@ function Checkout() {
   </div>
 
   {/* Payment Method */}
-  <div className="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+  {/* <div className="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
     <div className="col-12">
       <div className="form-check text-start my-3">
         <input
@@ -388,20 +411,29 @@ function Checkout() {
         </label>
       </div>
     </div>
-  </div>
+  </div> */}
 
   {/* Submit Button */}
   <button
-    type={payment === "upi" ? "button" : "submit"}
-    onClick={(event) => payment === "upi" ? setShowModal(true) : handleSubmit(event)}
-    className="btn border-secondary py-2 px-2 w-100 text-primary"
-  >
-    {payment === "upi"
-      ? "Proceed to Pay"
-      : loading
-      ? "Processing..."
-      : "Place Order"}
-  </button>
+  type="button"
+  onClick={handlePlaceOrder}
+  className="btn border-secondary py-2 px-2 w-100 text-primary"
+  disabled={loading} // disable during processing
+>
+  {loading ? (
+    <>
+      <span
+        className="spinner-border spinner-border-sm me-2"
+        role="status"
+        aria-hidden="true"
+      ></span>
+      Processing...
+    </>
+  ) : (
+    "Place Order"
+  )}
+</button>
+
 
   {/* Optional: Stripe Payment Code Block (Commented) */}
   {/* 
@@ -445,7 +477,7 @@ function Checkout() {
                 {/* {loading && <div className="loader">Placing your order...</div>} */}
             </div>
         </div>
-        <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        {/* <Modal show={showModal} onHide={() => setShowModal(false)} centered>
   <Modal.Header closeButton>
     <Modal.Title>Pay via UPI</Modal.Title>
   </Modal.Header>
@@ -484,7 +516,7 @@ function Checkout() {
       )}
     </Button>
   </Modal.Footer>
-</Modal>
+</Modal> */}
 
     </>
   )
