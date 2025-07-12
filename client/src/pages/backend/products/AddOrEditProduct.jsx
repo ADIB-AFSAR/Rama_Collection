@@ -70,6 +70,12 @@ function AddOrEditProducts() {
     dispatch(getCategoryStart());
   }, [id, dispatch]);
 
+   if (name === 'status' && !category) {
+    alert('Please select a category before choosing a status.');
+    return; // prevent changing status
+  }
+
+
   return (
     <> 
       <div className="container-fluid page-header">
@@ -228,11 +234,14 @@ function AddOrEditProducts() {
                   className="form-control"
                   value={status}
                   onChange={handleChange} 
+                  disabled={!category}
+
                 >
                   <option value="" disabled>Select Status</option>
                   <option value="true">Active</option>
                   <option value="false">Inactive</option>
                 </select>
+                <p style={{fontSize:"10px"}} className='p-0 m-0 pt-1 text-danger'>Select category to modify status</p>
                 <button type="submit" className='btn btn-primary mt-4 text-center mx-1 col-5'>{id ? 'Update' : "Add"}</button>
                 <button type="reset" className='btn btn-warning mt-4 text-center mx-1 col-5'>Reset</button>
               </form>

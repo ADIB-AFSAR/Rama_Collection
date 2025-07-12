@@ -68,3 +68,7 @@
   min-height: 100px;
 }
 
+.spinner-wrapper {
+  text-align: center;
+  padding: 30px 0;
+}

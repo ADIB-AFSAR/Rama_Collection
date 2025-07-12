@@ -1,31 +1,44 @@
 import React, { useEffect } from 'react';
 import { Container, Button } from 'react-bootstrap';
-import './frontend.css'; // External CSS file for custom styles
+import './frontend.css';
 import { useNavigate } from 'react-router-dom';
 
 const ThankYou = () => {
-    const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+
   useEffect(() => {
-  const flag = localStorage.getItem("showThankYou");
-  if (!flag) {
-    navigate("/"); // prevent direct access
+    setTimeout(() => {
+      localStorage.removeItem("showThankYou");
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+  const placed = localStorage.getItem('orderPlaced');
+  if (!placed) {
+    navigate('/');
+  } else {
+    localStorage.removeItem('orderPlaced'); // Allow viewing only once
   }
-  localStorage.removeItem("showThankYou");
 }, []);
+
   return (
-    <div className="thankyou-container">
-      <Container className="thankyou-box text-center shadow-lg">
-        <div className="logo">
-            <span className="ml-2 head">
-              <span className='updock-regular fw-bold t'>Rama Collections</span>
-            </span></div>
-        <h2>Thank you for your purchase</h2>
-        <div className="order-number">ORDER NO. 52816537706</div>
-        <div className="message">
-          WE WILL SEND YOU ANOTHER EMAIL WHEN IT IS IN TRANSIT
+    <div className="thankyou-container d-flex align-items-center justify-content-center">
+      <Container className="thankyou-box text-center shadow-lg p-4 rounded">
+        <div className="logo mb-3">
+          <span className="ml-2 head">
+            <span className="updock-regular fw-bold t">Rama Collections</span>
+          </span>
         </div>
-        <Button className="btn-track" variant="outline-dark" href="/order">
+        <h2 className="thankyou-heading">Thank you for your purchase</h2>
+        <div className="order-number fw-medium my-2">ORDER ID. 52816537706</div>
+        <div className="message fw-semibold mb-3">
+          Your order is in processing, click below to check status
+        </div>
+        <Button
+          className="btn-track"
+          variant="outline-dark"
+          href="https://www.ramacollectionshop.com/order"
+        >
           TRACK YOUR ORDER HERE
         </Button>
       </Container>

@@ -508,6 +508,92 @@
   font-size: 6rem;
  }
 
+
+ /* frontend.css */
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-position: -200px;
+  }
+  100% {
+    background-position: 200px;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+/* Apply pop animation to the main thankyou box */
+.thankyou-box {
+  animation: popIn 0.7s ease-out;
+}
+
+/* Shine animation on the logo text */
+.logo .head {
+  display: inline-block;
+  background: linear-gradient(
+    90deg,
+    #000,
+    #fff,
+    #000
+  );
+  background-size: 200% auto;
+  background-clip: initial;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 4s linear infinite ;
+}
+
+/* Optional: Pulse animation on button */
+.btn-track {
+  animation: pulse 1.8s infinite;
+}
+
+/* Responsive tweaks */
+@media (max-width: 576px) {
+  .thankyou-box {
+    padding: 2rem 1rem;
+  }
+
+  .logo .head {
+    font-size: 1rem;
+  }
+  .t{
+    font-size: 3rem;
+  }
+  .thankyou-heading {
+    font-size: 1rem;
+  }
+
+  .order-number,
+  .message {
+    font-size: 0.65rem;
+  }
+
+  .btn-track {
+    width: 100%;
+    margin-top: 1rem; 
+  }
+}
+
+
  /* ---------WISHLIST STYLE HERE----------- */
 
  .image-container {

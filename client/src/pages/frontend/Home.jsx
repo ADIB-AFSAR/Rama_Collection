@@ -15,11 +15,12 @@ function Home() {
   const navigate = useNavigate()
   console.log(!currentUser?.role)
   useEffect(() => {
-  if (localStorage.getItem("showThankYou") === "1") {
-    localStorage.removeItem("showThankYou");
-    navigate("/thank-you");
+  const thankYouFlag = localStorage.getItem("showThankYou");
+  if (thankYouFlag === "1") {
+    navigate("/thankyou");
   }
 }, []);
+
   useEffect(()=>{
     window.scrollTo(0, 0); 
   },[])

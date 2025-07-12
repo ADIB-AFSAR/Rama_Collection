@@ -80,7 +80,7 @@ console.log("API Response:", res); // 👈 ADD THIS
       const order = res.order;
 
       localStorage.setItem("orderPlacedOnce", "1");   
-      toast.success("Order placed successfully!");
+    //   toast.success("Order placed successfully!");
 
       // Refresh cart and order list
       yield put(getCartStart());

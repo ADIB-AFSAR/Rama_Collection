@@ -14,10 +14,15 @@ function Orders() {
     const currentUser  = useSelector(state => state.user.currentUser );
     const orderState = useSelector(state => state.order.orders);
     const loading = useSelector(state => state.order.loading);
+    const [searchTerm, setSearchTerm] = useState('');
+
 
     const dispatch = useDispatch();
 
     console.log(currentUser)
+    useEffect(()=>{
+     console.log("Loading",loading)
+    },[loading])
 
     
     useEffect(() => {
@@ -85,6 +90,10 @@ function Orders() {
     closeButton: false
   });
 };
+
+const filteredOrders = orders?.filter(order =>
+  order?._id?.toLowerCase().includes(searchTerm.toLowerCase())
+);
  
 
     return (
@@ -97,10 +106,24 @@ function Orders() {
                     <Sidebar />
                     <div className="card col-9 order shadow">
                         <div className="card-body">
-                            <div className="card-header bg-dark d-flex justify-content-between">
-                                <h4 className="card-title text-white fw-bold">Orders</h4>
-                            </div>
-                           <div className='table-responsive'>{loading ?<p className='spinner-container'><Spinner animation="border" className="text-primary spinner mt-2" /></p> : <table className="table">
+                            <div className="card-header bg-dark d-flex justify-content-between align-items-center flex-wrap gap-2">
+  <h4 className="card-title text-white fw-bold m-0">Orders</h4>
+  
+  <input
+    type="text"
+    className="form-control form-control-sm"
+    placeholder="Paste Order ID"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    style={{ maxWidth: '220px' }}
+  />
+</div>
+
+                           <div className='table-responsive'>{loading ?
+                            <div className="spinner-wrapper">
+    <Spinner animation="border" variant="primary" />
+  </div>
+                             : <table className="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -113,27 +136,67 @@ function Orders() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {orders?.length > 0 ? orders?.map((order, index) => (
-                                        <tr key={order?._id}>
-                                            <th scope="row">{index + 1}</th>
-                                            <td>{order?.customer?.name || 'N/A'}</td>
-                                            <td>₹{order?.subTotal}</td>
-                                            <td>₹{order?.tax}</td>
-                                            <td>₹{order?.grandTotal}</td>
-                                            <td>
-                                                
-                                                {order?.paymentId?.status ? <button className={`btn btn-sm complete btn-${order?.paymentId?.status && order?.paymentId?.status === "Pending" ? "warning" : "success"}`}>{order?.paymentId?.type === "cod" && order?.paymentId?.status === "Pending" ? "COD" : order?.paymentId?.status}</button>: "Not Found"}
-                                            </td>
-                                            <td>
-                                                {currentUser.role === 'admin'&& order?.paymentId?.status === "Pending" && order?.paymentId?.type === "upi" && <button onClick={()=>handlePayment(order?.paymentId?._id)}  className='btn mx-1 mt-1 btn-sm btn-info complete'>Approve</button>}<Link to={`/order/view/${order._id}`} className='btn btn-dark btn-sm complete me-2'>View</Link>
-                                            </td>
-                                        </tr>
-                                    )) : (
-                                        <tr>
-                                        <td colSpan="6" className="text-center">No orders found / Slow Internet</td>
-                                        </tr>
-                                    )}
-                                </tbody>
+  {loading ? (
+    <tr>
+      <td colSpan="7" className="text-center py-4">
+        <div className="spinner-wrapper">
+    <Spinner animation="border" variant="primary" />
+  </div>
+      </td>
+    </tr>
+  ) : filteredOrders?.length > 0 ? (
+    filteredOrders.map((order, index) => (
+      <tr key={order?._id}>
+        <th scope="row">{index + 1}</th>
+        <td>{order?.customer?.name || 'N/A'}</td>
+        <td>₹{order?.subTotal}</td>
+        <td>₹{order?.tax}</td>
+        <td>₹{order?.grandTotal}</td>
+        <td>
+          {order?.paymentId?.status ? (
+            <button
+              className={`btn btn-sm complete btn-${
+                order?.paymentId?.status === "Pending" ? "warning" : "success"
+              }`}
+            >
+              {order?.paymentId?.type === "cod" &&
+              order?.paymentId?.status === "Pending"
+                ? "COD"
+                : order?.paymentId?.status}
+            </button>
+          ) : (
+            "Not Found"
+          )}
+        </td>
+        <td>
+          {currentUser.role === 'admin' &&
+            order?.paymentId?.status === "Pending" &&
+            order?.paymentId?.type === "upi" && (
+              <button
+                onClick={() => handlePayment(order?.paymentId?._id)}
+                className="btn mx-1 mt-1 btn-sm btn-info complete"
+              >
+                Approve
+              </button>
+            )}
+          <Link
+            to={`/order/view/${order._id}`}
+            className="btn btn-dark btn-sm complete me-2"
+          >
+            View
+          </Link>
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="7" className="text-center py-4">
+        No orders found / Slow Internet
+      </td>
+    </tr>
+  )}
+</tbody>
+
                             </table>}</div>
                         </div>
                     </div>

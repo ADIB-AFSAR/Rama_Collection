@@ -128,8 +128,8 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   return (
     <div className="col-lg-12 p-0 m-0">
       <div className="product-details">
-        <h1 className="product-title fw-normal fs-4 heading">{CurrentProductDetails?.name}</h1>
-        <p className="price">INR {CurrentProductDetails?.price}<span className="mx-1 text-decoration-line-through small">
+        <h1 className="product-title fw-normal fs-4 heading  mx-1 quicksand fw-semibold">{CurrentProductDetails?.name}</h1>
+        <p className="price  mx-2 fw-semibold quicksand">INR {CurrentProductDetails?.price}<span className="mx-1 text-decoration-line-through small">
                       ₹{(Number(CurrentProductDetails?.price) * 1.5).toFixed(2)}
                     </span><br />(incl. of all taxes)</p>
         {/* <div className="product-price text-left">
@@ -192,7 +192,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
         <i className="fas fa-box"></i>
   </button>}
 
-  <button onClick={() => handleAddToWishlist(CurrentProductDetails._id)} className="btn btn-outline-dark like-button d-flex justify-content-center col-12 mt-2">
+  <button onClick={() => handleAddToWishlist(CurrentProductDetails._id)} className="btn btn-outline-dark add-to-wishlist like-button d-flex justify-content-center col-12 mt-2">
   {wishlistLoading ? (
     <Spinner animation="border" size="sm" className="text-danger" />
   ) : (
@@ -207,7 +207,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
 </button>
 
 
-        <div className='return-info'>
+        <div className='return-info  mx-1 quicksand'>
           <h5 className='fw-normal mt-5 mb-2'>Returns & Exchange Information</h5>
           <p className='m-0 p-0 small text-muted'>1. Hassle-free returns within 7 days; </p>
           <p className='m-0 p-0 small text-muted'> 2. specific conditions apply based on products and promotions.</p>

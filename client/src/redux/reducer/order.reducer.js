@@ -1,4 +1,4 @@
-import { GET_ORDER_ERROR, GET_ORDER_START, GET_ORDER_SUCCESS, PLACE_ORDER_ERROR, PLACE_ORDER_SUCCESS } from "../constant/order.constant";
+import { GET_ALL_ORDERS_START, GET_ORDER_ERROR, GET_ORDER_START, GET_ORDER_SUCCESS, GET_USER_ORDERS_START, PLACE_ORDER_ERROR, PLACE_ORDER_START, PLACE_ORDER_SUCCESS } from "../constant/order.constant";
 
 // Load initial orders from local storage if available
 const initialState = {
@@ -28,6 +28,21 @@ export const orderReducer = (state = initialState, action) => {
                 ...state,
                 error: action.payload, // Capture error details
                 loading : false
+            };
+            case PLACE_ORDER_START :
+               return {
+                ...state, 
+                loading: true,
+      }; 
+          case GET_ALL_ORDERS_START:
+            return {
+                ...state,
+                loading : true
+            };
+            case GET_USER_ORDERS_START:
+            return {
+                ...state,
+                loading : true
             };
             case PLACE_ORDER_SUCCESS:
       return {

@@ -286,3 +286,7 @@
   /* pointer-events: none;  */
   /* cursor: not-allowed; */
 }
+.quicksand{
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto; 
+}

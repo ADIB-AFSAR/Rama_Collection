@@ -65,7 +65,7 @@ function Products() {
                         }):<img  src={''} alt={product?.name} height={"80px"} />}</td>
                         <td>{product?.name}</td>
                         <td>₹{product?.price}</td>
-                        <td className='text-center'>{product?.quantity}</td>
+                        <td className={`text-center ${product?.quantity < 10 ? "text-danger fw-bold" : ""}`}>{product?.quantity}</td>
                         <td className='text-center'>
   {product?.enableSize ? (
     product?.sizes?.length > 0 ? product.sizes.join(', ') : 'No Sizes'

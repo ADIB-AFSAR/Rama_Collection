@@ -54,6 +54,7 @@ function Checkout() {
     cartId,
     device: isMobile ? "mobile" : "desktop"
   }));
+  deleteCartDataFromLocalStorage()
 };
 
 
@@ -130,15 +131,25 @@ function Checkout() {
     if (device === "mobile") {
       const message = `Hi, I just placed an order from your website.\n\nOrder ID: ${orderDetails._id}\nName: ${orderDetails.billingAddress.name}\nEmail: ${orderDetails.billingAddress.email}\nPhone:${orderDetails.billingAddress.contact}\nTotal: ₹${orderDetails.grandTotal}`;
       const encodedMsg = encodeURIComponent(message);
-      const adminPhone = process.env.ADMIN_PHONE; // Replace with real number
+      const adminPhone = process.env.ADMIN_PHONE || "916203158310"; // Replace with real number
 
       localStorage.setItem("showThankYou", "1");
-      window.location.href = `https://wa.me/${adminPhone}?text=${encodedMsg}`;
+      localStorage.setItem('orderPlaced', 'true');
+      navigate("/thankyou");
+      setTimeout(() => {
+        window.location.href = `https://wa.me/${adminPhone}?text=${encodedMsg}`;
+      }, 2000);
+      
     } else {
       navigate("/thankyou");
     }
   }
 }, [orderDetails, device, navigate]);
+useEffect(() => {
+    if (!currentCart || !currentCart?.items || currentCart?.items?.length === 0) {
+      navigate('/'); // Redirect to cart if empty
+    }
+  }, [currentCart, navigate]);
 
   return (
     <>
@@ -172,6 +183,8 @@ function Checkout() {
           className="form-control rounded-end"
           placeholder="Full Name"
           required
+          pattern="^[a-zA-Z\s]+$" 
+          title="Only alphabets allowed"
         />
       </div>
     </div>
@@ -192,6 +205,7 @@ function Checkout() {
           value={address}
           onChange={handleChange}
           required
+          
         />
       </div>
     </div>
@@ -209,6 +223,8 @@ function Checkout() {
           value={city}
           onChange={handleChange}
           required
+          pattern="^[a-zA-Z\s]+$" 
+          title="Only alphabets allowed"  
         />
       </div>
     </div>
@@ -226,6 +242,8 @@ function Checkout() {
           value={state}
           onChange={handleChange}
           required
+          pattern="^[a-zA-Z\s]+$" 
+title="Only alphabets allowed"
         />
       </div>
     </div>
@@ -243,6 +261,8 @@ function Checkout() {
           value={country}
           onChange={handleChange}
           required
+          pattern="^[a-zA-Z\s]+$" 
+title="Only alphabets allowed"
         />
       </div>
     </div>
@@ -260,6 +280,8 @@ function Checkout() {
           value={zipCode}
           onChange={handleChange}
           required
+          pattern="^\d{4,8}$" 
+title="Only 4 to 8 digits allowed"
         />
       </div>
     </div>
@@ -277,6 +299,8 @@ function Checkout() {
           value={contact}
           onChange={handleChange}
           required
+          pattern="^[6-9]\d{9}$"
+title="Enter a valid 10-digit mobile number starting with 6-9"
         />
       </div>
     </div>
@@ -302,7 +326,7 @@ function Checkout() {
 
                        <div className="col-md-12 col-lg-6 col-xl-5">
   <div className="table-responsive">
-    <table className="table">
+    <table className="table table-responsive">
       <thead>
         <tr>
           <th scope="col">Products</th>
@@ -415,9 +439,8 @@ function Checkout() {
 
   {/* Submit Button */}
   <button
-  type="button"
-  onClick={handlePlaceOrder}
-  className="btn border-secondary py-2 px-2 w-100 text-primary"
+  type="submit"
+   className="btn border-secondary py-2 px-2 w-100 text-primary"
   disabled={loading} // disable during processing
 >
   {loading ? (
