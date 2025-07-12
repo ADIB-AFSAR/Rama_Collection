@@ -359,17 +359,21 @@ const recordPayment = async ({ payerName, amount, type, screenshotUrl = null, or
     }
 };
 
+
 const sendOrderEmail = async (order, adminEmail) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-          },
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
   });
 
-  const productList = order.products.map((item, index) => (
-    `<li>${index + 1}. ${item.name} - ${item.quantity} x ₹${item.price}</li>`
+  // ✅ Fetch related order items and populate the product
+  const orderItems = await orderItemModel.find({ order: order._id }).populate('product');
+
+  const productList = orderItems.map((item, index) => (
+    `<li>${index + 1}. ${item.product.name} - ${item.quantity} x ₹${item.product.price}</li>`
   )).join("");
 
   const mailOptions = {
@@ -390,6 +394,7 @@ const sendOrderEmail = async (order, adminEmail) => {
 
   await transporter.sendMail(mailOptions);
 };
+
  
 module.exports = {
     getCart,
