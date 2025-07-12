@@ -20,12 +20,14 @@ export const orderReducer = (state = initialState, action) => {
                 ...state,
                 orders: [...action.payload], // Replace current orders with new ones
                 error: null, // Clear any existing errors
-                device :  action.payload.device
+                device :  action.payload.device,
+                loading : false
             };
         case GET_ORDER_ERROR:
             return {
                 ...state,
                 error: action.payload, // Capture error details
+                loading : false
             };
             case PLACE_ORDER_SUCCESS:
       return {

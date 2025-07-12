@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'; 
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'; 
-import { getOrderStart } from '../../../redux/action/order.action';
+import { getAllOrdersStart, getOrderStart, getUserOrdersStart } from '../../../redux/action/order.action';
 import Sidebar from '../Sidemenu/Sidemenu';
 import '../backend.css';
 import axios from 'axios';
@@ -11,17 +11,24 @@ import {toast} from "react-toastify"
 
 function Orders() {
     const [orders, setOrders] = useState([]);
-    const [loading , setLoading] = useState(false)
     const currentUser  = useSelector(state => state.user.currentUser );
     const orderState = useSelector(state => state.order.orders);
+    const loading = useSelector(state => state.order.loading);
+
     const dispatch = useDispatch();
 
+    console.log(currentUser)
+
+    
     useEffect(() => {
-        setLoading(true)
+    if (!currentUser) return;
         // Fetch orders when the component mounts
-        dispatch(getOrderStart());
-        setTimeout(() => {setLoading(false)}, 3000);
-    }, []);
+        if(currentUser && currentUser.role == "admin"){
+          dispatch(getAllOrdersStart())
+        }else{
+          dispatch(getUserOrdersStart(currentUser.id))
+        }
+     }, [currentUser]);
 
     useEffect(() => {
     if (orderState && orderState.length > 0) {

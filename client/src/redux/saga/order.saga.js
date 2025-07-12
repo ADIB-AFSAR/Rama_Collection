@@ -21,14 +21,14 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 
 // Saga to get all orders
-function* getOrder() {
-    try {
-        const data = yield getOrderFromAPI();
-        yield put(getOrderSuccess(data));
-    } catch (error) {
-        yield put(getOrderError(error.message));
-    }
-}
+// function* getOrder() {
+//     try {
+//         const data = yield getOrderFromAPI();
+//         yield put(getOrderSuccess(data));
+//     } catch (error) {
+//         yield put(getOrderError(error.message));
+//     }
+// }
 
 function* getAllOrders() {
   try {
@@ -42,7 +42,7 @@ function* getAllOrders() {
 
 function* getUserOrders(action) {
   try {
-    const res = yield call(() => axios.post('/api/order/user', { userId: action.payload }));
+    const res = yield call(() => axios.post(`${process.env.REACT_APP_API_URL}/api/order/user`, { userId: action.payload }));
     yield put(getOrderSuccess(res.data.order));
   } catch (err) {
     yield put(getOrderError(err.message));
@@ -83,7 +83,7 @@ console.log("API Response:", res); // 👈 ADD THIS
 
 // Root saga for order actions
 export default function* orderSaga() {
-    yield takeLatest(GET_ORDER_START, getOrder);
+    // yield takeLatest(GET_ORDER_START, getOrder);
     yield takeLatest(PLACE_ORDER_START, placeOrder);
     yield takeLatest(GET_ALL_ORDERS_START, getAllOrders);
     yield takeLatest(GET_USER_ORDERS_START, getUserOrders);

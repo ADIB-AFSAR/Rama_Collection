@@ -29,6 +29,7 @@ const getOrder = async (req, res) => {
    const getUserOrders = async (req, res) => {
     try {
         const { userId } = req.body;
+        console.log(userId)
 
         const orders = await orderModel.find({ customer: userId }).populate("customer").populate("paymentId");
 
