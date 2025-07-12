@@ -204,6 +204,7 @@ const placeOrder = async (req, res) => {
          return res.json({ message: "Order placed successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
+        console.error("Error in placeOrder:", error);
     }
 };
 

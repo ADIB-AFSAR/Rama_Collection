@@ -46,5 +46,7 @@ export const placeOrderToAPI = async (cartId, billingAddress , device) => {
     } catch (error) {
         console.error(error);
         toast.error(error.message)
+        console.error("Error placing order:", error.response?.data || error.message);
+        throw error.response?.data || new Error("Unknown server error");
     }
 };
