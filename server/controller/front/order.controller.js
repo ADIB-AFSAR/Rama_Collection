@@ -29,18 +29,33 @@ const getOrder = async (req, res) => {
    const getUserOrders = async (req, res) => {
     try {
         const { userId } = req.body;
-        console.log(userId)
 
-        const orders = await orderModel.find({ customer: userId }).populate("customer").populate("paymentId");
-
-        const orderObject = [];
-
-        for (const order of orders) {
-            const items = await orderItemModel.find({ order: order._id }).populate("product");
-            orderObject.push({ ...order._doc, items });
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: "User ID is required"
+            });
         }
 
-        res.json({
+        const orders = await orderModel.find({ customer: userId })
+            .populate("customer")
+            .populate("paymentId");
+
+        if (!orders || orders.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No orders found for this user ID"
+            });
+        }
+
+        const orderObject = await Promise.all(
+            orders.map(async (order) => {
+                const items = await orderItemModel.find({ order: order._id }).populate("product");
+                return { ...order._doc, items };
+            })
+        );
+
+        return res.status(200).json({
             success: true,
             message: "User orders retrieved successfully",
             order: orderObject
@@ -48,9 +63,10 @@ const getOrder = async (req, res) => {
 
     } catch (error) {
         console.error("Error fetching user orders:", error);
-        res.status(500).json({ success: false, message: "Server error" });
+        return res.status(500).json({ success: false, message: "Server error" });
     }
 };
+
 
 module.exports = {
     getOrder,

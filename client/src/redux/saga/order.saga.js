@@ -42,7 +42,7 @@ function* getAllOrders() {
 
 function* getUserOrders(action) {
   try {
-    const res = yield call(() => axios.post(`${process.env.REACT_APP_API_URL}/api/order/user`, { userId: action.payload }));
+    const res = yield call(() => axios.post(`${process.env.REACT_APP_API_URL}/api/admin/order/user`, { userId: action.payload }));
     yield put(getOrderSuccess(res.data.order));
   } catch (err) {
     yield put(getOrderError(err.message));
