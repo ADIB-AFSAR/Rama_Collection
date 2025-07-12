@@ -3,10 +3,9 @@ const router = express.Router()
 const authenticationRoute = require('./authentication.route')
 const cartRoutes = require('./cart.route')
 const order = require('./userOrder.route')
-const getReview = require('../../controller/front/review.controller')
-const postReview = require('../../controller/front/review.controller')
+const reviewRoutes = require('./review.route'); 
 
-router.use('/reviews',getReview)
+router.use('/reviews', reviewRoutes)
 router.use('/', authenticationRoute)
 router.use('/cart',cartRoutes)
 router.use('/order',order)
