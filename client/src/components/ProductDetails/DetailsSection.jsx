@@ -6,16 +6,30 @@ import { addCartStart, deleteCartStart, getCartStart } from '../../redux/action/
 import { addToWishlistStart, getWishListStart, removeFromWishlistStart } from '../../redux/action/wishlist.action';
 import { Spinner } from 'react-bootstrap'; // Import Spinner from react-bootstrap
 import { toast } from 'react-toastify'; 
-import product from '../../redux/saga/product.saga';
+import { addReviewRequest, fetchReviewsRequest } from '../../redux/action/review.action';
+import { createSelector } from 'reselect';
+
+const selectReviewState = state => state.review;
+
+  const getReviews = createSelector(
+  [selectReviewState],
+  (review) => review.reviews
+);
 
 const DetailsSection = ({ CurrentProductDetails }) => {
   const currentUser = useSelector(state => state.user.currentUser);
   const currentCart = useSelector(state => state.cart.currentCart);
+  const reviews = useSelector(getReviews);
   const [isInWishlist, setIsInWishlist] = useState(false); // Track if product is in wishlist
   const [isAddedToCart, setIsAddedToCart] = useState(false); // Track if product is added to cart
   const [loading, setLoading] = useState(false); // Track loading state for the button
   const [wishlistLoading, setWishlistLoading] = useState(false); // Track loading state for wishlist
   const [selectedSize, setSelectedSize] = useState('');
+  const [comment, setComment] = useState('');
+  const [rating, setRating] = useState(0);
+
+  const selectReviewState = state => state.review;
+ 
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
 
@@ -68,6 +82,25 @@ const DetailsSection = ({ CurrentProductDetails }) => {
     }, 500); // Simulating network request
     
   };
+  const handleReviewSubmit = (e) => {
+  e.preventDefault();
+
+  dispatch(addReviewRequest({
+    productId : CurrentProductDetails?._id,
+    user: {
+      name: currentUser.name,
+      email: currentUser.email,
+    },
+    comment,
+    rating,
+  }));
+  setComment('');
+  setRating(0);
+};
+
+  useEffect(() => {
+  dispatch(fetchReviewsRequest(CurrentProductDetails?._id));
+}, [dispatch,CurrentProductDetails?._id]);
 
   const handleDelete = (id) => {
     dispatch(deleteCartStart(id));
@@ -205,6 +238,69 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   )}
   <span className='add-to-wishlist'> {!isInWishlist ? 'Add to Wishlist' : 'Remove from Wishlist'}</span>
 </button>
+         {/* Reviews */}
+         <div className="mt-5">
+  <h4 className="mb-4">Customer Reviews</h4>
+
+  {reviews?.length === 0 ? (
+    <p className="text-muted">No reviews yet.</p>
+  ) : (
+    reviews?.map((rev, idx) => (
+      <div key={idx} className="border rounded p-3 mb-3 shadow-sm bg-light">
+        <div className="d-flex justify-content-between align-items-center">
+          <strong className="text-capitalize">{rev.user.name}</strong>
+          <span className="text-warning">
+            {'⭐'.repeat(rev.rating)}{' '}
+            <small className="text-muted">({rev.rating}/5)</small>
+          </span>
+        </div>
+        <p className="mb-0 mt-2 text-secondary">{rev.comment}</p>
+      </div>
+    ))
+  )}
+
+  <hr className="my-4" />
+
+  {currentUser.name ? (
+    <form onSubmit={handleReviewSubmit} className="p-4 border rounded bg-white shadow-sm">
+      <h5 className="mb-3">Write a Review</h5>
+
+      <div className="mb-3">
+        <label htmlFor="rating" className="form-label">Rating</label>
+        <select
+          id="rating"
+          className="form-select"
+          value={rating}
+          onChange={(e) => setRating(e.target.value)}
+          required
+        >
+          <option value="">Select Rating</option>
+          {[5, 4, 3, 2, 1].map((r) => (
+            <option key={r} value={r}>{r} - {['Excellent', 'Good', 'Average', 'Poor', 'Terrible'][5 - r]}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="comment" className="form-label">Comment</label>
+        <textarea
+          id="comment"
+          className="form-control"
+          rows="3"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          required
+        />
+      </div>
+
+      <button type="submit" className="btn btn-primary w-100">Submit Review</button>
+    </form>
+  ) : (
+    <div className="alert alert-info">
+      Please <a href="/login" className="alert-link">login</a> to write a review.
+    </div>
+  )}
+</div>
 
 
         <div className='return-info  mx-1 quicksand'>

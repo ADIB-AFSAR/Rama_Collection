@@ -9,7 +9,7 @@ const ThankYou = () => {
   useEffect(() => {
     setTimeout(() => {
       localStorage.removeItem("showThankYou");
-    }, 10000);
+    }, 15000);
   }, []);
 
   useEffect(() => {

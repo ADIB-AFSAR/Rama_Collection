@@ -154,7 +154,7 @@ useEffect(() => {
  const redirectWithToast = (url, seconds = 10) => {
   let countdown = seconds;
 
-  toastId = toast.info(`Redirecting in ${countdown} seconds...`, {
+  toastId = toast.info(`Redirecting to whatsapp in ${countdown} seconds...`, {
     position: 'top-center',
     autoClose: false,
     closeOnClick: false,
@@ -165,7 +165,7 @@ useEffect(() => {
     countdown -= 1;
     if (countdown > 0) {
       toast.update(toastId, {
-        render: `Redirecting in ${countdown} seconds...`,
+        render: `Redirecting to whatsapp in ${countdown} seconds...`,
       });
     } else {
       clearInterval(interval);
