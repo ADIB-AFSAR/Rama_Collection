@@ -201,7 +201,10 @@ const placeOrder = async (req, res) => {
         // Mark the cart as ordered
         await cartModel.updateOne({ _id: cart._id }, { placedOrder: true});
         await sendOrderEmail(order, process.env.ADMIN_EMAIL);
-         return res.json({ message: "Order placed successfully" });
+         return res.json({
+        success: true,
+        message: "Order placed successfully"
+    });
     } catch (error) {
         res.status(500).json({ message: error.message });
         console.error("Error in placeOrder:", error);
@@ -386,7 +389,7 @@ const sendOrderEmail = async (order, adminEmail) => {
       <p><strong>Email:</strong> ${order.billingAddress.email}</p>
       <p><strong>Phone:</strong> ${order.billingAddress.phone}</p>
       <p><strong>Order ID:</strong> ${order._id}</p>
-      <p><strong>Total:</strong> ₹${order.grandTotal}</p>
+      <p><strong>Grand Total:</strong> ₹${order.grandTotal}</p>
       <p><strong>Items:</strong></p>
       <ul>${productList}</ul>
     `
