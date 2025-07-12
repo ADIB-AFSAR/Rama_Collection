@@ -1,5 +1,5 @@
 const express = require('express');
-const Review = require('../models/reviewModel');
+const Review = require('../../models/review.model');
 
 // GET (no auth needed)
 const getReview = async (req, res) => {
