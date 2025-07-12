@@ -36,7 +36,7 @@ const getOrder = async (req, res) => {
                 message: "User ID is required"
             });
         }
-
+            console.log("USER-ID:",userId)
         const orders = await orderModel.find({ customer: userId })
             .populate("customer")
             .populate("paymentId");
