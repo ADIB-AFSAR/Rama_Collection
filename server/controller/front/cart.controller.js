@@ -140,8 +140,7 @@ const placeOrder = async (req, res) => {
     console.log("placeorder:", req.body, req.params);
     try {
         const cart = await cartModel.findOne({ _id: req.params.cartId });
-        const device = req.body.device
-
+ 
         if (!cart) {
             return res.status(404).json({ message: "Cart not found" });
         }
@@ -203,7 +202,8 @@ const placeOrder = async (req, res) => {
         await sendOrderEmail(order, process.env.ADMIN_EMAIL);
          return res.json({
         success: true,
-        message: "Order placed successfully"
+        message: "Order placed successfully",
+        order
     });
     } catch (error) {
         res.status(500).json({ message: error.message });
