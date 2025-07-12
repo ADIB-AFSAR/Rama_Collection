@@ -1,4 +1,4 @@
-import { GET_ORDER_ERROR, GET_ORDER_START, GET_ORDER_SUCCESS, PLACE_ORDER_ERROR, PLACE_ORDER_START, PLACE_ORDER_SUCCESS } from "../constant/order.constant";
+import { GET_ALL_ORDERS_START, GET_ORDER_ERROR, GET_ORDER_START, GET_ORDER_SUCCESS, GET_USER_ORDERS_START, PLACE_ORDER_ERROR, PLACE_ORDER_START, PLACE_ORDER_SUCCESS } from "../constant/order.constant";
 
 export const placeOrderStart = (order)=>({
     type :  PLACE_ORDER_START,
@@ -27,6 +27,14 @@ export const getOrderError = (error)=>({
     payload : error
 })
 
+export const getUserOrdersStart = (userId) => ({
+  type: GET_USER_ORDERS_START,
+  payload: userId
+});
+
+export const getAllOrdersStart = () => ({
+  type: GET_ALL_ORDERS_START
+});
 
  
 

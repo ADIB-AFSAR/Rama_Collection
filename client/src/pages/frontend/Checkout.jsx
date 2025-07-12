@@ -135,7 +135,7 @@ function Checkout() {
       localStorage.setItem("showThankYou", "1");
       window.location.href = `https://wa.me/${adminPhone}?text=${encodedMsg}`;
     } else {
-      navigate("/thank-you");
+      navigate("/thankyou");
     }
   }
 }, [orderDetails, device, navigate]);

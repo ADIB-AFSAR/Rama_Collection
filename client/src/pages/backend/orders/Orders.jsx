@@ -24,16 +24,10 @@ function Orders() {
     }, []);
 
     useEffect(() => {
-        // Filter orders based on user role
-        if (currentUser ) {
-            if (currentUser.role === 'admin') {
-                setOrders(orderState); // Admin sees all orders
-            } else {
-                const userOrders = orderState.filter(ord => ord.customer?._id === currentUser?.id);
-                setOrders(userOrders); // Customer sees only their orders
-            }
-        }
-    }, [orderState, currentUser ]); 
+    if (orderState && orderState.length > 0) {
+        setOrders(orderState); // Directly set from Redux, already filtered
+    }
+}, [orderState]);
     console.log("Orders:",orders)
     
     const handlePayment = async (paymentId) => {

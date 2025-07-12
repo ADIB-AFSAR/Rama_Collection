@@ -16,8 +16,9 @@ import {
 } from '../action/order.action';
 import { getCartStart } from '../action/cart.action';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
-// Saga to get orders
+// Saga to get all orders
 function* getOrder() {
     try {
         const data = yield getOrderFromAPI();
@@ -27,6 +28,26 @@ function* getOrder() {
     }
 }
 
+function* getAllOrders() {
+  try {
+    const res = yield call(() => axios.get('/api/admin/order'));
+    yield put(getOrderSuccess(res.data.order));
+  } catch (err) {
+    yield put(getOrderError(err.message));
+  }
+}
+
+
+function* getUserOrders(action) {
+  try {
+    const res = yield call(() => axios.post('/api/order/user', { userId: action.payload }));
+    yield put(getOrderSuccess(res.data.order));
+  } catch (err) {
+    yield put(getOrderError(err.message));
+  }
+}
+
+
 // Saga to place an order
  function* placeOrder(action) {
     try {
@@ -34,9 +55,10 @@ function* getOrder() {
 
     const res = yield call(placeOrderToAPI, cartId, billingAddress , device);
     
+console.log("API Response:", res); // 👈 ADD THIS
 
-    if (res.data.success) {
-      const order = res.data.order;
+      if (res  && res.success){
+      const order = res.order;
 
       localStorage.setItem("orderPlacedOnce", "1");   
       toast.success("Order placed successfully!");
@@ -61,4 +83,6 @@ function* getOrder() {
 export default function* orderSaga() {
     yield takeLatest(GET_ORDER_START, getOrder);
     yield takeLatest(PLACE_ORDER_START, placeOrder);
+    yield takeLatest("GET_ALL_ORDERS_START", getAllOrders);
+    yield takeLatest("GET_USER_ORDERS_START", getUserOrders);
 }
