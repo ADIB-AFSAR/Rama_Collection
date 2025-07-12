@@ -1,19 +1,30 @@
 const orderModel = require("../../models/order.model");
 const orderItemModel = require("../../models/orderItem.model");
 
-const getOrder = async(req , res) =>{
-    let orders = await orderModel.find().populate("customer").populate("paymentId")
-    let orderObject = []
-    for(const order of orders){
-      let items  = await orderItemModel.find({order : order._id}).populate("product")
-        orderObject.push({...order._doc, items : [...items]})
-    
-   }
+const getOrder = async (req, res) => {
+  try {
+    const orders = await orderModel.find()
+      .populate("customer")
+      .populate("paymentId");
+
+    const orderObject = await Promise.all(
+      orders.map(async (order) => {
+        const items = await orderItemModel.find({ order: order._id }).populate("product");
+        return { ...order._doc, items };
+      })
+    );
+
     res.json({
-       message : "order retrieved succesfully",
-       order : orderObject
-   })
-   }
+      message: "order retrieved successfully",
+      order: orderObject
+    });
+
+  } catch (err) {
+    console.error("Error in getOrder:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 
    const getUserOrders = async (req, res) => {
     try {
