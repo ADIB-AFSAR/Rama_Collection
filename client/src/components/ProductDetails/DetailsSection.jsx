@@ -187,9 +187,10 @@ const handleShow = () => setShowAllReviewsModal(true);
         headers: { Authorization: getToken() },
       });
   setProductReviews(productReviews.filter((rev) => rev._id !== id));
+   toast.success("Review deleted successfully")
     } catch (err) {
       console.error(err);
-      alert("Failed to delete review");
+       toast.error("Failed to delete review",err)
     }
   }
 };
@@ -299,7 +300,7 @@ const handleShow = () => setShowAllReviewsModal(true);
     </div>
   </div>
   <p className="text-dark d-flex justify-content-between review-cmnt small mb-0">{rev.comment}{currentUser?.role === 'admin' && (
-  <span
+  <span style={{cursor:"pointer"}}
     className="ms-2 m-0 p-0"
     onClick={() => handleDeleteReview(rev._id)}
   >
@@ -400,6 +401,7 @@ const handleShow = () => setShowAllReviewsModal(true);
           <small className="text-muted review-time">{getTimeAgo(review.createdAt)}</small>
           <p className='review-cmnt d-flex justify-content-between'>{review.comment}{currentUser?.role === 'admin' && (
   <span
+     style={{cursor:"pointer"}}
     className="ms-2 m-0 p-0"
     onClick={() => handleDeleteReview(review._id)}
   >
