@@ -371,7 +371,7 @@ const handleShow = () => setShowAllReviewsModal(true);
         />
       </div>
 
-      <button type="submit" className="btn btn-primary submit-review w-100">{loading ? <Spinner animation="border" size='sm' className="text-white spinner mt-2" />:"Submit Review"}</button>
+      <button type="submit" disabled={!rating?true:false} className="btn btn-primary submit-review w-100">{loading ? <Spinner animation="border" size='sm' className="text-white spinner mt-2" />:"Submit Review"}</button>
     </form>
   ) : (
     <div className="alert alert-info mt-3">
