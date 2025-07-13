@@ -33,7 +33,27 @@ const addreview =  async (req, res) => {
   res.status(201).json(review);
 }
 
+// Assuming you have middleware to check user role
+const deleteReview = async (req, res) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ message: 'Only admin can delete reviews.' });
+  }
+
+  try {
+    const deletedReview = await Review.findByIdAndDelete(req.params.id);
+    if (!deletedReview) {
+      return res.status(404).json({ message: 'Review not found.' });
+    }
+    res.status(200).json({ message: 'Review deleted successfully.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error.' });
+  }
+};
+
+
+
 module.exports={
     getReview,
-    addreview
+    addreview,
+    deleteReview
 }

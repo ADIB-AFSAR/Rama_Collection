@@ -14,13 +14,14 @@ const reviewReducer = (state = initialState, action) => {
       return { ...state, loading: true };
 
     case FETCH_REVIEWS_SUCCESS:
+      const { productId, reviews } = action.payload;
       return {
         ...state,
-        loading: false,
         reviewsByProduct: {
           ...state.reviewsByProduct,
-          [action.payload.productId]: action.payload.reviews,
+          [productId]: reviews,
         },
+        loading: false,
       };
 
     case ADD_REVIEW_SUCCESS:

@@ -4,33 +4,56 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addCartStart, deleteCartStart, getCartStart } from '../../redux/action/cart.action';
 import { addToWishlistStart, getWishListStart, removeFromWishlistStart } from '../../redux/action/wishlist.action';
-import { Spinner } from 'react-bootstrap'; // Import Spinner from react-bootstrap
+import { Button, Modal, Spinner } from 'react-bootstrap'; // Import Spinner from react-bootstrap
 import { toast } from 'react-toastify'; 
 import { addReviewRequest, fetchReviewsRequest } from '../../redux/action/review.action';
-import { createSelector } from 'reselect';
+import { formatDate, getTimeAgo } from '../../hooks/TimesCalc';
+import { getToken } from '../../redux/service/token.service';
+import axios from 'axios';
 
-const selectReviewState = state => state.review;
-
-  const getReviews = createSelector(
-  [selectReviewState],
-  (review) => review?.reviews
-);
+ 
 
 const DetailsSection = ({ CurrentProductDetails }) => {
   const currentUser = useSelector(state => state.user.currentUser);
   const currentCart = useSelector(state => state.cart.currentCart);
-  const reviews = useSelector(getReviews);
-  const [isInWishlist, setIsInWishlist] = useState(false); // Track if product is in wishlist
+   const [isInWishlist, setIsInWishlist] = useState(false); // Track if product is in wishlist
   const [isAddedToCart, setIsAddedToCart] = useState(false); // Track if product is added to cart
-  const [loading, setLoading] = useState(false); // Track loading state for the button
-  const [wishlistLoading, setWishlistLoading] = useState(false); // Track loading state for wishlist
+   const [wishlistLoading, setWishlistLoading] = useState(false); // Track loading state for wishlist
   const [selectedSize, setSelectedSize] = useState('');
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0); 
+  const [hasFetchedReviews, setHasFetchedReviews] = useState(false);
+
+const productId = CurrentProductDetails?._id;
+const reviews = useSelector(state => state.reviews.reviewsByProduct?.[productId] || []);
+const loading = useSelector(state => state.reviews.loading)
+const [productReviews, setProductReviews] = useState([]);
+
+const handleReviewDelete = (id) => {
+  setProductReviews(productReviews.filter((rev) => rev._id !== id));
+};
+
+useEffect(() => {
+  if (reviews && CurrentProductDetails?._id) {
+    const filtered = reviews.filter(
+      (r) => r.productId === CurrentProductDetails._id
+    );
+    setProductReviews(filtered);
+  }
+}, [reviews, CurrentProductDetails]);
+
+const latestReviews = [...productReviews]
+  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // newest first
+  .slice(0, 3);const [showAllReviewsModal, setShowAllReviewsModal] = useState(false);
+const handleClose = () => setShowAllReviewsModal(false);
+const handleShow = () => setShowAllReviewsModal(true);
+
+
+
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
 
-  console.log(reviews)
+  console.log(reviews,"REVIEWS")
 
   const handleAddToWishlist = (productId) => {
     if(!currentUser.name){
@@ -97,9 +120,6 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   setRating(0);
 };
 
-  useEffect(() => {
-  dispatch(fetchReviewsRequest(CurrentProductDetails?._id));
-}, [dispatch,CurrentProductDetails?._id]);
 
   const handleDelete = (id) => {
     dispatch(deleteCartStart(id));
@@ -130,23 +150,21 @@ const DetailsSection = ({ CurrentProductDetails }) => {
     localStorage.removeItem(`cart-${product._id}`);
     toast.success('Item removed from cart');
   } else {
-    setLoading(true);
     dispatch(addCartStart(productToAdd)); 
      setTimeout(() => {
       setIsAddedToCart(true);
       localStorage.setItem(`cart-${product._id}`, true);
-      toast.success('Item added to cart');
-      
-      setLoading(false);
+      toast.success('Item added to cart');      
     }, 3000);
   }
 };
+
  useEffect(() => {
-  if (CurrentProductDetails?._id) {
-    console.log("productID:",CurrentProductDetails._id)
-    dispatch(fetchReviewsRequest({productId :CurrentProductDetails._id}));
+  if (CurrentProductDetails?._id && !hasFetchedReviews) {
+    dispatch(fetchReviewsRequest({ productId: CurrentProductDetails._id }));
+    setHasFetchedReviews(true);
   }
-}, [CurrentProductDetails?._id]);
+}, [CurrentProductDetails?._id, hasFetchedReviews]);
 
 
   useEffect(() => {
@@ -161,6 +179,21 @@ const DetailsSection = ({ CurrentProductDetails }) => {
       dispatch(getWishListStart(currentUser.id));
     }
   }, [isInWishlist, currentUser, dispatch]);
+
+  const handleDeleteReview = async (id) => {
+  if (window.confirm("Are you sure you want to delete this review?")) {
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/reviews/${id}`, {
+        headers: { Authorization: getToken() },
+      });
+  setProductReviews(productReviews.filter((rev) => rev._id !== id));
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete review");
+    }
+  }
+};
+
 
   return (
     <div className="col-lg-12 p-0 m-0">
@@ -243,48 +276,80 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   <span className='add-to-wishlist'> {!isInWishlist ? 'Add to Wishlist' : 'Remove from Wishlist'}</span>
 </button>
          {/* Reviews */}
-         <div className="mt-5">
+         {/* Reviews */}
+{/* Reviews */}
+<div className="mt-5">
   <h4 className="mb-4">Customer Reviews</h4>
 
-  {reviews?.length === 0 ? (
-    <p className="text-muted">No reviews yet.</p>
-  ) : (
-    reviews?.map((rev, idx) => (
-      <div key={idx} className="border rounded p-3 mb-3 shadow-sm bg-light">
-        <div className="d-flex justify-content-between align-items-center">
-          <strong className="text-capitalize">{rev?.user.name}</strong>
-          <span className="text-warning">
-            {'⭐'.repeat(rev?.rating)}{' '}
-            <small className="text-muted">({rev?.rating}/5)</small>
-          </span>
-        </div>
-        <p className="mb-0 mt-2 text-secondary">{rev.comment}</p>
-      </div>
-    ))
+  {/* Show latest 3 reviews or "No reviews yet" */}
+  {loading ? (
+  <div className="d-flex justify-content-center my-3">
+    <Spinner animation="border" size="sm" className="text-primary" />
+  </div>
+) : latestReviews?.length === 0 ? (
+  <p className="text-muted">No reviews yet.</p>
+) : (
+  latestReviews?.map((rev, idx) => (
+    <div className="border py-1 px-3 mb-3 bg-light rounded shadow-sm">
+  <div className="d-flex align-items-center mb-2">
+    <div className="bg-success review-rating text-white px-2 py-1 mt-1 rounded small fw-bold me-2">
+      {rev.rating}★
+    </div>
+    <div className=''><p className="mb-0 text-muted small review-time">{rev.user?.name} &nbsp;|&nbsp; {getTimeAgo(rev.createdAt)}</p>
+    </div>
+  </div>
+  <p className="text-dark d-flex justify-content-between review-cmnt small mb-0">{rev.comment}{currentUser?.role === 'admin' && (
+  <span
+    className="ms-2 m-0 p-0"
+    onClick={() => handleDeleteReview(rev._id)}
+  >
+    <i className='bi bi-trash text-danger review-trashs m-0 p-0'></i>
+  </span>
+)}</p>
+</div>
+  ))
+)}
+
+
+  {/* View all reviews button */}
+  {productReviews.length > 3 && (
+    <button
+      type="button"
+      className="btn btn-outline-primary mt-2"
+      onClick={handleShow}
+    >
+      View All Reviews
+    </button>
   )}
 
   <hr className="my-4" />
 
-  {currentUser.name ? (
+  {/* Review form */}
+  {currentUser?.name ? (
     <form onSubmit={handleReviewSubmit} className="p-4 border rounded bg-white shadow-sm">
       <h5 className="mb-3">Write a Review</h5>
 
+      {/* Star Rating */}
       <div className="mb-3">
-        <label htmlFor="rating" className="form-label">Rating</label>
-        <select
-          id="rating"
-          className="form-select"
-          value={rating}
-          onChange={(e) => setRating(e.target.value)}
-          required
-        >
-          <option value="">Select Rating</option>
-          {[5, 4, 3, 2, 1].map((r) => (
-            <option key={r} value={r}>{r} - {['Excellent', 'Good', 'Average', 'Poor', 'Terrible'][5 - r]}</option>
+        <label className="form-label">Rating</label>
+        <div className="d-flex gap-2">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <span
+              key={star}
+              style={{
+                cursor: 'pointer',
+                fontSize: '1.5rem',
+                color: star <= rating ? '#ffc107' : '#e4e5e9',
+              }}
+              onClick={() => setRating(star)}
+            >
+              ★
+            </span>
           ))}
-        </select>
+        </div>
       </div>
 
+      {/* Comment Input */}
       <div className="mb-3">
         <label htmlFor="comment" className="form-label">Comment</label>
         <textarea
@@ -297,14 +362,16 @@ const DetailsSection = ({ CurrentProductDetails }) => {
         />
       </div>
 
-      <button type="submit" className="btn btn-primary w-100">Submit Review</button>
+      <button type="submit" className="btn btn-primary w-100">{loading ? <Spinner animation="border" size='sm' className="text-white spinner mt-2" />:"Submit Review"}</button>
     </form>
   ) : (
-    <div className="alert alert-info">
+    <div className="alert alert-info mt-3">
       Please <a href="/login" className="alert-link">login</a> to write a review.
     </div>
   )}
 </div>
+
+
 
 
         <div className='return-info  mx-1 quicksand'>
@@ -317,8 +384,39 @@ const DetailsSection = ({ CurrentProductDetails }) => {
           <p className='m-0 p-0 small text-muted'>6. A reverse shipment fee of Rs 100 is charged, which will be deducted from the refund.</p>
           <p className='m-0 p-0 small text-muted'>7. For hygiene, items such as accessories, sunglasses, perfumes, masks, and innerwear are non-returnable.</p>
         </div>
-      </div>
-    </div>
+      
+</div>
+    <Modal show={showAllReviewsModal} onHide={handleClose} centered size="lg">
+  <Modal.Header closeButton>
+    <Modal.Title>All Reviews</Modal.Title>
+  </Modal.Header>
+  <Modal.Body style={{ maxHeight: '70vh', overflowY: 'auto' }}>
+    {productReviews.length === 0 ? (
+      <p>No reviews available.</p>
+    ) : (
+      productReviews.slice().map((review, idx) => (
+        <div key={idx} className="mb-3 border-bottom pb-2">
+          <strong>{review.user?.name}</strong> - {review.rating} {'⭐'.repeat(review?.rating)}{' '}<br />
+          <small className="text-muted review-time">{getTimeAgo(review.createdAt)}</small>
+          <p className='review-cmnt d-flex justify-content-between'>{review.comment}{currentUser?.role === 'admin' && (
+  <span
+    className="ms-2 m-0 p-0"
+    onClick={() => handleDeleteReview(review._id)}
+  >
+    <i className='bi bi-trash text-danger review-trashs m-0 p-0'></i>
+  </span>
+)}
+</p>
+        </div>
+      ))
+    )}
+  </Modal.Body>
+  <Modal.Footer>
+    {/* <Button variant="secondary" onClick={handleClose}>
+      Close
+    </Button> */}
+  </Modal.Footer>
+</Modal></div>
   );
 };
 
