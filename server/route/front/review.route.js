@@ -10,6 +10,6 @@ router.get('/:productId', getReview);
 
 // POST review (requires auth)
 router.post('/', authorization, addreview);
-router.post('/:id',authorization, deleteReview)
+router.delete('/:id',authorization, deleteReview)
 
 module.exports = router;
