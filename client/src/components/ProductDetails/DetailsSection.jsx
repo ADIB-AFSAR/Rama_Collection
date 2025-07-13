@@ -23,6 +23,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0); 
   const [hasFetchedReviews, setHasFetchedReviews] = useState(false);
+ 
 
 const productId = CurrentProductDetails?._id;
 const reviews = useSelector(state => state.reviews.reviewsByProduct?.[productId] || []);
@@ -284,16 +285,23 @@ const handleShow = () => setShowAllReviewsModal(true);
 
   {/* Show latest 3 reviews or "No reviews yet" */}
   {loading ? (
-  <div className="d-flex justify-content-center my-3">
-    <Spinner animation="border" size="sm" className="text-primary" />
-  </div>
+  <>{[...Array(3)].map((_, i) => (
+      <div key={i} className="card mb-3 p-3">
+        <div className="d-flex align-items-center mb-2">
+          <div className="skeleton skeleton-circle me-2" style={{ width: "32px", height: "32px" }}></div>
+          <div className="skeleton skeleton-text w-25 me-2"></div>
+          <div className="skeleton skeleton-text w-50"></div>
+        </div>
+        <div className="skeleton skeleton-text w-75"></div>
+      </div>
+    ))}</>
 ) : latestReviews?.length === 0 ? (
   <p className="text-muted">No reviews yet.</p>
 ) : (
   latestReviews?.map((rev, idx) => (
-    <div className="border py-1 px-3 mb-3 bg-light rounded shadow-sm">
+    <div className="border py-1 px-3 mb-3 bg-light rounded shadow-sm" key={idx}>
   <div className="d-flex align-items-center mb-2">
-    <div className="bg-success review-rating text-white px-2 py-1 mt-1 rounded small fw-bold me-2">
+    <div className={`${rev.rating > 3 ? "bg-success" : rev.rating <= 3 && rev.rating >= 2 ? "bg-warning" : "bg-danger"} review-rating text-white px-2 py-1 mt-1 rounded small m-0 fw-bold me-2`}>
       {rev.rating}★
     </div>
     <div className=''><p className="mb-0 text-muted small review-time">{rev.user?.name} &nbsp;|&nbsp; {getTimeAgo(rev.createdAt)}</p>
@@ -316,7 +324,7 @@ const handleShow = () => setShowAllReviewsModal(true);
   {productReviews.length > 3 && (
     <button
       type="button"
-      className="btn btn-outline-primary mt-2"
+      className="btn btn-outline-dark mt-2"
       onClick={handleShow}
     >
       View All Reviews
@@ -327,7 +335,7 @@ const handleShow = () => setShowAllReviewsModal(true);
 
   {/* Review form */}
   {currentUser?.name ? (
-    <form onSubmit={handleReviewSubmit} className="p-4 border rounded bg-white shadow-sm">
+    <form onSubmit={handleReviewSubmit} className="p-4 border review-box rounded bg-white shadow-sm">
       <h5 className="mb-3">Write a Review</h5>
 
       {/* Star Rating */}
@@ -363,7 +371,7 @@ const handleShow = () => setShowAllReviewsModal(true);
         />
       </div>
 
-      <button type="submit" className="btn btn-primary w-100">{loading ? <Spinner animation="border" size='sm' className="text-white spinner mt-2" />:"Submit Review"}</button>
+      <button type="submit" className="btn btn-primary submit-review w-100">{loading ? <Spinner animation="border" size='sm' className="text-white spinner mt-2" />:"Submit Review"}</button>
     </form>
   ) : (
     <div className="alert alert-info mt-3">
@@ -371,11 +379,7 @@ const handleShow = () => setShowAllReviewsModal(true);
     </div>
   )}
 </div>
-
-
-
-
-        <div className='return-info  mx-1 quicksand'>
+          <div className='return-info  mx-1 quicksand mobile-only'>
           <h5 className='fw-normal mt-5 mb-2'>Returns & Exchange Information</h5>
           <p className='m-0 p-0 small text-muted'>1. Hassle-free returns within 7 days; </p>
           <p className='m-0 p-0 small text-muted'> 2. specific conditions apply based on products and promotions.</p>

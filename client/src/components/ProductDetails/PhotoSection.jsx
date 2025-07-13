@@ -7,7 +7,7 @@ const PhotoSection = ({CurrentProductImages}) => {
   const [mainImage, setMainImage] = useState('');
   const [isZooming, setIsZooming] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(true); // Track screen size
-
+ 
   
   // Check if the screen is large or small
   const checkScreenSize = () => {
@@ -98,6 +98,16 @@ const PhotoSection = ({CurrentProductImages}) => {
           </Carousel>
         </div>
       )}
+       <div className='return-info  mx-1 quicksand desktop-only mt-5'>
+          <h5 className='fw-normal mt-5 mb-2'>Returns & Exchange Information</h5>
+          <p className='m-0 p-0 small text-muted'>1. Hassle-free returns within 7 days; </p>
+          <p className='m-0 p-0 small text-muted'> 2. specific conditions apply based on products and promotions.</p>
+          <p className='m-0 p-0 small text-muted'>3. Prepaid order refunds are processed to the original payment method; COD orders receive a coupon code refund.</p>
+          <p className='m-0 p-0 small text-muted'>4. Issues with defective, incorrect, or damaged products must be reported within 24 hours of delivery.</p>
+          <p className='m-0 p-0 small text-muted'>5. Items purchased during special sales with free product offers, like BOGO, are ineligible for returns.</p>
+          <p className='m-0 p-0 small text-muted'>6. A reverse shipment fee of Rs 100 is charged, which will be deducted from the refund.</p>
+          <p className='m-0 p-0 small text-muted'>7. For hygiene, items such as accessories, sunglasses, perfumes, masks, and innerwear are non-returnable.</p>
+        </div>
     </div>
   );
 };

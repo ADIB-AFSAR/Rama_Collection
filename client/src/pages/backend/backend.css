@@ -90,3 +90,63 @@
   font-size: 10px;
 }
 }
+
+/* REVIEW */
+.skeleton {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-text {
+  height: 12px;
+  margin-bottom: 6px;
+}
+
+.skeleton-circle {
+  border-radius: 50%;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Return */
+/* App.css or global CSS */
+.mobile-only {
+  display: none;
+}
+.desktop-only {
+  display: block;
+}
+
+@media (max-width: 998px) {
+  .mobile-only {
+    display: block;
+  }
+  .desktop-only {
+    display: none;
+}
+}
+@media (max-width: 548px) {
+ .review-box label{
+   font-size: 12px;
+ }
+ .review-box h5{
+   font-size: 16px;
+ }
+ .submit-review{
+  font-size: 12px;
+}
+}
+.review-box{
+  width: 85%;
+}
