@@ -8,7 +8,7 @@ const ThankYou = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      localStorage.removeItem("showThankYou");
+      sessionStorage.removeItem('showThankYou');
     }, 15000);
   }, []);
 
@@ -16,12 +16,14 @@ const ThankYou = () => {
   window.scrollTo(0, 0);
 }, []);
 
-  useEffect(() => {
-  const placed = localStorage.getItem('showThankYou');
+ useEffect(() => {
+  const placed = sessionStorage.getItem('showThankYou');
   if (!placed) {
-    navigate('/');
+    setTimeout(() => {
+      navigate('/');
+    }, 100); // Short delay to allow smooth transitions
   } else {
-    localStorage.removeItem('showThankYou'); // Allow viewing only once
+    localStorage.removeItem('showThankYou');
   }
 }, []);
 

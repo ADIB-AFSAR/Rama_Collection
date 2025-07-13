@@ -124,17 +124,15 @@ function Checkout() {
 };
   useEffect(() => {
   const hasPlacedOrder = localStorage.getItem("orderPlacedOnce");
-
+    sessionStorage.setItem("showThankYou", "1");
   if (orderDetails && device && hasPlacedOrder === "1") {
-    localStorage.removeItem("orderPlacedOnce"); // Prevent future triggers
-
-    if (device === "mobile") {
+     
+     if (device === "mobile") {
       const message = `Hi, I just placed an order from your website.\n\nOrder ID: ${orderDetails._id}\nName: ${orderDetails.billingAddress.name}\nEmail: ${orderDetails.billingAddress.email}\nPhone:${orderDetails.billingAddress.contact}\nTotal: ₹${orderDetails.grandTotal}`;
       const encodedMsg = encodeURIComponent(message);
       const adminPhone = process.env.ADMIN_PHONE || "916203158310"; // Replace with real number
 
-      localStorage.setItem("showThankYou", "1");
-      localStorage.setItem('orderPlaced', 'true');
+      
       navigate("/thankyou");
        
       const url = `https://wa.me/${adminPhone}?text=${encodedMsg}`;
@@ -377,7 +375,7 @@ title="Enter a valid 10-digit mobile number starting with 6-9"
               </th>
               <td className="py-5 small">{item.product.name}</td>
               <td className="py-5">₹{item.product.price}</td>
-              <td className="py-5 text-center small">{item?.size}</td>
+              <td className="py-5 text-center small">{item?.size ? item?.size : "N/A"}</td>
               <td className="py-5 text-center">{item.quantity}</td>
               <td className="py-5">₹{+item.product.price * item.quantity}</td>
             </tr>
