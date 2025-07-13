@@ -187,7 +187,8 @@ const placeOrder = async (req, res) => {
             await orderItemModel.create({
                 order: order._id,
                 product: item.product,
-                quantity: item.quantity
+                quantity: item.quantity,
+                size:item.size
             });
 
             // Update product quantity in the product model

@@ -72,3 +72,21 @@
   text-align: center;
   padding: 30px 0;
 }
+
+/* order  */
+@media(max-width: 548px){
+.order-view p{
+  font-size: 12px;
+}
+.order-view h5{
+  font-size: 16px;
+}
+.order-view .btn{
+  font-size: 10px; 
+  margin: 5px 0px;
+  padding: 6px 6px;
+}
+.order-view .order-id{
+  font-size: 10px;
+}
+}

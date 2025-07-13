@@ -13,13 +13,16 @@ function OrdersView() {
   
   const getOrderById = ()=>{
     let order = orders.find(order => order._id === id)
-
+    
     if(order){
       setOrder(order)
+      console.log("ORDERS",order)
     }else{
       navigate('/admin/order')
     }
   }
+      
+
   useEffect(()=>{
     window.scrollTo(0, 0); 
       if(!id){
@@ -37,16 +40,16 @@ function OrdersView() {
         <div className='container pt-4'>
            <div className='row'>
            <Sidebar/>
-            <div className="card shadow orderview col-9">
+            <div className="card shadow orderview col-9 order-view">
             <div className="card-body">
-            <div className="card-header d-flex justify-content-between">
-              <h4 className="card-title fw-bold">#Order Id - #{order?._id}</h4>
+            <div className="card-header  d-flex justify-content-between">
+              <h4 className="card-title order-id fw-bold">Order Id - {order?._id}</h4>
               <Link to="/order" className="btn btn-primary">Back</Link>
             </div>
             </div>
              <div className='card-body'>
                 <div>
-                  <h5>Order Summary</h5>
+                  <h5 className='fw-semibold'>Order Summary</h5>
                   <hr/>
                   <p>Sub-Total : ₹{order?.subTotal}</p>
                   <hr/>
@@ -58,7 +61,7 @@ function OrdersView() {
              </div>
              <div className='card-body'>
              <div>
-                  <h5>Billing Address</h5>
+                  <h5  className='fw-semibold'>Billing Address</h5>
                   <hr/>
                   <p>Name : {order.billingAddress?.name}</p>
                   <hr/>
@@ -75,14 +78,16 @@ function OrdersView() {
                 </div>
                 <div className='card-body'>
                 <div>
-                  <h5>Payment Type </h5>
+                  <h5  className='fw-semibold'>Payment Type </h5>
                   <hr/>
-                  <p className='fw-bold'>{order.billingAddress?.payment === "cod" ? "Cash on delivery" : "Transaction through UPI"}</p>
+                  <p className='fw-bold'>{order.billingAddress?.payment === "cod" ? "Cash on delivery" : "Transaction through UPI "}{order?.paymentId?.status == "Pending" ? <i class="fas fa-shield-alt" style={{color: "green", position: "relative", fontSize: "18px"}}>
+  <i class="fas fa-check" style={{color: "white", position: "absolute", top: "4px", left: "5px", fontSize: "8px"}}></i>
+</i> : " - Pending"}</p>
                   <hr/>
                   </div>
                   </div>
              </div>
-             <table className="table">
+             <table className="table table-responsive">
               <thead>
                 <tr>
                   <th scope="col">#</th>

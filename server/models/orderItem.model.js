@@ -16,12 +16,11 @@ const orderItemSchema = new mongoose.Schema({
         type: Number,
         default: 0,
         min: [0, 'Quantity cannot be negative'] // Ensuring quantity is non-negative
+    },
+    size: {
+        type: String,  
+        required: true, 
     }
-    // size: {
-    //     type: String,  
-    //     required: true,  
-    //     enum: ['s', 'm', 'x', 'xl'],  
-    // }
 }, { timestamps: true }); // Adds createdAt and updatedAt fields
 
 // Create the order item model
