@@ -350,12 +350,13 @@ title="Enter a valid 10-digit mobile number starting with 6-9"
 
                        <div className="col-md-12 col-lg-6 col-xl-5">
   <div className="table-responsive">
-    <table className="table table-responsive">
+    <table className="table table-responsive text-center">
       <thead>
         <tr>
           <th scope="col">Products</th>
           <th scope="col">Name</th>
           <th scope="col">Price</th>
+          <th scope="col">Size</th>
           <th scope="col">Quantity</th>
           <th scope="col">Total</th>
         </tr>
@@ -376,7 +377,8 @@ title="Enter a valid 10-digit mobile number starting with 6-9"
               </th>
               <td className="py-5 small">{item.product.name}</td>
               <td className="py-5">₹{item.product.price}</td>
-              <td className="py-5">{item.quantity}</td>
+              <td className="py-5 text-center small">{item?.size}</td>
+              <td className="py-5 text-center">{item.quantity}</td>
               <td className="py-5">₹{+item.product.price * item.quantity}</td>
             </tr>
           ))
@@ -389,11 +391,11 @@ title="Enter a valid 10-digit mobile number starting with 6-9"
         <tr>
           <td colSpan="3"></td>
           <td className="py-5">
-            <p className="mb-0 text-dark py-3">Subtotal</p>
+            <p className="mb-0 text-dark py-3 small">Subtotal</p>
           </td>
           <td className="py-5">
             <div className="py-3 border-bottom border-top">
-              <p className="mb-0 text-dark">₹{currentCart.subTotal || 0}</p>
+              <p className="mb-0 text-dark small">₹{currentCart.subTotal || 0}</p>
             </div>
           </td>
         </tr>
@@ -401,11 +403,11 @@ title="Enter a valid 10-digit mobile number starting with 6-9"
         <tr>
           <td colSpan="1"></td>
           <td className="py-5">
-            <p className="mb-0 text-dark py-4">Tax</p>
+            <p className="mb-0 text-dark py-4 small">Tax</p>
           </td>
           <td colSpan="3" className="py-5">
             <div className="py-3 border-bottom border-top">
-              <p className="mb-0 text-dark text-end">₹{currentCart.tax || 0}</p>
+              <p className="mb-0 text-dark text-end small">₹{currentCart.tax || 0}</p>
             </div>
           </td>
         </tr>
@@ -413,12 +415,12 @@ title="Enter a valid 10-digit mobile number starting with 6-9"
         <tr>
           <td colSpan="1"></td>
           <td className="py-5">
-            <p className="mb-0 text-dark text-uppercase py-3">Total</p>
+            <p className="mb-0 text-dark text-uppercase py-3 fw-semibold">Total</p>
           </td>
           <td colSpan="2"></td>
           <td className="py-5">
             <div className="py-3 border-bottom border-top">
-              <p className="mb-0 text-dark">₹{currentCart.grandTotal || 0}</p>
+              <p className="mb-0 text-dark fw-semibold">₹{currentCart.grandTotal || 0}</p>
             </div>
           </td>
         </tr>

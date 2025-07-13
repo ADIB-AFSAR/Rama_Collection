@@ -80,14 +80,14 @@ function OrdersView() {
                 <div>
                   <h5  className='fw-semibold'>Payment Type </h5>
                   <hr/>
-                  <p className='fw-bold'>{order.billingAddress?.payment === "cod" ? "Cash on delivery" : "Transaction through UPI "}{order?.paymentId?.status == "Pending" ? <i class="fas fa-shield-alt" style={{color: "green", position: "relative", fontSize: "18px"}}>
+                  <p className='fw-bold'>{order.billingAddress?.payment === "cod" ? "Cash on delivery" : "Transaction through UPI "}{order?.paymentId?.status == "Completed" ? <i class="fas fa-shield-alt" style={{color: "green", position: "relative", fontSize: "18px"}}>
   <i class="fas fa-check" style={{color: "white", position: "absolute", top: "4px", left: "5px", fontSize: "8px"}}></i>
 </i> : " - Pending"}</p>
                   <hr/>
                   </div>
                   </div>
              </div>
-             <table className="table table-responsive">
+             <table className="table-responsive table">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -106,7 +106,7 @@ function OrdersView() {
                         <td className="py-3 rounded"><img src={item?.product?.images[0]} alt={item?.name} height={'90px'}/></td>
                         <td className="py-3">{item?.product?.name}</td>
                         <td className="py-3">₹{item?.product?.price}</td>
-                        <td className="py-3">{item?.product?.size ? item?.product?.size : "N/A" }</td>
+                        <td className="py-3 text-center small">{item?.size ? item?.size : "N/A" }</td>
                         <td className="py-3 text-center">{item?.quantity}</td> 
                         <td className="py-3">₹{+item.product.price * item.quantity}</td>
                       </tr>

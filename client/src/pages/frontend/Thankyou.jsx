@@ -17,11 +17,11 @@ const ThankYou = () => {
 }, []);
 
   useEffect(() => {
-  const placed = localStorage.getItem('orderPlaced');
+  const placed = localStorage.getItem('showThankYou');
   if (!placed) {
     navigate('/');
   } else {
-    localStorage.removeItem('orderPlaced'); // Allow viewing only once
+    localStorage.removeItem('showThankYou'); // Allow viewing only once
   }
 }, []);
 
