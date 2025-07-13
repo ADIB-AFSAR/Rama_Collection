@@ -20,7 +20,7 @@ const SlidingInfo = () => {
 
   return (
     <div className="running-text-container glowing-text">
-      <div className="running-text small fw-bold">
+      <div className="running-text small fw-semibold">
         {text}
       </div>
     </div>
