@@ -23,6 +23,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0); 
   const [hasFetchedReviews, setHasFetchedReviews] = useState(false);
+  console.log(CurrentProductDetails)
  
 
 const productId = CurrentProductDetails?._id;
@@ -277,10 +278,12 @@ const handleShow = () => setShowAllReviewsModal(true);
   )}
   <span className='add-to-wishlist'> {!isInWishlist ? 'Add to Wishlist' : 'Remove from Wishlist'}</span>
 </button>
-         {/* Reviews */}
-         {/* Reviews */}
+      <div className='mx-2'>
+      <h4 className='mt-4'>Product Details</h4>
+      <p>{CurrentProductDetails?.description}</p>
+       </div>
 {/* Reviews */}
-<div className="mt-5">
+<div className="mt-5 mx-2">
   <h4 className="mb-4">Customer Reviews</h4>
 
   {/* Show latest 3 reviews or "No reviews yet" */}
