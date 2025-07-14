@@ -280,7 +280,7 @@ const handleShow = () => setShowAllReviewsModal(true);
 </button>
       <div className='mx-2'>
       <h4 className='mt-4'>Product Details</h4>
-      <p>{CurrentProductDetails?.description}</p>
+      {CurrentProductDetails?.description ? <p>{CurrentProductDetails?.description}</p> : <p>No details found</p>}
        </div>
 {/* Reviews */}
 <div className="mt-5 mx-2">
