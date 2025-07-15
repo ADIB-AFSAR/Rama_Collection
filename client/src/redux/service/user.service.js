@@ -148,3 +148,18 @@ export const loginUserToAPI = async (payload) => {
   }
 };
 
+// export function loginGoogleAPI(token) {
+//   return fetch('/api/auth/google-login', {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({ token }),
+//   }).then(res => res.json());
+// }
+
+export const loginGoogleAPI = async (token) => {
+    fetch('/api/auth/google-login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token }),
+  }).then(res => res.json());
+}

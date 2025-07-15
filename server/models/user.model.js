@@ -34,6 +34,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['Active', 'Inactive'], // Restrict status to 'Active' or 'Inactive'
         default: 'Inactive'
+    },
+    profilePic: {
+        type : String
     }
 }, { timestamps: true }); // Adds createdAt and updatedAt fields
 

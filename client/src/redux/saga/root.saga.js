@@ -6,6 +6,7 @@ import cart from "./cart.saga";
 import order from "./order.saga";
 import { watchWishlist } from "./wishlist.saga";
 import reviewSaga from "./review.saga";
+import authSaga from "./googleAuth.saga";
 
 export default function* root(){
     yield all([
@@ -15,6 +16,7 @@ export default function* root(){
         fork(cart),
         fork(order),
         fork(watchWishlist),
-        fork(reviewSaga)
+        fork(reviewSaga),
+        fork(authSaga)
     ])
 }

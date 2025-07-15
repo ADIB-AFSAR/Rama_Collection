@@ -6,6 +6,7 @@ import { cartReducer } from "./cart.reducer";
 import { orderReducer } from "./order.reducer";
 import wishlistReducer from "./wishlist.reducer";
 import reviewReducer from "./review.reducer";
+import authReducer from "./googleAuth.reducer";
 
 // Combine all individual reducers into a single root reducer
 export const rootReducer = combineReducers({
@@ -15,5 +16,6 @@ export const rootReducer = combineReducers({
     cart: cartReducer, // Manages cart state
     order: orderReducer, // Manages order state
     wishlist : wishlistReducer, //manage wishlist items
-    reviews: reviewReducer //Manage review data
+    reviews: reviewReducer, //Manage review data
+    auth : authReducer, //Manage google logins
 });

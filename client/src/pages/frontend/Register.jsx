@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom'; 
 import {useFormData} from '../../hooks/useFormData'; // Adjust the path as necessary
 import { registerUserStart } from '../../redux/action/user.acton';
+import GoogleLoginButton from '../../components/GoogleAuth';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const Register = () => {
               Login
             </Link>
           </p>
-          <form onSubmit={submit}>
+          <form onSubmit={submit} className='mb-3'>
             <div className="mb-3">
               <label htmlFor="name" className="form-label">
                 Full Name
@@ -124,7 +125,9 @@ const Register = () => {
             <button type="submit" className="btn btn-primary w-100">
               REGISTER
             </button>
+            
           </form>
+          <GoogleLoginButton/>
         </div>
         <div className="register-image">
           <img
@@ -132,7 +135,9 @@ const Register = () => {
             alt="Gucci model showcasing a fashion outfit"
           />
         </div>
+        
       </div>
+      
     </div>
   );
 };
