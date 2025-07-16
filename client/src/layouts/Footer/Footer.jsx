@@ -19,9 +19,9 @@ const Footer = () => {
           </Col>
           <Col md={4} className="text-center">
             <div className="brand d-flex flex-column">
-            <span className="ml-2 h4"><span className='updock-regular fw-bold fs-2'><a className='text-decoration-none text-dark' href='https://www.ramacollectionshop.com'>Rama Collections</a></span></span>
+            <span className="ml-2 h4"><span className='updock-regular fw-bold fs-2'><a className='text-decoration-none text-dark' href='https://www.ramacollectionshop.com'>Rama Collection Shop</a></span></span>
            <img
-              src="/images/logo.png" 
+              src="/images/logo-new.jpg" 
               className="d-inline-block align-top m-0 p-0"
               alt="Logo"
             />

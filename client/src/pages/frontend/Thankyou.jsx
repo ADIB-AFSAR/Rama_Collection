@@ -32,7 +32,7 @@ const ThankYou = () => {
       <Container className="thankyou-box text-center shadow-lg p-4 rounded">
         <div className="logo mb-3">
           <span className="ml-2 head">
-            <span className="updock-regular fw-bold t">Rama Collections</span>
+            <span className="updock-regular fw-bold t">Rama Collection Shop</span>
           </span>
         </div>
         <h2 className="thankyou-heading">Thank you for your purchase</h2>

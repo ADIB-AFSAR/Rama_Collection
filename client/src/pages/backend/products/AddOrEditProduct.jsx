@@ -117,7 +117,7 @@ function AddOrEditProducts() {
 
 <label htmlFor='images'  className="form-label mt-3"> Product Image</label>
     <input multiple type="file" accept="image/png, image/jpeg, image/jpg" name="images" onChange={uploadFiles} className="form-control" id="images"/>
-    <p className='mx-2 mb-0 mob' style={{fontSize:"10px"}}>720x1280 resolution images are recommended*</p>
+    <p className='mx-2 mb-0 mob' style={{fontSize:"10px"}}>340x480 resolution images are recommended*</p>
     {images && images.length > 0 ? images?.map((image,index)=>{
       return <img key={index} src={image} className='mt-2 mb-2' height={'120px'} width={'100px'}/>
     }): <p className='mx-2 mt-0 mob' style={{fontSize:"9px"}}>After uploading image, please save to see the image preview</p> }
