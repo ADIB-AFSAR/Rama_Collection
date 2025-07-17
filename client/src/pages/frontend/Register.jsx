@@ -1,33 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './frontend.css'; // External CSS file for custom styles 
-import { useDispatch } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom'; 
-import {useFormData} from '../../hooks/useFormData'; // Adjust the path as necessary
+import './frontend.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
+import { useFormData } from '../../hooks/useFormData';
 import { registerUserStart } from '../../redux/action/user.acton';
-import GoogleLoginButton from '../../components/GoogleAuth';
+import { Spinner } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [err, setErr] = useState('');
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const loading = useSelector((state) => state.user.loading);
 
   const [handleChange, formData] = useFormData({
     name: '',
     email: '',
     password: '',
-    contact: '', 
+    contact: '',
   });
 
   const { name, email, password, contact } = formData;
 
-  const submit = (event) => {
-    event.preventDefault(); 
+  const validate = () => {
+    const nameRegex = /^[A-Za-z\s]{2,}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    const phoneRegex = /^[6-9]\d{9}$/;
 
-    // Validate fields here if needed
-    dispatch(registerUserStart(formData))
-    navigate('/login');
+    if (!nameRegex.test(name)) return 'Enter a valid full name.';
+    if (!emailRegex.test(email)) return 'Enter a valid email address.';
+    if (!passwordRegex.test(password)) return 'Password must be at least 6 characters and include a number and a special character.';
+    if (!phoneRegex.test(contact)) return 'Enter a valid 10-digit contact number.';
+    if (!isChecked) return 'You must agree to the terms and conditions.';
+
+    return null;
   };
+
+  const submit = (event) => {
+    event.preventDefault();
+    const validationError = validate();
+    if (validationError) {
+      toast.error(validationError)
+      return;
+    }
+    console.log(formData)
+    dispatch(registerUserStart(formData));
+    };
+
+  useEffect(() => {
+        if (currentUser) {
+          let token = localStorage.getItem('jwt_token');
+          if (!token) {
+            console.error('Token is undefined');
+            return;
+          }
+          if (currentUser.role === 'admin') {
+            navigate('/dashboard');
+          } else {
+            navigate('/');
+          }
+        }
+      }, [currentUser, navigate]);
+
+  // Preload the image
+  useEffect(() => {
+    const img = new Image();
+    img.src = "https://img.perniaspopupshop.com/HOMEPAGE_IMAGES/WOMEN/01_Nov_24/Ridhi-Mehra_WT_1_11_24.jpg";
+    img.onload = () => setIsImageLoaded(true);
+  }, []);
 
   return (
     <div className="register-container">
@@ -36,108 +80,106 @@ const Register = () => {
       <div className="register-box">
         <div className="register-form">
           <h2>Register</h2>
-          {err && <div className="alert alert-danger">{err}</div>}
-          <p>
+           <p>
             Already have an account?{' '}
             <Link to="/login" style={{ color: '#ff6b6b' }}>
               Login
             </Link>
           </p>
-          <form onSubmit={submit} className='mb-3'>
+          <form onSubmit={submit}>
             <div className="mb-3">
-              <label htmlFor="name" className="form-label">
-                Full Name
-              </label>
+              <label htmlFor="name" className="form-label">Full Name</label>
               <input
                 type="text"
                 className="form-control"
                 id="name"
-                name="name" // Add name attribute
+                name="name"
                 placeholder="John Doe"
-                value={name} // Bind the value to the state
-                onChange={handleChange} // Bind onChange to handleChange
+                value={name}
+                onChange={handleChange}
               />
             </div>
+
             <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email Address
-              </label>
+              <label htmlFor="email" className="form-label">Email Address</label>
               <input
                 type="email"
                 className="form-control"
                 id="email"
-                name="email" // Add name attribute
+                name="email"
                 placeholder="you@example.com"
-                value={email} // Bind the value to the state
-                onChange={handleChange} // Bind onChange to handleChange
+                value={email}
+                onChange={handleChange}
               />
             </div>
+
             <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
+              <label htmlFor="password" className="form-label">Password</label>
               <input
                 type="password"
                 className="form-control"
                 id="password"
-                name="password" // Add name attribute
+                name="password"
                 placeholder="Enter 6 characters or more"
-                value={password} // Bind the value to the state
-                onChange={handleChange} // Bind onChange to handleChange
+                value={password}
+                onChange={handleChange}
               />
-            </div> 
+            </div>
+
             <div className="mb-3">
-              <label htmlFor="contact" className="form-label">
-                Contact Number
-              </label>
+              <label htmlFor="contact" className="form-label">Contact Number</label>
               <input
                 type="text"
                 className="form-control"
                 id="contact"
-                name="contact" // Add name attribute
+                name="contact"
                 placeholder="Your contact number"
-                value={contact} // Bind the value to the state
-                onChange={handleChange} // Bind onChange to handleChange
+                value={contact}
+                onChange={handleChange}
               />
             </div>
-            {/* <div className="mb-3">
-              <label htmlFor="image" className="form-label">
-                Profile Image
-              </label>
-              <input
-                type="file"
-                className="form-control"
-                id="image"
-                name="image" 
-                onChange={uploadFiles}  
-              />
-            </div> */}
+
             <div className="mb-3 form-check">
               <input
                 type="checkbox"
                 className="form-check-input"
                 id="terms"
+                checked={isChecked}
+                onChange={() => setIsChecked(!isChecked)}
               />
               <label className="form-check-label terms" htmlFor="terms">
                 I agree to the terms and conditions
               </label>
             </div>
+
             <button type="submit" className="btn btn-primary w-100">
-              REGISTER
+              {loading ?<Spinner animation="border" size="sm" className="text-primary m-0 p-0" />:"REGISTER"}
             </button>
-            
           </form>
-          <GoogleLoginButton/>
         </div>
+
         <div className="register-image">
-          <img
-            src="https://img.perniaspopupshop.com/HOMEPAGE_IMAGES/WOMEN/01_Nov_24/Ridhi-Mehra_WT_1_11_24.jpg"
-            alt="Gucci model showcasing a fashion outfit"
-          />
+          {isImageLoaded ? (
+            <img
+              src="https://img.perniaspopupshop.com/HOMEPAGE_IMAGES/WOMEN/01_Nov_24/Ridhi-Mehra_WT_1_11_24.jpg"
+              alt="Fashion model"
+            />
+          ) : (
+            <div
+              style={{
+                height: '400px',
+                width: '100%',
+                backgroundColor: '#f0f0f0',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <div className="spinner-border text-danger" role="status"></div>
+            </div>
+          )}
         </div>
-        
       </div>
-      
     </div>
   );
 };

@@ -106,12 +106,11 @@ export const registerUserToAPI = async (payload) => {
                 'Authorization': getToken()
             }
         });
-
-        if (!response.ok) {
-            throw new Error(`Error registering user: ${response.statusText}`);
-        }
-
-        return await response.json();
+        const data = await response.json();
+            // if (!response.ok) {
+            // throw new Error(data.message || 'Registration failed');
+            // }
+          return {data,response}
     } catch (error) {
         console.error(error);
     }
@@ -148,13 +147,6 @@ export const loginUserToAPI = async (payload) => {
   }
 };
 
-// export function loginGoogleAPI(token) {
-//   return fetch('/api/auth/google-login', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify({ token }),
-//   }).then(res => res.json());
-// }
 
 export const loginGoogleAPI = async (token) => {
     fetch('/api/auth/google-login', {

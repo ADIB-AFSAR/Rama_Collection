@@ -29,6 +29,7 @@ import {
     logoutUserSuccess, 
     registerUserError, 
     registerUserStart, 
+    registerUserSuccess, 
     updateUserError 
 } from '../action/user.acton';
 
@@ -101,10 +102,15 @@ function* logoutUser() {
 function* registerUser({ payload }) {
     console.log("saga:", payload)
     try {
-        yield put(registerUserToAPI(payload))
-        yield put(registerUserStart())
-        yield put(getUserStart())
-        toast.success("User registered successfully")
+        const res = yield call(registerUserToAPI, payload);
+        if (res.response.status === 409) {
+      yield put(registerUserError("User already exists."));
+      toast.error("User email already exists.");
+    } else {
+      const data = res.data.message; // get JSON body
+      yield put(registerUserSuccess(data));
+      toast.success(data || "User registered successfully");
+    }
     } catch (error) {
         yield put(registerUserError(error.message))
         toast.error(error.message)

@@ -8,13 +8,12 @@ import {useFormData} from '../../hooks/useFormData'; // Adjust import based on y
 import { Spinner } from 'react-bootstrap';
 
 const Login = () => {
-  const users = useSelector((state) => state.user.users);
   const currentUser = useSelector((state) => state.user.currentUser);
+  const loading = useSelector((state) => state.user.loading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [err, setErr] = useState("");
-  const [loading , setLoading] = useState(false);
-  
+   
   // Initialize form data using custom hook
   const [handleChange, formData] = useFormData({
     email: "",
@@ -24,11 +23,9 @@ const Login = () => {
   const { email, password } = formData;
 
     const submit = (event) => {
-      setLoading(true)
-      event.preventDefault();
+       event.preventDefault();
       dispatch(loginUserStart(formData));
-      setTimeout(()=>{setLoading(false)},2000)
-    };
+     };
   
     // Watch for changes in currentUser
     useEffect(() => {

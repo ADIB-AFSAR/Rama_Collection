@@ -6,7 +6,6 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true, // Corrected to 'required'
-        unique: true
     },
     token: {
         type: String
