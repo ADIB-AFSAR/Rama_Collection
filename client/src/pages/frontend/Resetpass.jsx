@@ -12,7 +12,7 @@ const ResetPassword = () => {
   const handleReset = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`/api/user/reset-password/${token}`, { password });
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/user/reset-password/${token}`, { password });
       toast.success("Password reset successful. Please login.");
       navigate('/login');
     } catch (error) {
