@@ -2,6 +2,7 @@ import {
     GET_USER_ERROR, 
     GET_USER_START, 
     GET_USER_SUCCESS, 
+    LOGIN_USER_ERROR, 
     LOGIN_USER_START, 
     LOGIN_USER_SUCCESS, 
     LOGOUT_USER_START, 
@@ -63,6 +64,11 @@ export const userReducer = (state = initialState, action) => {
                 currentUser: { ...action.payload },
                 loading : false
             };
+            case LOGIN_USER_ERROR:
+                return {
+                    ...state,
+                    loadiang : false
+                }
 
         case LOGOUT_USER_START:
                 return {

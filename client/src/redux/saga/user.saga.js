@@ -70,7 +70,7 @@ function* updateUser({ payload }) {
     try {
         yield call(updateUserFromAPI, payload);
         yield put(getUserStart());
-        yield put(loginUserSuccess(payload)); // Optional: consider whether this is desired behavior
+        // yield put(loginUserSuccess(payload)); 
         toast.success("User profile updated successfully")
     } catch (error) {
         yield put(updateUserError(error.message));
@@ -84,8 +84,9 @@ function* loginUser({ payload }) {
         yield put(loginUserSuccess(response.user));
         toast.success("Logged in successfully")
     } catch (error) {
+        const errorMsg = "Something went wrong, please try again.";
         yield put(loginUserError(error.message));
-        toast.error(error.message)
+        toast.error(errorMsg)
     }
 }
 
@@ -101,21 +102,35 @@ function* logoutUser() {
 
 function* registerUser({ payload }) {
     console.log("saga:", payload)
+    const { onSuccess, onError, ...userData } = payload;
     try {
-        const res = yield call(registerUserToAPI, payload);
+        const res = yield call(registerUserToAPI, userData);
         if (res.response.status === 409) {
       yield put(registerUserError("User already exists."));
       toast.error("User email already exists.");
     } else {
       const data = res.data.message; // get JSON body
+
+      if (data == "User registered successfully.") {
       yield put(registerUserSuccess(data));
-      toast.success(data || "User registered successfully");
+      toast.success(data);
+
+      if (onSuccess) onSuccess(); // Call the success callback (e.g., redirect)
+    } else {
+      const msg = data || "Registration failed.";
+      yield put(registerUserError(msg));
+      toast.error(msg);
+      if (onError) onError(msg);
+    }
     }
     } catch (error) {
-        yield put(registerUserError(error.message))
-        toast.error(error.message)
+    const errorMsg = "Something went wrong, please try again.";
+    yield put(registerUserError(errorMsg));
+    toast.error(errorMsg);
+    if (onError) onError(errorMsg);  
+    console.log("register saga:",error)
     }
-}
+    }
 
 export default function* user() {
     yield takeLatest(GET_USER_START, getUser);

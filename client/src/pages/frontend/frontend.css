@@ -368,8 +368,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
+  padding: 1rem;
 }
 
 .background-blur {
@@ -384,13 +385,13 @@
 
 .register-box {
   display: flex;
-  /* width: 80%; */
-  max-width: 800px;
-  height: 95%;
+  width: 100%;
+  max-width: 900px;
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
-  margin-top: 2rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: 600px; /* ✅ Fix height so image and form align */
 }
 
 .register-form {
@@ -401,60 +402,55 @@
   justify-content: center;
 }
 
+.register-form .btn-primary {
+    background-color: #ff6b6b;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+  }
+  
+  .register-form .btn-primary:hover {
+    background-color: #ff4c4c;
+  }
+
 .register-image {
   width: 50%;
-  height: 100%;
+  height: 100%; /* ✅ Match the full height */
 }
 
 .register-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* ✅ Ensure image covers space */
 }
+
 
 @media (max-width: 768px) {
   .register-box {
-    flex-direction: column-reverse; /* Stack image and form */
+    flex-direction: column-reverse;
+    height: auto; /* Allow content to grow naturally */
   }
-  .register-box{
-    height: auto;
-  }
-  .register-form, .register-image {
+
+  .register-form,
+  .register-image {
     width: 100%;
   }
 
+  .register-image {
+    height: auto;
+  }
+
   .register-image img {
-    height: auto; /* Adjust the image height for small screens */
+    height: auto;
     object-fit: cover;
   }
-  .terms{
+
+  .terms {
     font-size: 12px;
   }
 }
-.register-form .btn-primary {
-  background-color: #ff6b6b;
-  border: none;
-  border-radius: 5px;
-  padding: 10px;
-  width: 100%;
-}
 
-.register-form .btn-primary:hover {
-  background-color: #ff4c4c;
-}
-
-.register-form .btn-secondary {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  color: #333;
-  padding: 10px;
-  width: 48%;
-}
-
-.register-form .btn-secondary:hover {
-  background-color: #f7f7f7;
-}
 
 
 /* ----THANKYOU PAGE STYLE HERE------ */

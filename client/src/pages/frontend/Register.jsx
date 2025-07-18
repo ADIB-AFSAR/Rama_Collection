@@ -48,7 +48,10 @@ const Register = () => {
       return;
     }
     console.log(formData)
-    dispatch(registerUserStart(formData));
+    dispatch(registerUserStart({
+    ...formData,
+    onSuccess: () => navigate('/login'), // callback only on success
+  }));
     };
 
   useEffect(() => {
@@ -153,7 +156,7 @@ const Register = () => {
             </div>
 
             <button type="submit" className="btn btn-primary w-100">
-              {loading ?<Spinner animation="border" size="sm" className="text-primary m-0 p-0" />:"REGISTER"}
+              {loading ?<Spinner animation="border" size="sm" className="text-white m-0 p-0" />:"REGISTER"}
             </button>
           </form>
         </div>
@@ -175,7 +178,6 @@ const Register = () => {
                 justifyContent: 'center',
               }}
             >
-              <div className="spinner-border text-danger" role="status"></div>
             </div>
           )}
         </div>

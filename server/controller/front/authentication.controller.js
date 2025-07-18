@@ -15,6 +15,13 @@ const login = async (req, res) => {
             });
         }
 
+         if (findUser.status !== "active") {
+            console.log("User is inactive or disabled.");
+            return res.status(403).json({
+                message: "Your ID has been disabled by ADMIN."
+            });
+        }
+
         // Log both passwords for comparison
         console.log('Stored hashed password:', findUser .password);
         console.log('Entered password:', req.body.password);

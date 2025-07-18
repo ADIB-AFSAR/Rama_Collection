@@ -38,7 +38,9 @@ export const addUserToAPI = async (payload) => {
             throw new Error(`Error adding user: ${response.statusText}`);
         }
 
-        return await response.json();
+         const data = await response.json();
+         console.log("USER SERVICE LOGIN",data)
+         return data
     } catch (error) {
         console.error(error);
     }
@@ -97,7 +99,10 @@ export const registerUserToAPI = async (payload) => {
         formData.append(key, payload[key]);
     }
 
+    
+
     try {
+        
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/register`, {
             method: 'POST',
             body: JSON.stringify(payload),

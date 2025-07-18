@@ -12,8 +12,7 @@ const Login = () => {
   const loading = useSelector((state) => state.user.loading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [err, setErr] = useState("");
-   
+    
   // Initialize form data using custom hook
   const [handleChange, formData] = useFormData({
     email: "",
@@ -113,7 +112,7 @@ const Login = () => {
               </label>
             </div>
             <button type="submit" className="btn btn-primary w-100">
-              {loading ?<Spinner animation="border" size="sm" className="text-primary m-0 p-0" />:"LOGIN"}
+              {loading ?<Spinner animation="border" size="sm" className="text-white m-0 p-0" />:"LOGIN"}
             </button>
             {/* Uncomment if social login is needed */}
             {/* <div className="text-center my-3">or login with</div> */}
