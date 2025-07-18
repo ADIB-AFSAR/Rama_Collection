@@ -87,7 +87,7 @@ const forgotPassword = async (req, res) => {
   const user = await userModel.findOne({ email });
   if (!user) return res.status(404).json({ message: "User not found" });
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '5m' });
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '15m' });
 
   // Ideally use a real SMTP service in production
   const transporter = nodemailer.createTransport({
