@@ -67,7 +67,7 @@ export const userReducer = (state = initialState, action) => {
             case LOGIN_USER_ERROR:
                 return {
                     ...state,
-                    loadiang : false
+                    loading : false
                 }
 
         case LOGOUT_USER_START:

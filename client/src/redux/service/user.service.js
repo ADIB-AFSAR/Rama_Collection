@@ -38,9 +38,7 @@ export const addUserToAPI = async (payload) => {
             throw new Error(`Error adding user: ${response.statusText}`);
         }
 
-         const data = await response.json();
-         console.log("USER SERVICE LOGIN",data)
-         return data
+        return await response.json();
     } catch (error) {
         console.error(error);
     }
@@ -134,7 +132,7 @@ export const loginUserToAPI = async (payload) => {
     });
 
     const data = await response.json(); // parse even on error to get the message
-
+    console.log(data)
     if (!response.ok) {
       // Throw structured error so saga can read .message
       throw new Error(data.message || `Error logging in: ${response.statusText}`);
@@ -144,7 +142,7 @@ export const loginUserToAPI = async (payload) => {
       localStorage.setItem('jwt_token', data.token);
       localStorage.setItem('currentUser', JSON.stringify(data.user));
     }
-
+    
     return data;
   } catch (error) {
     console.error("Login error in service:", error);

@@ -27,7 +27,7 @@ const login = async (req, res) => {
         console.log('Entered password:', req.body.password);
 
         // Asynchronous password comparison
-        let authenticate = bcrypt.compareSync(req.body.password.trim(), findUser .password);
+        let authenticate = bcrypt.compareSync(req.body.password.trim(), findUser.password);
         console.log('authenticate:', authenticate);
 
         if (authenticate) {
