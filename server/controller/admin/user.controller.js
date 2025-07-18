@@ -110,22 +110,27 @@ const forgotPassword = async (req, res) => {
 const resetPassword = async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
-  console.log(token,password)
+
+  console.log("Received token:", token);
+  console.log("Received password:", password);
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await userModel.findById(decoded.id);
-    if (!user) return res.status(404).json({ message: "Invalid token or user not found" });
+    console.log("Token verified:", decoded);
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    user.password = hashedPassword;
+    const user = await userModel.findById(decoded.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.password = await bcrypt.hash(password, 10);
     await user.save();
 
     return res.json({ message: "Password reset successful" });
   } catch (err) {
-    return res.status(400).json({ message: "Token expired or invalid" });
+    console.error("JWT verification failed:", err.message);
+    return res.status(400).json({ message: err.message });
   }
 };
+
 
 module.exports = {
     getUsers,
