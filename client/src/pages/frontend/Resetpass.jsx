@@ -8,10 +8,13 @@ const ResetPassword = () => {
   const { token } = useParams();
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
+ 
 
   const handleReset = async (e) => {
+    
     e.preventDefault();
     try {
+        console.log(token)
       await axios.post(`${process.env.REACT_APP_API_URL}/api/user/reset-password/${token}`, { password });
       toast.success("Password reset successful. Please login.");
       navigate('/login');
