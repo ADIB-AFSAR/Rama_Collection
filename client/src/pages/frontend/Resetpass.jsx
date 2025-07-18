@@ -3,20 +3,26 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import './frontend.css';
+import { Spinner } from 'react-bootstrap';
 
 const ResetPassword = () => {
   const { token } = useParams();
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+const [loading,setLoading] = useState(false)
+  
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault();
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/api/user/reset-password/${token}`, { password });
+      setLoading(false)
       toast.success("Password reset successful");
       navigate('/login');
     } catch (error) {
+      setLoading(false)
       toast.error(error.response?.data?.message || "Password reset failed");
     }
   };
@@ -25,7 +31,12 @@ const ResetPassword = () => {
     <div className="password-flow-container">
       <div className="background-blur"></div>
       <div className="password-flow-box">
-        <h2>Reset Password</h2>
+        <h2 className='d-flex justify-content-between'>Reset Password <a onClick={() => window.history.back()}>
+        <i
+          style={{ cursor: 'pointer'}}
+          className="bi bi-arrow-left fs-3 text-dark"
+        ></i>
+      </a></h2>
         <p>Enter your new password below.</p>
         <form onSubmit={handleSubmit}>
           <div className="mb-3 position-relative">
@@ -46,7 +57,7 @@ const ResetPassword = () => {
             </span>
           </div>
           <button className="btn btn-primary" type="submit">
-            Reset Password
+            {loading ?<Spinner animation="border" size="sm" className="text-white m-0 p-0" />:"Reset Password"}
           </button>
         </form>
       </div>
