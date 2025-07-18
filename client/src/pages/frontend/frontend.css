@@ -231,7 +231,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     position: relative;
   }
   
@@ -340,6 +340,12 @@
     height: 100%;
     object-fit: cover;
   }
+  .eye{
+    margin-top: .5rem;
+    margin-right: -2rem;
+    position: absolute;
+    left: 44rem;
+  }
   
   @media (max-width: 768px) {
     .login-box {
@@ -359,7 +365,14 @@
         z-index: 2; /* Ensure form is above the image */
         position: relative; /* Necessary for z-index to take effect */
     }
+    .eye{
+    margin-top: .5rem !important;
+    margin-right: -2rem;
+    position: absolute;
+    left: 19rem;
+  }
 }
+
 
   
 /* ------REGISTER STYLE HERE------ */
@@ -425,6 +438,10 @@
   object-fit: cover; /* ✅ Ensure image covers space */
 }
 
+.eye-regis{
+  left: 20rem;
+}
+
 
 @media (max-width: 768px) {
   .register-box {
@@ -449,6 +466,7 @@
   .terms {
     font-size: 12px;
   }
+  
 }
 
 
@@ -1020,4 +1038,81 @@ ul li {
   .shipping-and-returns h3 {
     font-size: 18px;
   }
+}
+
+/* Forgot password */
+.password-flow-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+  padding: 1rem;
+  background: url("https://images.unsplash.com/photo-1520975918108-c5a0173c5fe0") center/cover no-repeat;
+}
+
+.background-blur {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  z-index: -1;
+}
+
+.password-flow-box {
+  width: 100%;
+  max-width: 500px;
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.password-flow-box h2 {
+  margin-bottom: 20px;
+}
+
+.password-flow-box .btn-primary {
+  background-color: #ff6b6b;
+  border: none;
+  width: 100%;
+}
+
+.password-flow-box .btn-primary:hover {
+  background-color: #ff4c4c;
+}
+
+.password-visibility-toggle {
+  position: absolute;
+  right: 130px;
+  top: 40px;
+  cursor: pointer;
+  color: #888;
+}
+
+@media (max-width: 528px) {
+ .password-flow-box p{
+  font-size: 12px;
+ }
+
+ .password-flow-box h2{
+  font-size: 18px;
+ }
+
+ .password-flow-box label{
+  font-size: 14px;
+ }
+ .password-flow-box .btn{
+  font-size: 14px;
+ }
+
+ .password-visibility-toggle {
+  position: absolute;
+  right: 10px;
+  top: 40px;
+  cursor: pointer;
+  color: #888;
+}
 }

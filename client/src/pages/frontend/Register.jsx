@@ -15,6 +15,8 @@ const Register = () => {
   const [isChecked, setIsChecked] = useState(false);
   const currentUser = useSelector((state) => state.user.currentUser);
   const loading = useSelector((state) => state.user.loading);
+    const [showPassword, setShowPassword] = useState(false);
+
 
   const [handleChange, formData] = useFormData({
     name: '',
@@ -118,15 +120,19 @@ const Register = () => {
 
             <div className="mb-3">
               <label htmlFor="password" className="form-label">Password</label>
+              <div className='d-flex'>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 className="form-control"
                 id="password"
-                name="password"
+                name="password" // Added name attribute
                 placeholder="Enter 6 characters or more"
-                value={password}
-                onChange={handleChange}
-              />
+                value={password} // Controlled component
+                onChange={handleChange} // Update form data on change
+                required // Added required attribute
+              /><span className='mt-2 mx-1' onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <i className='bi bi-eye-slash'></i> : <i className='bi bi-eye'></i>}</span></div>
             </div>
 
             <div className="mb-3">

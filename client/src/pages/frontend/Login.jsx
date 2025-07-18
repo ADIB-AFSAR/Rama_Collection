@@ -12,6 +12,9 @@ const Login = () => {
   const loading = useSelector((state) => state.user.loading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  
+  
     
   // Initialize form data using custom hook
   const [handleChange, formData] = useFormData({
@@ -87,8 +90,9 @@ const Login = () => {
               <label htmlFor="password" className="form-label">
                 Password
               </label>
+              <div className='d-flex'>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 className="form-control"
                 id="password"
                 name="password" // Added name attribute
@@ -96,7 +100,9 @@ const Login = () => {
                 value={password} // Controlled component
                 onChange={handleChange} // Update form data on change
                 required // Added required attribute
-              />
+              /><span className='eye'onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <i className='bi bi-eye-slash'></i> : <i className='bi bi-eye'></i>}</span></div>
               <a href="/forgot-password" className="forgot-password">
                 Forgot Password?
               </a>
