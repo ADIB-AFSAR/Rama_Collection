@@ -31,8 +31,8 @@ const userSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Active', 'Inactive'], // Restrict status to 'Active' or 'Inactive'
-        default: 'Inactive'
+        enum: ['active', 'inactive'], // Restrict status to 'Active' or 'Inactive'
+        default: 'inactive'
     },
     profilePic: {
         type : String
