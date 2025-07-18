@@ -97,7 +97,7 @@ const Login = () => {
                 onChange={handleChange} // Update form data on change
                 required // Added required attribute
               />
-              <a href="#" className="forgot-password">
+              <a href="/forgot-password" className="forgot-password">
                 Forgot Password?
               </a>
             </div>

@@ -1,4 +1,6 @@
 const userModel = require("../../models/user.model");
+const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
 
 const getUsers = async (req, res) => {
@@ -79,9 +81,56 @@ const deleteUsers = async (req, res) => {
     }
 };
 
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  const user = await userModel.findOne({ email });
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '5m' });
+
+  // Ideally use a real SMTP service in production
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+  });
+
+  const resetUrl = `${process.env.REACT_APP_API_URL}/reset-password/${token}`;
+
+  await transporter.sendMail({
+    from: process.env.ADMIN_EMAIL,
+    to: user.email,
+    subject: "Password Reset - Rama Collection Shop",
+    html: `<p>Click <a href="${resetUrl}">here</a> to reset your password.</p>`
+  });
+
+  return res.json({ message: "Reset email sent" });
+};
+
+const resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await userModel.findById(decoded.id);
+    if (!user) return res.status(404).json({ message: "Invalid token or user not found" });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    return res.json({ message: "Password reset successful" });
+  } catch (err) {
+    return res.status(400).json({ message: "Token expired or invalid" });
+  }
+};
+
 module.exports = {
     getUsers,
     storeUsers,
     updateUsers,
-    deleteUsers
+    deleteUsers,
+    forgotPassword,
+    resetPassword
 };

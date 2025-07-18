@@ -46,6 +46,7 @@ function Users() {
                     <th scope="col">Email</th>
                     <th scope="col">Contact</th>
                     <th scope='col'>Role</th>
+                    <th scope='col'>Status</th>
                     <th scope='col'>Action</th>
                   </tr>
                 </thead>
@@ -63,6 +64,7 @@ function Users() {
                         <td>{user.email}</td>
                         <td>{user.contact}</td>
                         <td>{user.role}</td>
+                        <td>{user.status == "active" ? "Active" : "Disabled"}</td>
                         <td>
                           <Link to={`/admin/user/edit/${user._id}`} className='btn btn-sm btn-warning'>Edit</Link>
                           {/* <button 

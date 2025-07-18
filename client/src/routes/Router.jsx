@@ -26,6 +26,8 @@ import Shippingdetails from "../pages/frontend/Shippingdetails";
 import TermsCondition from "../pages/frontend/Terms&Condition";
 import PrivacyPolicy from "../pages/frontend/PrivacyPolicy";
 import ManageCarousel from "../pages/backend/manageCarousel/manageCarousel";
+import ForgotPassword from "../pages/frontend/Forgotpassword";
+import ResetPassword from "../pages/frontend/Resetpass";
 // import Cart from "../pages/frontend/Cart";
 // import Thankyou from "../pages/frontend/Thankyou";
 // import Details from "../pages/frontend/Details";
@@ -61,6 +63,8 @@ function AppRouter() {
       <Route path="/Shipping-details" element={<Shippingdetails/>} />
       <Route path="/terms&condition" element={<TermsCondition/>} />
       <Route path="/privacy-policy" element={<PrivacyPolicy/>} />
+      <Route path="/forgot-password" element={<ForgotPassword/>} />
+      <Route path="/reset-password/:token" element={<ResetPassword/>} />
 
       {/* <Route path="/cart" element={<Cart />} />*/}
       
