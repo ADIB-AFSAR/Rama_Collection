@@ -131,7 +131,7 @@ function Checkout() {
      if (device === "mobile") {
       const message = `Hi, I just placed an order from your website.\n\nOrder ID: ${orderDetails._id}\nName: ${orderDetails.billingAddress.name}\nEmail: ${orderDetails.billingAddress.email}\nPhone:${orderDetails.billingAddress.contact}\nTotal: ₹${orderDetails.grandTotal}`;
       const encodedMsg = encodeURIComponent(message);
-      const adminPhone = process.env.ADMIN_PHONE || "916203158310"; // Replace with real number
+      const adminPhone = process.env.ADMIN_PHONE || "917205656169"; // Replace with real number
 
       
       navigate("/thankyou");
