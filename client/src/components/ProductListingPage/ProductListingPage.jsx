@@ -67,8 +67,7 @@ function ProductListingPage() {
   }, [products]);
 
   useEffect(() => {
-    console.log(categoryFilter)
-    if (categoryFilter === 'occasion' || "saree") {
+     if (categoryFilter === 'occasion' || "saree") {
       setPriceRange({ min: 0, max: 50000 });
     } else {
       setPriceRange({ min: 0, max: 15000 });

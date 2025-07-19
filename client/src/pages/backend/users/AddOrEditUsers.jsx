@@ -37,8 +37,7 @@ function AddOrEditUser() {
     event.preventDefault();
     if (id) {
       await dispatch(updateUserStart({ ...formData, id }));
-      console.log("updated user")
-      
+       
     } else {
       await dispatch(registerUserStart(formData));
       

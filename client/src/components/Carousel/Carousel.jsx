@@ -31,8 +31,7 @@ function ImageCarousel() {
         });
 
         const data = await res.json();
-        console.log(data)
-
+ 
         const device = isDesktop ? 'desktop' : 'mobile';
         const filtered = Array.isArray(data)
           ? data.filter(
@@ -44,8 +43,7 @@ function ImageCarousel() {
 
         if (isMounted) {
           filtered.forEach((img) => preload(img.url));
-          console.log(filtered , "filtered")
-          setImages(filtered.map((img) => img.url));
+           setImages(filtered.map((img) => img.url));
           setLoading(false);
         }
       } catch (err) {

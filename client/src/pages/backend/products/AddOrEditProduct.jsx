@@ -38,8 +38,7 @@ function AddOrEditProducts() {
 
   const getProductById = () => {
     const product = products.find((product) => product?._id === id);
-    console.log("fetched:",product)
-    if (product) {
+     if (product) {
       setFormData({ ...product, category: product?.category?._id });
     } else {
       navigate('/admin/product');
@@ -48,14 +47,11 @@ function AddOrEditProducts() {
 
   const submit = (event) => {
     event.preventDefault();
-    console.log(formData);
-    if (id) {
-      console.log("update start")
-      dispatch(updateProductStart(formData));
+     if (id) {
+       dispatch(updateProductStart(formData));
       toast.success("Product updated successfully")
     } else {
-      console.log("add start")
-      dispatch(addProductStart(formData));
+       dispatch(addProductStart(formData));
       toast.success("Product added successfully")
     }
     setTimeout(() => {

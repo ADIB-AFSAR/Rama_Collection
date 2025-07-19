@@ -38,8 +38,7 @@ const ShopCategory = () => {
   const toProductListingPage = (category) => {
     navigate(`/new/${category}/collections`);
   };
-  console.log(products)
-  const handleImageLoad = (productId) => {
+   const handleImageLoad = (productId) => {
     setLoadingImages((prevState) => ({
       ...prevState,
       [productId]: false, // Mark image as loaded
@@ -63,9 +62,7 @@ const ShopCategory = () => {
   }
 }, [products]);
 
-console.log("Categories:", categories);
-console.log("Product Categories:", shuffledProducts.map(p => p.category?.name));
-
+ 
 
 useEffect(() => {
   const timeouts = shuffledProducts.map((product) => {

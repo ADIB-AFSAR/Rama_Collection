@@ -48,8 +48,7 @@ const [quantities, setQuantities] = useState([]);
 };
 
 
- console.log("Cart items on first render:", currentCart?.items);
-  // Function to handle the decrease in quantity
+   // Function to handle the decrease in quantity
   const handleClickDecrease = (index, item) => {
   if ((item.quantity || 1) > 1) {
     const updatedItems = [...currentCart.items];
@@ -107,8 +106,7 @@ setTimeout(() => {
     setQuantities(currentCart.items.map(item => item.quantity || 1));
   }
 }, []);
-console.log(iscartopen)
-//   if (!currentCart || !Array.isArray(currentCart.items)) {
+ //   if (!currentCart || !Array.isArray(currentCart.items)) {
 //   return (
 //   <div className="d-flex justify-content-center align-items-center mt-5">
 //     <Spinner animation="border" variant="dark" />

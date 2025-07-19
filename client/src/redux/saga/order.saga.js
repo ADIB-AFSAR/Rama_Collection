@@ -74,8 +74,7 @@ const res = yield call(() =>
 
     const res = yield call(placeOrderToAPI, cartId, billingAddress , device);
     
-console.log("API Response:", res); // 👈 ADD THIS
-
+ 
       if (res  && res.success){
       const order = res.order;
 

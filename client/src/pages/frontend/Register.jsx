@@ -49,8 +49,7 @@ const Register = () => {
       toast.error(validationError)
       return;
     }
-    console.log(formData)
-    dispatch(registerUserStart({
+     dispatch(registerUserStart({
     ...formData,
     onSuccess: () => navigate('/login'), // callback only on success
   }));

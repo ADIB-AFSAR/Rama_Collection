@@ -90,8 +90,7 @@ export const updateUserFromAPI = async (user) => {
 };
 
 export const registerUserToAPI = async (payload) => { 
-    console.log(process.env.REACT_APP_API_URL);
-    console.log("service",payload)
+    
     const formData = new FormData();
     for (const key in payload) {
         formData.append(key, payload[key]);
@@ -120,8 +119,7 @@ export const registerUserToAPI = async (payload) => {
 };
 
 export const loginUserToAPI = async (payload) => {
-  console.log("service:", payload, "BASE URL", `${process.env.REACT_APP_API_URL}/api/login`);
-
+ 
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
       method: 'POST',
@@ -132,8 +130,7 @@ export const loginUserToAPI = async (payload) => {
     });
 
     const data = await response.json(); // parse even on error to get the message
-    console.log(data)
-    if (!response.ok) {
+     if (!response.ok) {
       // Throw structured error so saga can read .message
       throw new Error(data.message || `Error logging in: ${response.statusText}`);
     }

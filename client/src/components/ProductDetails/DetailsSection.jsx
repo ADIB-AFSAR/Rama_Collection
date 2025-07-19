@@ -23,8 +23,7 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0); 
   const [hasFetchedReviews, setHasFetchedReviews] = useState(false);
-  console.log(CurrentProductDetails)
- 
+  
 
 const productId = CurrentProductDetails?._id;
 const reviews = useSelector(state => state.reviews.reviewsByProduct?.[productId] || []);
@@ -55,8 +54,7 @@ const handleShow = () => setShowAllReviewsModal(true);
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
 
-  console.log(reviews,"REVIEWS")
-
+ 
   const handleAddToWishlist = (productId) => {
     if(!currentUser.name){
        alert('Please Login To Add To Wishlist')

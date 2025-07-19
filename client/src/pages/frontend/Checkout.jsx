@@ -72,8 +72,7 @@ function Checkout() {
   //     order: currentCart,
   //   })
   // );
-  //   console.log("formData:",[...NewFormData.entries()])
-  //   try {
+   //   try {
   //       await axios.post(
   //           `${process.env.REACT_APP_API_URL}/api/cart/stripe-pay`, 
   //           NewFormData, // Form data is the second parameter
@@ -91,8 +90,7 @@ function Checkout() {
   //   }
   // };
   useEffect(()=>{
-    console.log(currentCart)
-    if(!currentUser.name){
+     if(!currentUser.name){
        navigate('/login')
   }
   
@@ -121,8 +119,7 @@ function Checkout() {
         localStorage.removeItem(key);
     });
 
-    console.log("All cart-related data removed from localStorage.");
-};
+ };
   useEffect(() => {
   const hasPlacedOrder = localStorage.getItem("orderPlacedOnce");
     sessionStorage.setItem("showThankYou", "1");

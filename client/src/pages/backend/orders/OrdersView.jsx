@@ -16,8 +16,7 @@ function OrdersView() {
     
     if(order){
       setOrder(order)
-      console.log("ORDERS",order)
-    }else{
+     }else{
       navigate('/admin/order')
     }
   }

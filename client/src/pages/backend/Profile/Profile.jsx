@@ -9,15 +9,13 @@ import { getWishListStart } from '../../../redux/action/wishlist.action';
 function Profile() {
   const currentUser = useSelector((state) => state.user.currentUser);
   const users = useSelector((state) => state.user.users);
-  console.log(currentUser , users)
-  const navigate = useNavigate()
+   const navigate = useNavigate()
   const dispatch = useDispatch()
   
   const [img, setImg] = useState(null);
 
   const getUserById = () => {
-    console.log("currentUSer id : ",currentUser?.id)
-    if (users && currentUser) {
+     if (users && currentUser) {
       const onBoardUser = users.filter(user => user._id === currentUser.id);
       if (onBoardUser.length > 0 && onBoardUser[0].image) {
         setImg(onBoardUser[0].image);

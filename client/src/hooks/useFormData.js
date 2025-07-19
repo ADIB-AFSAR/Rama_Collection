@@ -18,8 +18,7 @@ export const useFormData = (initialState) => {
             ...prev,
             images: Array.from(files) // Ensure you're storing files as an array
         }));
-        console.log(formData.images)
-    }
+     }
 };
 
 

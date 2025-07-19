@@ -13,8 +13,7 @@ function Home() {
  
   const currentUser = useSelector(state => state.user.currentUser);
   const navigate = useNavigate()
-  console.log(!currentUser?.role)
-  useEffect(() => {
+   useEffect(() => {
   const thankYouFlag = localStorage.getItem("showThankYou");
   if (thankYouFlag === "1") {
     navigate("/thankyou");

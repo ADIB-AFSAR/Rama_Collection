@@ -41,8 +41,7 @@ export const addCartToAPI = async (product) => {
     }
 
     const data = await response.json();
-    console.log(data, "Added");
-    return data;
+     return data;
   } catch (error) {
     console.error(error);
   }
@@ -65,16 +64,14 @@ export const updateCartToApi = async (product) => {
         }
 
         const data = await response.json();
-        console.log(data, "Updated");
-        return data; // Return data for further use if needed
+         return data; // Return data for further use if needed
     } catch (error) {
         console.error(error);
     }
 };
 
 export const deleteCartItemFromAPI = async (payload) => {
-    console.log("cart service id : ",payload)
-    try {
+     try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/cart/delete/${payload}`, {
             method: 'DELETE',
             headers: {
@@ -87,8 +84,7 @@ export const deleteCartItemFromAPI = async (payload) => {
         }
 
         const data = await response.json();
-        console.log(data);
-        return data; // Return data for further use if needed
+         return data; // Return data for further use if needed
     } catch (error) {
         console.error(error);
     }

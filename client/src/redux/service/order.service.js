@@ -40,8 +40,7 @@ export const placeOrderToAPI = async (cartId, billingAddress , device) => {
         }
     
         const res = await response.json();
-        console.log(res, "Order Added");
-        toast.success(res.message)
+         toast.success(res.message)
         return res;
     } catch (error) {
         console.error(error);

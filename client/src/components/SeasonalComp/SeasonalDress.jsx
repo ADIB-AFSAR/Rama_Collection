@@ -7,14 +7,12 @@ import { useSelector } from "react-redux";
 const SeasonalFaves = () => {
   const categories = useSelector((state) => state.category.categories);
     const isLoading = useSelector((state) => state.category.loading);
-  console.log(categories)
-  const navigate = useNavigate()
+   const navigate = useNavigate()
   const toProductListingPage = (category) => {
     navigate(`/new/${category}/collections`);
   };
   useEffect(()=>{
-console.log("isLoading?",isLoading)
-  },[isLoading])
+   },[isLoading])
   
   return (
     <div className="container mx-auto px-0">

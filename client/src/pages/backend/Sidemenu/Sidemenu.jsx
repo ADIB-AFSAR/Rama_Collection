@@ -21,8 +21,7 @@ function Sidebar() {
   }
 
   useEffect(()=>{
-  // console.log(currentUser);
-  },[currentUser.role])
+   },[currentUser.role])
    
   return (
     <div className='col-sm-3 mt-1 levitate'>

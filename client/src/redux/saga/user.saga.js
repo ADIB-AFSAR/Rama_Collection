@@ -84,8 +84,7 @@ function* loginUser({ payload }) {
         yield put(loginUserSuccess(response.user));
         toast.success("Logged in successfully")
     } catch (error) {
-        console.log(error)
-        const errorMsg = error.message || "Something went wrong";
+         const errorMsg = error.message || "Something went wrong";
         yield put(loginUserError(error.message));
         toast.error(errorMsg)
     }
@@ -102,8 +101,7 @@ function* logoutUser() {
 }
 
 function* registerUser({ payload }) {
-    console.log("saga:", payload)
-    const { onSuccess, onError, ...userData } = payload;
+     const { onSuccess, onError, ...userData } = payload;
     try {
         const res = yield call(registerUserToAPI, userData);
         if (res.response.status === 409) {
@@ -129,8 +127,7 @@ function* registerUser({ payload }) {
     yield put(registerUserError(errorMsg));
     toast.error(errorMsg);
     if (onError) onError(errorMsg);  
-    console.log("register saga:",error)
-    }
+     }
     }
 
 export default function* user() {

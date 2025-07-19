@@ -19,10 +19,8 @@ function Orders() {
 
     const dispatch = useDispatch();
 
-    console.log(currentUser)
-    useEffect(()=>{
-     console.log("Loading",loading)
-    },[loading])
+     useEffect(()=>{
+     },[loading])
 
     
     useEffect(() => {
@@ -40,8 +38,7 @@ function Orders() {
         setOrders(orderState); // Directly set from Redux, already filtered
     }
 }, [orderState]);
-    console.log("Orders:",orders)
-    
+     
     const handlePayment = async (paymentId) => {
   toast(({ closeToast }) => (
     <div>

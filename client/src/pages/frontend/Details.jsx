@@ -24,9 +24,7 @@ useEffect(() => {
   useEffect(() => {
     if (id && products?.length > 0) {
       // Log to debug
-      console.log('Products:', products);
-      console.log('Product ID:', id);
-
+      
       // Find the product by ID
       const fetched = products.find((product) => product?._id === id);
       if (fetched) {

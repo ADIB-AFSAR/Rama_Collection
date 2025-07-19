@@ -6,26 +6,22 @@ import { toast } from 'react-toastify';
 
 function* getWishListStart({payload}){
     try {
-        console.log("Wishlist id in saga:",payload)
-        const wishlist = yield getWishlistAPI(payload);
+         const wishlist = yield getWishlistAPI(payload);
         yield put(getWishlistSuccess(wishlist));
     } catch (error) {
-        console.log(error.message);
-    }
+     }
  
 }
 // Worker saga to handle adding to wishlist
 function* addToWishlist({payload}) {
-    console.log("saga:",payload)
-    try {
+     try {
         const product = yield call(addToWishlistAPI,payload);
         yield put(addToWishlistSuccess(product));
         yield put(getWishListStart(payload.userId)); // Refresh product list after update
         yield toast.success("Item added to wishlist")
 
     } catch (error) {
-        console.log(error.message);
-    }
+     }
 }
 
 
@@ -37,7 +33,7 @@ function* removeFromWishlist(action) {
         yield put(getWishListStart(action.payload.userId)); // Refresh product list after update
         toast.success("Item removed from wishlist")
     } catch (error) {
-        console.log(error.message); // Dispatch failure action
+        toast.error(error.message); // Dispatch failure action
     }
 }
 

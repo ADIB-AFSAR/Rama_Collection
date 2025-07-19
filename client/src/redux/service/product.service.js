@@ -13,8 +13,7 @@ export const getProductFromAPI = async () => {
         }
 
         const data = await response.json();
-        console.log("Fetched products:", data);
-        return data;
+         return data;
     } catch (error) {
         console.error(error);
         throw new Error("Failed to fetch product data"); // Force catch block in saga
@@ -83,8 +82,7 @@ export const deleteProductFromAPI = async (id) => {
 
 export const updateProductFromAPI = async (payload) => {
   const formData = new FormData();
-  console.log(payload)
-
+ 
   for (const key in payload) {
     if (key === 'sizes' && Array.isArray(payload[key])) {
       payload[key].forEach(size => {
@@ -101,10 +99,7 @@ export const updateProductFromAPI = async (payload) => {
     }
   }
 
-  // Debug: Log FormData
-  for (let pair of formData.entries()) {
-    console.log(pair[0] + ':', pair[1]);
-  }
+  
 
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/product/update/${payload._id}`, {
