@@ -18,7 +18,7 @@ const ForgotPassword = () => {
       await axios.post(`${process.env.REACT_APP_API_URL}/api/user/forgot-password`, { email });
       startTimer()
       setLoading(false)
-      toast.success(`Reset link sent to you email`);
+      toast.success(`Reset link sent to your email`);
       setResend(true)
     } catch (error) {
       setLoading(false)
