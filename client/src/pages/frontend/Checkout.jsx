@@ -36,6 +36,7 @@ function Checkout() {
   const { name,email,companyName,address,city,state,country,zipCode,contact,payment} = formData
  const navigate = useNavigate()
  const dispatch = useDispatch()
+ const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
  
 
  const [showModal, setShowModal] = useState(false);

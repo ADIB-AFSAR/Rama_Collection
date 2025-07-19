@@ -1,15 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Button } from 'react-bootstrap';
 import './frontend.css';
 import { useNavigate } from 'react-router-dom';
 
 const ThankYou = () => {
   const navigate = useNavigate();
+  const [time,setTime] = useState(false)
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   useEffect(() => {
     setTimeout(() => {
       sessionStorage.removeItem('showThankYou');
     }, 15000);
+  }, []);
+
+  useEffect(() => {
+    setTime(true)
+    setTimeout(() => {
+      setTime(false)
+    }, 10000);
   }, []);
 
   useEffect(() => {
@@ -41,6 +50,7 @@ const ThankYou = () => {
           Your order is in processing, click below to check status
         </div>
         <Button
+          disabled={time && isMobile}
           className="btn-track"
           variant="outline-dark"
           href="https://www.ramacollectionshop.com/order"

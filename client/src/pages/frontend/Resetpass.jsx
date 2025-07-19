@@ -9,11 +9,21 @@ const ResetPassword = () => {
   const { token } = useParams();
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-const [loading,setLoading] = useState(false)
-  
+  const [loading,setLoading] = useState(false)
   const navigate = useNavigate();
 
+  const validate = () => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;     
+    if (!passwordRegex.test(password)) return 'Password must be at least 6 characters and include a number and a special character.';
+    return null;
+  };
+
   const handleSubmit = async (e) => {
+    const validationError = validate();
+        if (validationError) {
+          toast.error(validationError)
+          return;
+        }
     setLoading(true)
     e.preventDefault();
     try {

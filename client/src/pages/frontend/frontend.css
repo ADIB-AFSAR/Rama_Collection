@@ -1116,3 +1116,6 @@ ul li {
   color: #888;
 }
 }
+.link-btn,.btn-primary :disabled{
+  background-color: #ff6b6b !important;
+}

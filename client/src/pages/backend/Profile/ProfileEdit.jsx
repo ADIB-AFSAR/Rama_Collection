@@ -137,6 +137,7 @@ function ProfileEdit() {
                     onChange={handleChange}
                     disabled
                   /> 
+                 <p className="mx-2 mob" style={{ fontSize: "10px" }}>*To change password kindly forget from login page</p>
                 </div>
 
                 <div className="mb-3">
