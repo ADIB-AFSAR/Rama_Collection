@@ -42,12 +42,7 @@ const ResetPassword = () => {
     <div className="password-flow-container">
       <div className="background-blur"></div>
       <div className="password-flow-box">
-        <h2 className='d-flex justify-content-between'>Reset Password <a onClick={() => window.history.back()}>
-        <i
-          style={{ cursor: 'pointer'}}
-          className="bi bi-arrow-left fs-3 text-dark"
-        ></i>
-      </a></h2>
+        <h2 className='d-flex justify-content-between'>Reset Password</h2>
         <p>Enter your new password below.</p>
         <form onSubmit={handleSubmit}>
           <div className="mb-3 position-relative">
