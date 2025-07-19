@@ -19,13 +19,14 @@ const ResetPassword = () => {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const validationError = validate();
         if (validationError) {
           toast.error(validationError)
           return;
         }
     setLoading(true)
-    e.preventDefault();
+    
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/api/user/reset-password/${token}`, { password });
       setLoading(false)
