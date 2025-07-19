@@ -1,3 +1,4 @@
+import { secureSet } from "../../utils/secure_localStorage";
 import { getToken } from "./token.service";
 
 export const getUserFromAPI = async () => {
@@ -137,7 +138,8 @@ export const loginUserToAPI = async (payload) => {
 
     if (data.token) {
       localStorage.setItem('jwt_token', data.token);
-      localStorage.setItem('currentUser', JSON.stringify(data.user));
+       secureSet('currentUser', data.user);
+
     }
     
     return data;

@@ -1,3 +1,4 @@
+import { secureGet, secureRemove, secureSet } from "../../utils/secure_localStorage";
 import { 
     GET_USER_ERROR, 
     GET_USER_START, 
@@ -14,18 +15,19 @@ import {
 
 // Initial state with user data from localStorage
 const initialState = {
-    users: localStorage.getItem('users') 
-        ? JSON.parse(localStorage.getItem('users')) 
-        : [],
+  users: secureGet('users')
+    ? secureGet('users')
+    : [],
 
-    currentUser: localStorage.getItem('currentUser') && localStorage.getItem('currentUser') !== 'undefined'  
-        ? JSON.parse(localStorage.getItem('currentUser')) 
-        : {
-            name: '',
-            email: '',
-            contact: '', 
-        },
-        loading : false
+  currentUser: secureGet('currentUser') && secureGet('currentUser') !== 'undefined'
+    ? secureGet('currentUser')
+    : {
+        name: '',
+        email: '',
+        contact: '',
+      },
+
+  loading: false
 };
 
 // User reducer to manage user-related state
@@ -37,7 +39,7 @@ export const userReducer = (state = initialState, action) => {
                 loading : true
             }
         case GET_USER_SUCCESS:
-            localStorage.setItem('users', JSON.stringify(action.payload));
+            secureSet('users', action.payload);
             return {
                 ...state,
                 users: [...action.payload],
@@ -58,7 +60,7 @@ export const userReducer = (state = initialState, action) => {
                 };
         
         case LOGIN_USER_SUCCESS:
-            localStorage.setItem('currentUser', JSON.stringify(action.payload));
+             secureSet('currentUser',action.payload)
             return {
                 ...state,
                 currentUser: { ...action.payload },
@@ -77,8 +79,8 @@ export const userReducer = (state = initialState, action) => {
                 };
 
         case LOGOUT_USER_SUCCESS:
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('jwt_token');
+            secureRemove('currentUser');
+            secureRemove('jwt_token');
             return {
                 ...state,
                 currentUser: {
