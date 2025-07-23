@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const userModel = require("../../models/user.model");
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 
 const login = async (req, res) => {
     console.log("login data", req.body);
@@ -79,6 +80,25 @@ const register = async (req, res) => {
                 password: hashPassword,
                 // image: req.file.path.replace('public', "")
             });
+
+            const transporter = nodemailer.createTransport({
+                service: 'Gmail',
+                auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+              });
+            
+              await transporter.sendMail({
+                from: process.env.ADMIN_EMAIL,
+                to: req.body.email,
+                subject: "Welcome to Rama Collection Shop!",
+                html: `<p>Hi ${req.body.name},</p>
+                    <p>🎉 Welcome to <b>Rama Collection Shop</b>!</p>
+                    <p>Your registration was successful, and we're thrilled to have you as part of our fashion-forward family.</p>
+                    <p>🛍️ Explore the latest collections, trending outfits, and exclusive deals curated just for you.</p>
+                    <p>If you ever forget your password, you can reset it anytime using the email you registered with.</p>
+                    <br/>
+                    <p>📦 Happy shopping,<br/>The Rama Collection Team<br/>www.ramacollectionshop.com</p>`
+              });
+
             return res.status(201).json({
                 message: "User registered successfully."
             });
