@@ -124,13 +124,13 @@ function AddOrEditUser() {
                   value={email}
                   onChange={handleChange}
                   placeholder="Email"
-                  disabled
+                  disabled={id}
                 />
 
                 <div className='mb-3'>
                   <label htmlFor='password' className="form-label mt-3">Password</label>
                   <input
-                    disabled
+                    disabled={id}
                     type="password"
                     name="password"
                     className="form-control"
@@ -139,7 +139,7 @@ function AddOrEditUser() {
                     onChange={handleChange}
                     placeholder="Password"
                   />
-                  <p className="mx-2 mob" style={{ fontSize: "10px" }}>*To change password kindly forget from login page</p>
+                  {id && <p className="mx-2 mob" style={{ fontSize: "10px" }}>*To change password kindly forget from login page</p>}
 
                 </div>
 
