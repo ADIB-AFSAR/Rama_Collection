@@ -9,7 +9,7 @@ import {toast} from "react-toastify"
 
 const initialState = {
   name: '',
-  image: null,
+  image: '',
   status: '',
 };
 
@@ -30,6 +30,7 @@ function AddOrEditCategories() {
       dispatch(addCategoryStart(formData));
       toast.success("Category added successfully")
     }
+    console.log(formData)
     navigate('/admin/category');
   };
 
@@ -46,6 +47,7 @@ function AddOrEditCategories() {
     if (id) {
       getCategoryById();
     }
+    console.log(categories)
   }, [id, categories.length]);
 
   // Image Preview

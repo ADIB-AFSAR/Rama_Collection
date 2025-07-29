@@ -49,18 +49,11 @@ const updateCategories = async (req, res) => {
                 });
                 return res.status(200).json({ message: "Category updated successfully with image" });
             } else {
-                if (categoryExist.image) {
-                    const url = path.join(__dirname, '../../public', categoryExist.image);
-                    if (fs.existsSync(url)) {
-                        fs.unlinkSync(url);
-                    }
-                }
                 await categoryModel.updateOne({ _id: req.params.id }, {
-                    name: req.body.name,
-                    status: req.body.status,
-                    $unset: { image: 1 },
-                });
-                return res.status(200).json({ message: "Category updated successfully without image" });
+                name: req.body.name,
+                status: req.body.status,
+            });
+            return res.status(200).json({ message: "Category updated successfully without changing image" });
             }
         } else {
             return res.status(404).json({ message: "Category not found" });

@@ -14,13 +14,15 @@ function* getWishListStart({payload}){
 }
 // Worker saga to handle adding to wishlist
 function* addToWishlist({payload}) {
+    console.log("FROM SAGA ADD",payload.userId)
      try {
         const product = yield call(addToWishlistAPI,payload);
         yield put(addToWishlistSuccess(product));
-        yield put(getWishListStart(payload.userId)); // Refresh product list after update
+        // yield put(getWishListStart(payload.userId));
         yield toast.success("Item added to wishlist")
 
     } catch (error) {
+        toast.error(error.message);
      }
 }
 
@@ -29,11 +31,12 @@ function* addToWishlist({payload}) {
 function* removeFromWishlist(action) {
     try {
         yield call(removeFromWishlistAPI, action.payload); // Call your API to remove from wishlist
-        yield put(removeFromWishlistSuccess(action.payload)); // Dispatch success action
-        yield put(getWishListStart(action.payload.userId)); // Refresh product list after update
+        yield put(removeFromWishlistSuccess()); // Dispatch success action
+        // yield put(getWishListStart(action.payload.userId));
         toast.success("Item removed from wishlist")
     } catch (error) {
-        toast.error(error.message); // Dispatch failure action
+        toast.error(error.message);
+        console.log("FROM SAGA") // Dispatch failure action
     }
 }
 

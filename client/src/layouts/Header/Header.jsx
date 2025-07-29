@@ -97,7 +97,7 @@ function Header() {
             {searchVisible && currentUser?.name && (
               <form className="d-flex justify-content-end w-100">
                 <input
-                  className="form-control input me-2 flex-grow-1"
+                  className="form-control-header input me-2 flex-grow-1"
                   type="search"
                   placeholder="Search Products"
                   aria-label="Search"

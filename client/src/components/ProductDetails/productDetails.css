@@ -161,6 +161,7 @@ button:disabled {
     overflow: hidden;
     cursor: pointer;
     transition: .3s ease;
+    z-index: 2 !important;
 }
 
 .cart-button:active {
@@ -282,6 +283,7 @@ button:disabled {
     background-position: left;
     cursor: pointer;
     position: absolute;
+    z-index: 1 !important;
   }
   
   .like-button .heart-icon.liked {
@@ -400,4 +402,10 @@ button:disabled {
   padding: 15px;
   margin-bottom: 1rem;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+/* Product description */
+@media (max-width: 520px){
+  .product-description{
+    font-size: 12px;
+  }
 }

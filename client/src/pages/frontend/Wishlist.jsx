@@ -21,8 +21,7 @@ const isWishlistLoading = loading || wishlist === null || typeof wishlist === 'u
     const userId = currentUser.id;
     dispatch(removeFromWishlistStart({ userId, productId }));
     localStorage.removeItem(`wishlist-${productId}`);
-    toast.success("Item removed from wishlist")
-    setTimeout(() => {
+     setTimeout(() => {
       dispatch(getWishListStart(userId));
     }, 1000);
   };

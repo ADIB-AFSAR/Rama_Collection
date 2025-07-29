@@ -42,7 +42,7 @@
       flex-wrap: nowrap; /* Prevent wrapping */
     }
   
-    .form-control {
+    .form-control-header {
       min-width: 200px; /* Set a minimum width for the search input */
     }
   }
@@ -108,7 +108,7 @@ select:focus {
     color: #6c757d;
   }
   /* Make sure your search input and product list are responsive */
-.form-control {
+.form-control-header {
   max-width: 300px; /* Adjust as needed */
 }
 
@@ -137,7 +137,7 @@ select:focus {
   .product-list{
     top:100%;
   }
-  .form-control{
+  .form-control-header{
     min-width: 100px !important;
    }
 }

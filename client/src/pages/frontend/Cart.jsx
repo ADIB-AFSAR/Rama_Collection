@@ -151,8 +151,8 @@ setTimeout(() => {
                       
                         {/* Show delete button with loader */}
                         <button
-              style={{cursor:"pointer"}}
-              className='bg-white'
+              style={{cursor:"pointer" ,width : "6rem"}}
+              className='bg-white bin'
               onClick={() => handleDelete(item)}
               disabled={isDeleting === item._id} // Disable the button if it's being deleted
             >
@@ -164,11 +164,11 @@ setTimeout(() => {
             </button>
                       </p>
                       {item?.size && <p className='fw-semibold'>Size :{item?.size}</p>}
-                      <span className='d-flex justify-content-between col quan-control'>
-                        <Form.Group className="input-group  ">
-                          <Button disabled={isGrandTotalLoading} className='btn btn-sm' onClick={() => handleClickDecrease(index, item)} variant="outline-secondary">-</Button>
+                      <span className="d-flex justify-content-between col quan-control flex-wrap">
+                        <Form.Group className="input-group">
+                          <Button disabled={isGrandTotalLoading} className='btn btn-sm quan' onClick={() => handleClickDecrease(index, item)} variant="outline-secondary">-</Button>
                           <Form.Control type="text" className="text-center mx-0 px-0 border-0 num" value={item.quantity ?? 1} readOnly/>
-                          <Button disabled={isGrandTotalLoading} className='btn btn-sm' onClick={() => handleClickIncrease(index, item)} variant="outline-secondary">+</Button>
+                          <Button disabled={isGrandTotalLoading} className='btn btn-sm quan' onClick={() => handleClickIncrease(index, item)} variant="outline-secondary">+</Button>
                         </Form.Group>
                       </span>
                     </div>

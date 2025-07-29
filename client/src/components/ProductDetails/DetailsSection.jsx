@@ -72,13 +72,11 @@ const handleShow = () => setShowAllReviewsModal(true);
       if (isInWishlist) {
         dispatch(removeFromWishlistStart(data));
         setIsInWishlist(false);
-        toast.success("Item removed from wishlist")
-        localStorage.removeItem(`wishlist-${productId}`);
+         localStorage.removeItem(`wishlist-${productId}`);
       } else {
         dispatch(addToWishlistStart(data));
         setIsInWishlist(true);
-        toast.success('Item added to wishlist')
-        localStorage.setItem(`wishlist-${productId}`, true);
+         localStorage.setItem(`wishlist-${productId}`, true);
       }
       dispatch(getWishListStart(currentUser?.id))
       setWishlistLoading(false); // Stop loading after the action completes
@@ -253,7 +251,7 @@ const handleShow = () => setShowAllReviewsModal(true);
     }}
     className={`btn cart-button ${isAddedToCart ? 'clicked' : ''} btn-outline-dark col-12 mt-3 ${isAddedToCart ? 'bg-dark text-white' : 'bg-white text-dark'}`}
   >
-    <span className="add-to-cart">
+    <span className="add-to-cart" style={{zIndex : "2"}}>
             Add To Cart
         </span>
         <span className="added">
@@ -274,11 +272,11 @@ const handleShow = () => setShowAllReviewsModal(true);
       }`}
     ></div></div>
   )}
-  <span className='add-to-wishlist'> {!isInWishlist ? 'Add to Wishlist' : 'Remove from Wishlist'}</span>
+  <span className='add-to-wishlist'  style={{zIndex : "1"}}> {!isInWishlist ? 'Add to Wishlist' : 'Remove from Wishlist'}</span>
 </button>
       <div className='mx-2'>
       <h4 className='mt-4'>Product Details</h4>
-      {CurrentProductDetails?.description ? <p>{CurrentProductDetails?.description}</p> : <p>No details found</p>}
+      {CurrentProductDetails?.description ? <p className='product-description' style={{ whiteSpace: "pre-line" }}>{CurrentProductDetails?.description}</p> : <p>No details found</p>}
        </div>
 {/* Reviews */}
 <div className="mt-5 mx-2">
