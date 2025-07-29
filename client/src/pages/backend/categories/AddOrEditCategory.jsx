@@ -30,8 +30,7 @@ function AddOrEditCategories() {
       dispatch(addCategoryStart(formData));
       toast.success("Category added successfully")
     }
-    console.log(formData)
-    navigate('/admin/category');
+     navigate('/admin/category');
   };
 
   const getCategoryById = () => {
@@ -47,8 +46,7 @@ function AddOrEditCategories() {
     if (id) {
       getCategoryById();
     }
-    console.log(categories)
-  }, [id, categories.length]);
+   }, [id, categories.length]);
 
   // Image Preview
   const handleImageChange = (event) => {

@@ -49,7 +49,7 @@ const ShopCategory = () => {
     dispatch(getProductStart())
     dispatch(getCategoryStart())
      if (currentUser) {
-      dispatch(getWishListStart(currentUser._id));
+      dispatch(getWishListStart(currentUser.id));
     }
   }, [currentUser, dispatch]);
   useEffect(() => {
@@ -86,7 +86,7 @@ useEffect(() => {
           {categoryProducts
   .filter(product => product?.status === true) // only active products
   .map((product, index) => (
-    <div className="col-lg-3 col-md-4 col-sm-6 col-6 mb-4" key={index}>
+    <div className="col-lg-3 col-md-4 col-sm-6 col-6 mb-4" key={product._id}>
       <div className={`card position-relative ${product.quantity <= 0 ? 'fade-card' : ''}`}>
         
         {/* Ribbon for quantity less than 10 and more than 0 */}
@@ -140,9 +140,7 @@ useEffect(() => {
       </div>
     </div>
 ))}
-
-
-
+ 
         </div>
         
       </div>
@@ -160,8 +158,8 @@ useEffect(() => {
       <SkeletonLoader/>
     ) : (
       <>
-        {categories.length > 0 && categories.map((category) => {
-          return renderCategorySection(category?.name);
+        {categories.length > 0 && categories.map((category,index) => {
+           return <div key={index}>{renderCategorySection(category?.name)}</div>
         })}
       </>
     )}

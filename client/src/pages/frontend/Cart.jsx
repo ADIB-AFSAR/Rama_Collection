@@ -151,8 +151,8 @@ setTimeout(() => {
                       
                         {/* Show delete button with loader */}
                         <button
-              style={{cursor:"pointer" ,width : "6rem"}}
-              className='bg-white bin'
+              style={{cursor:"pointer" ,width : "6rem",backgroundColor:"inherit"}}
+              className='bin'
               onClick={() => handleDelete(item)}
               disabled={isDeleting === item._id} // Disable the button if it's being deleted
             >

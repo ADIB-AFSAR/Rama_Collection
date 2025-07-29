@@ -44,7 +44,7 @@ function Header() {
   };
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser.name) {
       dispatch(getWishListStart(currentUser?.id));
      }
   }, [isUpdated, currentUser, dispatch]);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import './productDetails.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -26,8 +26,8 @@ const DetailsSection = ({ CurrentProductDetails }) => {
   
 
 const productId = CurrentProductDetails?._id;
-const reviews = useSelector(state => state.reviews.reviewsByProduct?.[productId] || []);
-const loading = useSelector(state => state.reviews.loading)
+const rawReviews = useSelector(state => state.reviews.reviewsByProduct?.[productId]);
+const reviews = useMemo(() => rawReviews || [], [rawReviews]);const loading = useSelector(state => state.reviews.loading)
 const [productReviews, setProductReviews] = useState([]);
 
 const handleReviewDelete = (id) => {
@@ -39,9 +39,15 @@ useEffect(() => {
     const filtered = reviews.filter(
       (r) => r.productId === CurrentProductDetails._id
     );
-    setProductReviews(filtered);
+
+    // Only update state if reviews have actually changed
+    const isDifferent = JSON.stringify(productReviews) !== JSON.stringify(filtered);
+    if (isDifferent) {
+      setProductReviews(filtered);
+    }
   }
-}, [reviews, CurrentProductDetails]);
+}, [reviews, CurrentProductDetails?._id]); // Avoid full object, use stable id
+
 
 const latestReviews = [...productReviews]
   .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // newest first

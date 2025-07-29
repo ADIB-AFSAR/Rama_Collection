@@ -18,8 +18,7 @@ function Categories() {
   };
   useEffect(() => {
     dispatch(getCategoryStart());
-    console.log(categories)
-  }, [dispatch]);
+   }, [dispatch]);
 
   return (
     <> 

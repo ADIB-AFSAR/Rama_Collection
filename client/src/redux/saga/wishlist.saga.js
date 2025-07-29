@@ -14,8 +14,7 @@ function* getWishListStart({payload}){
 }
 // Worker saga to handle adding to wishlist
 function* addToWishlist({payload}) {
-    console.log("FROM SAGA ADD",payload.userId)
-     try {
+      try {
         const product = yield call(addToWishlistAPI,payload);
         yield put(addToWishlistSuccess(product));
         // yield put(getWishListStart(payload.userId));
@@ -36,8 +35,7 @@ function* removeFromWishlist(action) {
         toast.success("Item removed from wishlist")
     } catch (error) {
         toast.error(error.message);
-        console.log("FROM SAGA") // Dispatch failure action
-    }
+     }
 }
 
 // Watcher saga
