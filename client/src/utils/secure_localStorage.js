@@ -1,8 +1,7 @@
 // src/utils/storage.js
 import CryptoJS from "crypto-js";
 
-const SECRET_KEY = "ramacollectionshop@123"; // Change this key to something unique
-
+const SECRET_KEY = "ramacollectionshop@123";  
 // Save encrypted data to localStorage
 export const secureSet = (key, value) => {
   try {

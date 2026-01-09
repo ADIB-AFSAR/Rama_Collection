@@ -24,6 +24,7 @@ const initialState = {
 function AddOrEditProducts() {
   const products = useSelector(state => state.product.products);
   const categories = useSelector(state => state.category.categories);
+  const [originalProduct, setOriginalProduct] = React.useState(null);
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ function AddOrEditProducts() {
     const product = products.find((product) => product?._id === id);
      if (product) {
       setFormData({ ...product, category: product?.category?._id });
+      setOriginalProduct({ ...product, category: product?.category?._id })
     } else {
       navigate('/admin/product');
     }
@@ -237,9 +239,9 @@ function AddOrEditProducts() {
                   <option value="true">Active</option>
                   <option value="false">Inactive</option>
                 </select>
-                <p style={{fontSize:"10px"}} className='p-0 m-0 pt-1 text-danger'>Select category to modify status</p>
+                {!category && <p style={{fontSize:"10px"}} className='p-0 m-0 pt-1 text-danger'>Select category to modify status</p>}
                 <button type="submit" className='btn btn-primary mt-4 text-center mx-1 col-5'>{id ? 'Update' : "Add"}</button>
-                <button type="reset" className='btn btn-warning mt-4 text-center mx-1 col-5'>Reset</button>
+                <button type="button" className='btn btn-warning mt-4 text-center mx-1 col-5' onClick={() => {id ? setFormData(originalProduct):setFormData(initialState)}}>Reset</button>
               </form>
             </div>
           </div>

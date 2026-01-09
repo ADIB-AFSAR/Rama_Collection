@@ -82,30 +82,53 @@ const deleteUsers = async (req, res) => {
 };
 
 const forgotPassword = async (req, res) => {
-  const { email } = req.body;
+  try {
+    const { email } = req.body;
 
-  const user = await userModel.findOne({ email });
-  if (!user) return res.status(404).json({ message: "User not found" });
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "15m" }
+    );
 
-  // Ideally use a real SMTP service in production
-  const transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-  });
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
 
-  const resetUrl = `${process.env.DOMAIN_URL}/reset-password/${token}`;
+    await transporter.verify();
+    const resetUrl = `${process.env.DOMAIN_URL}/reset-password/${token}`;
 
-  await transporter.sendMail({
-    from: process.env.ADMIN_EMAIL,
-    to: user.email,
-    subject: "Password Reset - Rama Collection Shop",
-    html: `<p>Click <a href="${resetUrl}">here</a> to reset your password.</p>`
-  });
+    await transporter.sendMail({
+      from: `"Rama Collection" <${process.env.ADMIN_EMAIL}>`,
+      to: user.email,
+      subject: "Password Reset - Rama Collection",
+      html: `
+        <p>Hello ${user.name || "User"},</p>
+        <p>Click the link below to reset your password:</p>
+        <a href="${resetUrl}">${resetUrl}</a>
+        <p>This link is valid for 15 minutes.</p>
+      `
+    });
 
-  return res.json({ message: "Reset email sent" });
+    return res.status(200).json({ message: "Reset email sent" });
+
+  } catch (err) {
+    console.error("Forgot password error:", err);
+    return res.status(500).json({
+      message: "Unable to send reset email. Please try again later."
+    });
+  }
 };
+
 
 const resetPassword = async (req, res) => {
   const { token } = req.params;
@@ -126,9 +149,11 @@ const resetPassword = async (req, res) => {
 
     return res.json({ message: "Password reset successful" });
   } catch (err) {
-    console.error("JWT verification failed:", err.message);
-    return res.status(400).json({ message: err.message });
-  }
+  console.error("JWT verification failed:", err.message);
+  return res.status(400).json({
+    message: "Token expired or invalid"
+  });
+}
 };
 
 
