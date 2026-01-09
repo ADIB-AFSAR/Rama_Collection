@@ -122,11 +122,13 @@ const forgotPassword = async (req, res) => {
     return res.status(200).json({ message: "Reset email sent" });
 
   } catch (err) {
-    console.error("Forgot password error:", err);
-    return res.status(500).json({
-      message: "Unable to send reset email. Please try again later."
-    });
-  }
+  console.error("Forgot password email error:", err);
+
+  return res.status(500).json({
+    message: "Unable to send reset email. Please try again later.",
+    debug: err.message // REMOVE after debugging
+  });
+}
 };
 
 
