@@ -27,8 +27,7 @@ import {
     loginUserSuccess, 
     logoutUserError, 
     logoutUserSuccess, 
-    registerUserError, 
-    registerUserStart, 
+    registerUserError,  
     registerUserSuccess, 
     updateUserError 
 } from '../action/user.acton';
@@ -110,7 +109,7 @@ function* registerUser({ payload }) {
     } else {
       const data = res.data.message; // get JSON body
 
-      if (data == "User registered successfully.") {
+      if (data === "User registered successfully.") {
       yield put(registerUserSuccess(data));
       toast.success(data);
 

@@ -3,9 +3,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Sidebar from '../Sidemenu/Sidemenu';
 import '../backend.css';
-import { addUserStart, registerUserStart, updateUserStart } from '../../../redux/action/user.acton'; // Ensure actions are correctly imported
+import { registerUserStart, updateUserStart } from '../../../redux/action/user.acton'; // Ensure actions are correctly imported
 import {useFormData} from '../../../hooks/useFormData'; // Assuming you have this custom hook
-import {toast} from "react-toastify"
 
 const initialState = {
   name: '', 
@@ -26,8 +25,6 @@ function AddOrEditUser() {
     handleChange,
     formData,
     setFormData,
-    buttonState,
-    uploadFiles,
   ] = useFormData(initialState, 'user');
 
   const { name, email, contact, status, password, role } = formData;
@@ -46,20 +43,18 @@ function AddOrEditUser() {
     navigate('/admin/user');
   };
 
-  const getUserById = () => {
-    const user = users.find((user) => user._id === id);
-    if (user) {
-      setFormData(user);
-    } else {
-      navigate('/admin/user');
-    }
-  };
-
   useEffect(() => {
-    if (id) {
-      getUserById();
-    }
-  }, [id, users?.length, dispatch]);
+  if (!id) return;
+
+  const user = users?.find((user) => user._id === id);
+
+  if (user) {
+    setFormData(user);
+  } else {
+    navigate("/admin/user");
+  }
+}, [id, users, navigate,setFormData]);
+
 
   return (
     <>
@@ -143,7 +138,7 @@ function AddOrEditUser() {
 
                 </div>
 
-                <label className="form-label mt-3">Select Role</label>
+                <label className="form-label">Select Role</label>
                 <select
                   name="role"
                   id="role"

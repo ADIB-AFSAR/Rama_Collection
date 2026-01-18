@@ -65,7 +65,7 @@ function ProfileEdit() {
               </div>
               <form onSubmit={submit} encType="multipart/form-data" className='px-2 pt-2'>
                 <div className="mb-3">
-                  <label htmlFor='name' className="form-label">User Name</label>
+                  <label htmlFor='name' className="form-label mt-2">User Name</label>
                   <input 
                     type="text" 
                     name="name" 
@@ -98,7 +98,7 @@ function ProfileEdit() {
                 </div> */}
 
                 <div className="mb-3">
-                  <label htmlFor='contact' className="form-label mt-3">Contact</label>
+                  <label htmlFor='contact' className="form-label">Contact</label>
                   <input 
                     type="tel" 
                     name="contact" 
@@ -112,7 +112,7 @@ function ProfileEdit() {
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor='email' className="form-label mt-3">Email</label>
+                  <label htmlFor='email' className="form-label">Email</label>
                   <input 
                     type="email" 
                     disabled={true} 
@@ -125,7 +125,7 @@ function ProfileEdit() {
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor='password' className="form-label mt-3">Password</label>
+                  <label htmlFor='password' className="form-label">Password</label>
                   <input 
                     type="password" 
                     name="password" 
@@ -140,7 +140,7 @@ function ProfileEdit() {
                 </div>
 
                 <div className="mb-3">
-                  <label className="form-label mt-3">Select Status</label>
+                  <label className="form-label">Select Status</label>
                   <select 
                     name="status" 
                     id="status" 

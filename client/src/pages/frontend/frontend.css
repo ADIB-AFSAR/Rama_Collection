@@ -403,12 +403,6 @@
     height: 100%;
     object-fit: cover;
   }
-  .eye{
-    margin-top: .5rem;
-    margin-right: -2rem;
-    position: absolute;
-    left: 44rem;
-  }
   
   @media (max-width: 768px) {
     .login-box {
@@ -428,12 +422,26 @@
         z-index: 2; /* Ensure form is above the image */
         position: relative; /* Necessary for z-index to take effect */
     }
-    .eye{
-    margin-top: .5rem !important;
-    margin-right: -2rem;
-    position: absolute;
-    left: 19rem;
-  }
+}
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+.password-wrap {
+  position: relative;
+}
+
+.password-wrap input {
+  padding-right: 45px; /* space for the eye */
+}
+
+.eye {
+  position: absolute;
+  top: 45%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 10;
 }
 
 

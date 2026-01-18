@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 import { ADD_REVIEW_FAILURE, ADD_REVIEW_REQUEST, ADD_REVIEW_SUCCESS, FETCH_REVIEWS_FAILURE, FETCH_REVIEWS_REQUEST } from '../constant/review.constant';
-import { fetchReviewsRequest, fetchReviewsSuccess } from '../action/review.action';
+import { fetchReviewsSuccess } from '../action/review.action';
 import {getToken} from "../service/token.service"
 import { toast } from 'react-toastify';
 

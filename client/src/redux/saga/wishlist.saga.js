@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects'; 
 import { addToWishlistSuccess,  getWishlistSuccess,  removeFromWishlistSuccess } from '../action/wishlist.action';
 import { addToWishlistAPI, getWishlistAPI, removeFromWishlistAPI } from '../service/wishlist.service';
-import { ADD_TO_WISHLIST_START,  GET_WISHLIST_START,  REMOVE_FROM_WISHLIST_SUCCESS, REMOVE_TO_WISHLIST_START } from '../constant/wishlist.constant';
+import { ADD_TO_WISHLIST_START,  GET_WISHLIST_START, REMOVE_TO_WISHLIST_START } from '../constant/wishlist.constant';
 import { toast } from 'react-toastify';
 
 function* getWishListStart({payload}){

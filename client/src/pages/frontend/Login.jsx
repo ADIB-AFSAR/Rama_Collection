@@ -86,6 +86,7 @@ const Login = () => {
                 required // Added required attribute
               />
             </div>
+            <div className="password-wrap">
             <div className="mb-3">
               <label htmlFor="password" className="form-label">
                 Password
@@ -100,12 +101,15 @@ const Login = () => {
                 value={password} // Controlled component
                 onChange={handleChange} // Update form data on change
                 required // Added required attribute
-              /><span className='eye'onClick={() => setShowPassword(!showPassword)}
+              />
+              <span className='eye'onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <i className='bi bi-eye-slash'></i> : <i className='bi bi-eye'></i>}</span></div>
+              {showPassword ? <i className='bi bi-eye-slash'></i> : <i className='bi bi-eye'></i>}</span>
+              </div>
               <a href="/forgot-password" className="forgot-password">
                 Forgot Password?
               </a>
+            </div>
             </div>
             <div className="mb-3 form-check">
               <input

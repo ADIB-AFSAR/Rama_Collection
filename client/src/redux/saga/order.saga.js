@@ -1,12 +1,10 @@
 import { takeLatest, put, call } from 'redux-saga/effects';
 import { 
     GET_ALL_ORDERS_START,
-    GET_ORDER_START, 
     GET_USER_ORDERS_START, 
     PLACE_ORDER_START 
 } from '../constant/order.constant';
-import { 
-    getOrderFromAPI, 
+import {  
     placeOrderToAPI 
 } from '../service/order.service';
 import { 
