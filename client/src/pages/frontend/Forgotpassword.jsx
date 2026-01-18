@@ -7,7 +7,7 @@ import useTimer from '../../hooks/Timer';
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [loading,setLoading] = useState(false)
-  const { seconds, timeString, startTimer } = useTimer(900);
+  const { seconds, timeString, startTimer } = useTimer(600);
   const [resend,setResend] = useState(false)
 
   const handleSubmit = async (e) => {
@@ -15,7 +15,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/api/user/forgot-password`, { email });
+      // await axios.post(`${process.env.REACT_APP_API_URL}/api/user/forgot-password`, { email });
       startTimer()
       setLoading(false)
       toast.success(`Reset link sent to your email`);
@@ -36,7 +36,7 @@ const ForgotPassword = () => {
           className="bi bi-arrow-left fs-3 text-dark"
         ></i>
       </a></h2>
-        <p>Enter your email to receive a reset link.</p>
+        {seconds === 0 && <p>Enter your email to receive a reset link.</p>}
           {seconds === 0 && resend  &&(
         <p style={{ color: 'red', fontSize: "12px"  }}>Token expired. Please request a new one.</p>
       )}
@@ -45,17 +45,34 @@ const ForgotPassword = () => {
     Token expires in: <strong>{timeString}</strong>
   </p>
 )}
-      
-        <form onSubmit={handleSubmit}>
+       {seconds > 0 && (
+  <p style={{ color: "black", fontSize: "12px" }}>
+    <i>
+      Reset link sent to <strong>{email}</strong>.{" "}
+      <br></br>
+      <a
+        href="https://mail.google.com/mail/u/0/#inbox"
+        target="_blank"
+        rel="noreferrer"
+        style={{ textDecoration: "underline"}}
+      >
+        Open Gmail Inbox
+      </a>
+    </i>
+  </p>
+)}
+
+        {seconds === 0 && <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label>Email Address</label>
-            {seconds > 0 && <p style={{ color: 'green', fontSize: "12px"  }}><i>Reset link sent to {email}</i></p>}
+            {/* {seconds > 0 && <p style={{ color: 'green', fontSize: "12px"  }}><i>Reset link sent to {email}</i></p>} */}
             <input
               type="email"
               className="form-control"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled = {seconds>0}
             />
           </div>
           <button className="btn btn-primary link-btn" type="submit" disabled={seconds > 0}>
@@ -66,7 +83,7 @@ const ForgotPassword = () => {
 ) : (
   "Send Reset Link"
 )}          </button>
-        </form>
+        </form>}
       </div>
     </div>
   );

@@ -33,21 +33,22 @@ function ProfileEdit() {
   };
 
   const getUserById = () => {
-     let user = users?.find((user) => user?._id === id);
-    if (user) {
-      setFormData(user);
-    } else {
-      console.warn("user ID : ", user?._id , id,"user did not matched to edit details")
-      navigate('/dashboard');
-    }
-  };
+  if (!users || users.length === 0) return; // ✅ wait
 
-  useEffect(() => {
-    if (id) {
-      getUserById();
-      dispatch(getUserStart());      
-    }
-  }, [id]); // Include users in the dependency array
+  const user = users.find((u) => String(u?._id) === String(id));
+
+  if (user) setFormData(user);
+  else navigate("/dashboard");
+};
+
+useEffect(() => {
+  dispatch(getUserStart());
+}, [dispatch]);
+
+useEffect(() => {
+  if (id) getUserById();
+}, [id, users]);
+
 
   return (
     <> 

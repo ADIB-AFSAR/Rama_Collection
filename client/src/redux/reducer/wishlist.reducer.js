@@ -18,8 +18,6 @@ const wishlistReducer = (state = initialState, action) => {
             return { ...state, loading: true };
         case ADD_TO_WISHLIST_SUCCESS:
              return { ...state, loading: false, items: action.payload };
-             case REMOVE_FROM_WISHLIST_SUCCESS:
-                return {...state,laoding :true}
         case REMOVE_FROM_WISHLIST_SUCCESS:
             return { ...state, isdeleted:true,loading:false, items: state.items.filter(item => item.id !== action.payload) };
         default:

@@ -29,6 +29,9 @@ const ResetPassword = () => {
     
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/api/user/reset-password/${token}`, { password });
+      localStorage.removeItem("jwt_token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("currentUser");
       setLoading(false)
       toast.success("Password reset successful");
       navigate('/login');
@@ -47,6 +50,7 @@ const ResetPassword = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-3 position-relative">
             <label>New Password</label>
+            <div className="password-wrap">
             <input
               type={showPassword ? "text" : "password"}
               className="form-control"
@@ -55,12 +59,12 @@ const ResetPassword = () => {
               required
             />
             <span
-              className="password-visibility-toggle"
+              className="eye"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <i className='bi bi-eye-slash'></i> : <i className='bi bi-eye'></i>}
               
-            </span>
+            </span></div>
           </div>
           <button className="btn btn-primary" type="submit">
             {loading ?<Spinner animation="border" size="sm" className="text-white m-0 p-0" />:"Reset Password"}
