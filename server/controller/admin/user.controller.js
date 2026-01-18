@@ -18,7 +18,7 @@ const storeUsers = async (req, res) => {
     try {
         const { name, email, contact, password, role, status } = req.body;
 
-        const userExist = await userModel.findOne({ name });
+        const userExist = await userModel.findOne({ email });
         if (userExist) {
             return res.status(409).json({ message: "User already exists!" });
         }
@@ -97,18 +97,20 @@ const forgotPassword = async (req, res) => {
     );
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
+        pass: process.env.EMAIL_PASS,
+      },
     });
 
-    await transporter.verify();
+
     const resetUrl = `${process.env.DOMAIN_URL}/reset-password/${token}`;
 
     await transporter.sendMail({
-      from: `"Rama Collection" <${process.env.ADMIN_EMAIL}>`,
+      from: `"Rama Collection" <${process.env.EMAIL_USER}>`,
       to: user.email,
       subject: "Password Reset - Rama Collection",
       html: `
