@@ -33,7 +33,7 @@ const AboutUs = () => {
         Together, we combine our passion for engineering and fashion to deliver a seamless online shopping experience.
       </p>
 
-      <p><strong>Thank you for choosing Rama Collection.</strong></p>
+      <p><strong>Thank you for choosing Rama Collection!</strong></p>
       <p>Join us on this exciting journey as we continue to bring you the best clothes at the best prices.</p>
 
       <h3>Happy Shopping!</h3>
