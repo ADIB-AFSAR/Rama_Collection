@@ -83,10 +83,11 @@ function* loginUser({ payload }) {
         yield put(loginUserSuccess(response.user));
         toast.success("Logged in successfully")
     } catch (error) {
-         const errorMsg = error.message || "Something went wrong";
-        yield put(loginUserError(error.message));
-        toast.error(errorMsg)
-    }
+    const errorMsg = error?.message || "Something went wrong";
+
+    yield put(loginUserError(errorMsg));
+    toast.error(errorMsg);
+  }
 }
 
 function* logoutUser() {

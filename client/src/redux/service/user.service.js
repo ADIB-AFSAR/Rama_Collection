@@ -120,34 +120,44 @@ export const registerUserToAPI = async (payload) => {
 };
 
 export const loginUserToAPI = async (payload) => {
- 
   try {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(payload),
       headers: {
-        'Content-Type': 'application/json',
-      }
+        "Content-Type": "application/json",
+      },
     });
 
-    const data = await response.json(); // parse even on error to get the message
-     if (!response.ok) {
-      // Throw structured error so saga can read .message
-      throw new Error(data.message || `Error logging in: ${response.statusText}`);
+    // ✅ safe parsing (works for JSON + text + HTML)
+    const text = await response.text();
+
+    let data;
+    try {
+      data = text ? JSON.parse(text) : {};
+    } catch (e) {
+      data = { message: text }; // fallback for non-JSON errors
+    }
+
+    if (!response.ok) {
+      if (response.status === 504) {
+        throw new Error("Server is waking up. Please try again in 5 seconds.");
+      }
+      throw new Error(data?.message || `Login failed (${response.status})`);
     }
 
     if (data.token) {
-      localStorage.setItem('jwt_token', data.token);
-       secureSet('currentUser', data.user);
-
+      localStorage.setItem("jwt_token", data.token);
+      secureSet("currentUser", data.user);
     }
-    
+
     return data;
   } catch (error) {
     console.error("Login error in service:", error);
-    throw error; // ✅ re-throw so saga can catch it
+    throw error;
   }
 };
+
 
 
 export const loginGoogleAPI = async (token) => {

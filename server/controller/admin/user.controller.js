@@ -117,7 +117,7 @@ const forgotPassword = async (req, res) => {
         <p>Hello ${user.name || "User"},</p>
         <p>Click the link below to reset your password:</p>
         <a href="${resetUrl}">${resetUrl}</a>
-        <p>This link is valid for 15 minutes.</p>
+        <p>This link is valid for 10 minutes.</p>
       `
     });
 

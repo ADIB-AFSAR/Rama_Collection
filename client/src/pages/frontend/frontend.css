@@ -509,9 +509,9 @@ input[type="password"]::-ms-clear {
   object-fit: cover; /* ✅ Ensure image covers space */
 }
 
-.eye-regis{
+/* .eye-regis{
   left: 20rem;
-}
+} */
 
 
 @media (max-width: 768px) {

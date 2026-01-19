@@ -24,6 +24,21 @@ const Login = () => {
   
   const { email, password } = formData;
 
+  useEffect(() => {
+  const controller = new AbortController();
+
+  const t = setTimeout(() => controller.abort(), 5000);
+
+  fetch(`${process.env.REACT_APP_API_URL}/api/health`, { signal: controller.signal })
+    .catch(() => {});
+
+  return () => {
+    clearTimeout(t);
+    controller.abort();
+  };
+}, []);
+
+
     const submit = (event) => {
        event.preventDefault();
       dispatch(loginUserStart(formData));
@@ -91,7 +106,7 @@ const Login = () => {
               <label htmlFor="password" className="form-label">
                 Password
               </label>
-              <div className='d-flex'>
+               
               <input
                 type={showPassword ? "text" : "password"}
                 className="form-control"
@@ -105,7 +120,7 @@ const Login = () => {
               <span className='eye'onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <i className='bi bi-eye-slash'></i> : <i className='bi bi-eye'></i>}</span>
-              </div>
+              
               <a href="/forgot-password" className="forgot-password">
                 Forgot Password?
               </a>

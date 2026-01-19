@@ -34,6 +34,10 @@ app.get('/api/admin/product',getProducts);
 app.use('/api/wishlist', wishlistRoutes)
 app.use("/api/admin", adminRoute);
 app.use("/api", frontRoutes);
+app.get("/api/health", (req, res) => {
+  return res.status(200).json({ ok: true, message: "API is awake" });
+});
+
 
 const PORT = process.env.PORT || 5001;
 

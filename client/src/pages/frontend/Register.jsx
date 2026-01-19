@@ -116,24 +116,22 @@ const Register = () => {
                 onChange={handleChange}
               />
             </div>
-
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">Password</label>
-              <div className='d-flex'>
-              <input
-                type={showPassword ? "text" : "password"}
-                className="form-control"
-                id="password"
-                name="password" // Added name attribute
-                placeholder="Enter 6 characters or more"
-                value={password} // Controlled component
-                onChange={handleChange} // Update form data on change
-                required // Added required attribute
-              /><span className='mt-2 mx-1' onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <i className='bi bi-eye-slash'></i> : <i className='bi bi-eye'></i>}</span></div>
+            <div className="password-wrap">
+                        <div className="mb-3">
+                          <label htmlFor="password" className="form-label">Password</label>       
+                          <input
+                            type={showPassword ? "text" : "password"}
+                            className="form-control"
+                            id="password"
+                            name="password" // Added name attribute
+                            placeholder="Enter 6 characters or more"
+                            value={password} // Controlled component
+                            onChange={handleChange} // Update form data on change
+                            required // Added required attribute
+                          /><span style={{marginTop : "1.2rem"}} className='eye' onClick={() => setShowPassword(!showPassword)}>
+                          {showPassword ? <i className='bi bi-eye-slash'></i> : <i className='bi bi-eye'></i>}</span>
+                        </div>
             </div>
-
             <div className="mb-3">
               <label htmlFor="contact" className="form-label">Contact Number</label>
               <input
