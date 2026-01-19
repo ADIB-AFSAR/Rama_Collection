@@ -10,15 +10,18 @@ import { useNavigate } from 'react-router-dom'
 
 
 function Home() {
- 
+  
   const currentUser = useSelector(state => state.user.currentUser);
   const navigate = useNavigate()
+  useEffect(() => {
+  fetch(`${process.env.REACT_APP_API_URL}/api/health`).catch(() => {});
+}, []);
    useEffect(() => {
   const thankYouFlag = localStorage.getItem("showThankYou");
   if (thankYouFlag === "1") {
     navigate("/thankyou");
   }
-}, []);
+}, [navigate]);
 
   useEffect(()=>{
     window.scrollTo(0, 0); 
