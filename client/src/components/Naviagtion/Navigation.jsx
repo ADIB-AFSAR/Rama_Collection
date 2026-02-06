@@ -1,96 +1,70 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './NaviagtionBar.css';
-import SlidingInfo from '../SlidingInfo/SlidingInfo';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { getCategoryTreeStart } from '../../redux/action/category.action';
+
 const NavbarComponent = () => {
-  const [activeDropdown, setActiveDropdown] = useState(null);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Dropdown configuration
-  const dropdowns = [
-    {
-      id: 'sareeDropdown',
-      label: 'Saree',
-      items: [
-        { label: 'Silk Saree', category: 'saree' },
-        { label: 'Cotton Saree', category: 'saree' },
-        { label: 'Designer Saree', category: 'saree' },
-      ],
-    },
-    {
-      id: 'dressMaterialDropdown',
-      label: 'Dress Material',
-      items: [
-        { label: 'Cotton Dress Material', category: 'material' },
-        { label: 'Silk Dress Material', category: 'material' },
-        { label: 'Printed Dress Material', category: 'material' },
-      ],
-    },
-    {
-      id: 'salwarSuitDropdown',
-      label: 'Salwar Suit',
-      items: [
-        { label: 'Anarkali Suit', category: 'salwar suit' },
-        { label: 'Palazzo Suit', category: 'salwar suit' },
-        { label: 'Straight Suit', category: 'salwar suit' },
-      ],
-    },
-    {
-      id: 'occasionDropdown',
-      label: 'Occasion',
-      items: [
-        { label: 'Wedding Collection', category: 'occasion' },
-        { label: 'Festive Collection', category: 'occasion' },
-        { label: 'Casual Wear', category: 'occasion' },
-      ],
-    },
-  ];
+  const categories = useSelector(state => state.category.tree);
 
-  const handleDropdownClick = (e, dropdownId) => {
-    e.preventDefault();
-    setActiveDropdown(prev => (prev === dropdownId ? null : dropdownId));
-  };
-
-  const toProductListingPage = (category) => {
-    navigate(`/new/${category}/collections`);
-  };
+  useEffect(() => {
+    dispatch(getCategoryTreeStart());
+  }, [dispatch]);
 
   return (
-    <>
-      <SlidingInfo />
-      <nav className="navbar navbar-expand-lg navbar-light bg-light custom-navbar w-100">
-        <div className="navbar-nav mx-auto d-flex justify-content-center flex-row">
-          {dropdowns.map(dropdown => (
-            <li key={dropdown.id} className="nav-item c dropdown mx-5">
-              <a
-                className="nav-link text-uppercase"
-                href="#"
-                onClick={(e) => handleDropdownClick(e, dropdown.id)}
-              >
-                {dropdown.label}
-              </a>
-              <div
-                className={`dropdown-menu custom-dropdown-menu ${
-                  activeDropdown === dropdown.id ? 'show' : ''
-                }`}
-              >
-                {dropdown.items.map((item, idx) => (
+
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+
+      <ul className="navbar-nav mx-auto">
+
+        {categories?.map(parent => (
+
+          <li
+            key={parent._id}
+            className="nav-item dropdown mx-4"
+          >
+
+            <a
+              className="nav-link dropdown-toggle"
+              data-bs-toggle="dropdown"
+            >
+              {parent.name}
+            </a>
+
+
+            <ul className="dropdown-menu">
+
+              {parent.children?.map(child => (
+
+                <li key={child._id}>
+
                   <a
-                    key={idx}
                     className="dropdown-item"
-                    onClick={() => toProductListingPage(item.category)}
+                    onClick={() =>
+                      navigate(`/collections/${child._id}`)
+                    }
                   >
-                    {item.label}
+                    {child.name}
                   </a>
-                ))}
-              </div>
-            </li>
-          ))}
-        </div>
-      </nav>
-    </>
+
+                </li>
+
+              ))}
+
+            </ul>
+
+          </li>
+
+        ))}
+
+      </ul>
+
+    </nav>
+
   );
 };
 

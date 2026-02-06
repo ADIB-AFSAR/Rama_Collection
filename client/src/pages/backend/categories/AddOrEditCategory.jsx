@@ -89,6 +89,28 @@ function AddOrEditCategories() {
                   required 
                 />
 
+                <label>Parent Category</label>
+
+                <select
+                  name="parent"
+                  className="form-control"
+                  value={formData.parent || ""}
+                  onChange={handleInputChange}
+                >
+
+                  <option value="">No Parent (Main)</option>
+
+                  {categories
+                    .filter(c => !c.parent) // Only main categories
+                    .map(cat => (
+                      <option key={cat._id} value={cat._id}>
+                        {cat.name}
+                      </option>
+                    ))}
+
+                </select>
+
+
                 <label className="form-label">Category Status</label>
                 <select 
                   name="status" 

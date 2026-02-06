@@ -1,4 +1,4 @@
- import { GET_CATEGORY_ERROR, GET_CATEGORY_START, GET_CATEGORY_SUCCESS } from "../constant/category.constant";
+ import { GET_CATEGORY_ERROR, GET_CATEGORY_START, GET_CATEGORY_SUCCESS, GET_CATEGORY_TREE_ERROR, GET_CATEGORY_TREE_START, GET_CATEGORY_TREE_SUCCESS, SET_CATEGORY_TREE_SUCCESS } from "../constant/category.constant";
 
 // Initial state with categories loaded from local storage or set to an empty array
 const initialState = {
@@ -6,7 +6,9 @@ const initialState = {
         ? JSON.parse(localStorage.getItem('categories')) 
         : [], // Fallback to empty array if not found
     error: null, // Initialize error state
-    loading : false
+    loading : false,
+    tree : [] ,
+    status : true
 };
 
 export const categoryReducer = (state = initialState, action) => {
@@ -32,6 +34,26 @@ export const categoryReducer = (state = initialState, action) => {
                 error: action.payload, // Set error details
                 loading :false
             };
+        case GET_CATEGORY_TREE_START:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+
+    case GET_CATEGORY_TREE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        tree: action.payload,
+      };
+
+    case GET_CATEGORY_TREE_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
         default:
             // Return the current state for unrecognized actions
             return state;

@@ -208,9 +208,26 @@ function AddOrEditProducts() {
   </>
 ) : null}
 
+<select
+  name="category"
+  value={category}
+  onChange={handleChange}
+>
 
-                <label htmlFor='category' className="form-label mt-3">Product Category</label>
-                <select 
+  <option value="">Select Category</option>
+
+  {categories
+    .filter(c => c.parent) // Only children
+    .map(cat => (
+      <option key={cat._id} value={cat._id}>
+        {cat.name}
+      </option>
+    ))}
+
+</select>
+<br></br>
+                {/* <label htmlFor='category' className="form-label mt-3">Product Category</label> */}
+                {/* <select 
                   //  required
                   name="category" 
                   id="category" 
@@ -224,7 +241,7 @@ function AddOrEditProducts() {
                       {category.name}
                     </option>
                   ))}
-                </select>
+                </select> */}
 
                 <label className="form-label mt-3">Status</label>
                 <select 

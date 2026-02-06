@@ -1,4 +1,4 @@
-import { takeLatest, put } from 'redux-saga/effects';
+import { call,takeLatest, put } from 'redux-saga/effects';
 import { 
     ADD_CATEGORY_START, 
     DELETE_CATEGORY_START, 
@@ -8,7 +8,9 @@ import {
 import { 
     addCategoryToAPI, 
     deleteCategoryFromAPI, 
+    fetchCategoryTreeAPI, 
     getCategoryFromAPI, 
+    getCategoryTree, 
     updateCategoryFromAPI 
 } from '../service/category.service';
 import { 
@@ -17,6 +19,9 @@ import {
     getCategoryError, 
     getCategoryStart, 
     getCategorySuccess, 
+    getCategoryTreeError, 
+    getCategoryTreeSuccess, 
+    setCategoryTreeStart, 
     updateCategoryError 
 } from '../action/category.action';
 
@@ -59,6 +64,20 @@ function* updateCategory({ payload }) {
         yield put(updateCategoryError(error.message));
     }
 }
+function* getCategoryTreeSaga() {
+  try {
+
+    const data = yield call(fetchCategoryTreeAPI);
+
+    yield put(getCategoryTreeSuccess(data));
+
+  } catch (err) {
+
+    yield put(getCategoryTreeError(err.message));
+
+  }
+}
+
 
 // Root saga for category actions
 export default function* categorySaga() {
@@ -66,4 +85,5 @@ export default function* categorySaga() {
     yield takeLatest(ADD_CATEGORY_START, addCategory);
     yield takeLatest(DELETE_CATEGORY_START, deleteCategory);
     yield takeLatest(UPDATE_CATEGORY_START, updateCategory);
+    yield takeLatest(GET_CATEGORY_START, getCategoryTreeSaga);
 }

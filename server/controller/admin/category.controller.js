@@ -78,9 +78,57 @@ const deleteCategories = async (req, res) => {
     }
 };
 
+
+
+// Build Parent → Child tree
+const buildCategoryTree = (categories, parentId = null) => {
+  return categories
+    .filter(cat =>
+      parentId === null
+        ? cat.parent === null
+        : cat.parent?.toString() === parentId.toString()
+    )
+    .map(cat => ({
+      _id: cat._id,
+      name: cat.name,
+      slug: cat.slug,
+      children: buildCategoryTree(categories, cat._id)
+    }));
+};
+
+const getCategoryTree = async (req, res) => {
+  try {
+
+    const categories = await categoryModel.find({ status: true });
+
+    // Parent categories
+    const parents = categories.filter(cat => !cat.parent);
+
+    // Build tree
+    const tree = parents.map(parent => ({
+      ...parent.toObject(),
+      children: categories.filter(
+        cat => String(cat.parent) === String(parent._id)
+      )
+    }));
+
+    res.json(tree);
+
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      message: 'Failed to load categories',
+    });
+  }
+};
+
+
+
 module.exports = {
     getCategories,
     storeCategories,
     updateCategories,
     deleteCategories,
+    getCategoryTree,
 };
