@@ -5,7 +5,6 @@ const router = express.Router()
 
 
 router.get('/',getCategories)
-router.get('/tree', getCategoryTree);
 router.post('/store',upload.single('image'),storeCategories),
 router.post('/update/:id',upload.single('image'),updateCategories)
 router.delete('/delete/:id',deleteCategories)

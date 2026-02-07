@@ -9,6 +9,7 @@ const path = require("path");
 
 const mongoose = require("mongoose");
  const { getProducts } = require("./controller/admin/product.controller");
+const { getCategoryTree } = require("./controller/admin/category.controller");
 
 app.use(cors(
   {
@@ -32,6 +33,7 @@ mongoose
 
 app.get('/api/admin/product',getProducts);
 app.use('/api/wishlist', wishlistRoutes)
+app.get('/api/category/tree', getCategoryTree);
 app.use("/api/admin", adminRoute);
 app.use("/api", frontRoutes);
 app.get("/api/health", (req, res) => {
