@@ -10,6 +10,7 @@ const NavbarComponent = () => {
   const navigate = useNavigate();
 
   const categories = useSelector(state => state.category.tree);
+  console.log(categories)
 
   const [openMenu, setOpenMenu] = useState(null);
 

@@ -89,32 +89,30 @@ const deleteCategories = async (req, res) => {
     }
 };
 
-
-
-// Build Parent → Child tree
-const buildCategoryTree = (categories, parentId = null) => {
-  return categories
-    .filter(cat =>
-      parentId === null
-        ? cat.parent === null
-        : cat.parent?.toString() === parentId.toString()
-    )
-    .map(cat => ({
-      _id: cat._id,
-      name: cat.name,
-      slug: cat.slug,
-      children: buildCategoryTree(categories, cat._id)
-    }));
-};
-
 const getCategoryTree = async (req, res) => {
   try {
 
-    const categories = await categoryModel.find({ status: true });
+    const categories = await categoryModel
+      .find({ status: true })
+      .sort({ order: 1 }); // ✅ sort by order
 
-    const tree = buildCategoryTree(categories);
-    
-    res.json(tree)
+    const buildTree = (parentId = null) => {
+      return categories
+        .filter(cat =>
+          parentId === null
+            ? cat.parent === null
+            : String(cat.parent) === String(parentId)
+        )
+        .filter(cat => cat.showInMenu === true) // ✅ menu only
+        .map(cat => ({
+          ...cat.toObject(), // ✅ KEEP ALL FIELDS
+          children: buildTree(cat._id),
+        }));
+    };
+
+    const tree = buildTree(null);
+
+    res.json(tree);
 
   } catch (err) {
     console.error(err);
@@ -124,6 +122,7 @@ const getCategoryTree = async (req, res) => {
     });
   }
 };
+
 
 
 
