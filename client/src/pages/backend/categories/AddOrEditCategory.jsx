@@ -11,6 +11,9 @@ const initialState = {
   name: '',
   image: '',
   status: '',
+  parent : '',
+  showInMenu : true,
+  order : 0,
 };
 
 function AddOrEditCategories() {
@@ -110,6 +113,37 @@ function AddOrEditCategories() {
                     ))}
 
                 </select>
+
+                <div className="form-check mt-2">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  name="showInMenu"
+                  checked={formData.showInMenu}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      showInMenu: e.target.checked,
+                    })
+                  }
+                />
+
+                <label className="form-check-label">
+                  Show in Navigation Menu
+                </label>
+              </div>
+ 
+
+              <label className="mt-2">Menu Order</label>
+
+              <input
+                type="number"
+                name="order"
+                className="form-control"
+                value={formData.order}
+                onChange={handleChange}
+                min="0"
+              />
 
 
                 <label className="form-label">Category Status</label>
