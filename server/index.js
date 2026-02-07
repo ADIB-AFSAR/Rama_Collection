@@ -9,7 +9,7 @@ const path = require("path");
 
 const mongoose = require("mongoose");
  const { getProducts } = require("./controller/admin/product.controller");
-const { publicCategoryRoutes } = require("./route/public/category.route");
+const publicCategoryRoutes = require("./route/public/category.route");
 
 app.use(cors(
   {
