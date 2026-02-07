@@ -40,7 +40,6 @@ app.get("/api/health", (req, res) => {
   return res.status(200).json({ ok: true, message: "API is awake" });
 });
 
-
 const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, function () {
