@@ -92,13 +92,7 @@ export const updateCategoryFromAPI = async (category) => {
 
 export const fetchCategoryTreeAPI = async () => {
   const res = await fetch(
-    `${process.env.REACT_APP_API_URL}/api/category/tree`,
-    {
-      headers: {
-        Authorization: getToken(),
-      },
-    }
-  );
+    `${process.env.REACT_APP_API_URL}/api/category/tree`);
 
   if (!res.ok) {
     throw new Error('Failed to fetch category tree');
