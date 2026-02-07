@@ -21,6 +21,7 @@ const storeCategories = async (req, res) => {
             await categoryModel.create({
                 name: req.body.name,
                 status: req.body.status,
+                parent: req.body.parent || null,
                 image: req.file ? req.file.path.replace('public', "") : null, // Check if req.file exists
             });
             return res.status(201).json({ message: "Category created successfully" });
@@ -45,6 +46,7 @@ const updateCategories = async (req, res) => {
                 await categoryModel.updateOne({ _id: req.params.id }, {
                     name: req.body.name,
                     status: req.body.status,
+                    parent: req.body.parent,
                     image: req.file.path.replace('public', ""),
                 });
                 return res.status(200).json({ message: "Category updated successfully with image" });
@@ -52,6 +54,7 @@ const updateCategories = async (req, res) => {
                 await categoryModel.updateOne({ _id: req.params.id }, {
                 name: req.body.name,
                 status: req.body.status,
+                parent: req.body.parent,
             });
             return res.status(200).json({ message: "Category updated successfully without changing image" });
             }
@@ -101,18 +104,9 @@ const getCategoryTree = async (req, res) => {
 
     const categories = await categoryModel.find({ status: true });
 
-    // Parent categories
-    const parents = categories.filter(cat => !cat.parent);
-
-    // Build tree
-    const tree = parents.map(parent => ({
-      ...parent.toObject(),
-      children: categories.filter(
-        cat => String(cat.parent) === String(parent._id)
-      )
-    }));
-
-    res.json(tree);
+    const tree = buildCategoryTree(categories);
+    
+    res.json(tree)
 
   } catch (err) {
     console.error(err);

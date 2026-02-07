@@ -23,6 +23,7 @@ function AddOrEditCategories() {
 
   const submit = (event) => {
     event.preventDefault();
+    console.log("update/edit",formData)
     if (id) {
       dispatch(updateCategoryStart(formData));
       toast.success("Category updated successfully")
