@@ -3,6 +3,7 @@ import {
     ADD_CATEGORY_START, 
     DELETE_CATEGORY_START, 
     GET_CATEGORY_START, 
+    GET_CATEGORY_TREE_START, 
     UPDATE_CATEGORY_START 
 } from "../constant/category.constant";
 import { 
@@ -68,7 +69,7 @@ function* getCategoryTreeSaga() {
   try {
 
     const data = yield call(fetchCategoryTreeAPI);
-
+    console.log("saga:",data)
     yield put(getCategoryTreeSuccess(data));
 
   } catch (err) {
@@ -85,5 +86,5 @@ export default function* categorySaga() {
     yield takeLatest(ADD_CATEGORY_START, addCategory);
     yield takeLatest(DELETE_CATEGORY_START, deleteCategory);
     yield takeLatest(UPDATE_CATEGORY_START, updateCategory);
-    yield takeLatest(GET_CATEGORY_START, getCategoryTreeSaga);
+    yield takeLatest(GET_CATEGORY_TREE_START, getCategoryTreeSaga);
 }

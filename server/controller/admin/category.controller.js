@@ -103,7 +103,7 @@ const getCategoryTree = async (req, res) => {
             ? cat.parent === null
             : String(cat.parent) === String(parentId)
         )
-        .filter(cat => cat.showInMenu === true) // ✅ menu only
+        // .filter(cat => cat.showInMenu === true)
         .map(cat => ({
           ...cat.toObject(), // ✅ KEEP ALL FIELDS
           children: buildTree(cat._id),

@@ -3,22 +3,22 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Sidebar from '../Sidemenu/Sidemenu';
 import '../backend.css';
-import { deleteCategoryStart, getCategoryStart } from '../../../redux/action/category.action'; // Make sure these actions are imported
+import { deleteCategoryStart, getCategoryStart, getCategoryTreeStart } from '../../../redux/action/category.action'; // Make sure these actions are imported
 import { Spinner } from 'react-bootstrap';
 
 function Categories() {
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.category.categories);
+  const categories = useSelector((state) => state.category.tree);
   const loading = useSelector((state) => state.category.loading);
 
     const handleDelete = (categoryId) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       dispatch(deleteCategoryStart(categoryId));
     }
-  };
+  }
   console.log(categories)
   useEffect(() => {
-    dispatch(getCategoryStart());
+    dispatch(getCategoryTreeStart());
    }, [dispatch]);
 
   return (
@@ -40,39 +40,111 @@ function Categories() {
               ) : (
                 <table className="table">
                   <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Image</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Status</th>
-                      <th scope='col'>Action</th>
-                    </tr>
-                  </thead>
+  <tr>
+    <th>#</th>
+    <th>Name</th>
+    <th>Parent</th>
+    <th>Menu</th>
+    <th>Order</th>
+    <th>Status</th>
+    <th>Created</th>
+    <th>Action</th>
+  </tr>
+</thead>
+
                   <tbody>
-                    {categories.length > 0 ? (
-                      categories.map((category, index) => (
-                        <tr key={category._id}>
-                          <th scope="row">{index + 1}</th>
-                          <td><img src={category.image || ''} alt={category.name} height={"80px"} /></td>
-                          <td>{category.name}</td>
-                          <td>{category.status ? 'ACTIVE' : 'INACTIVE'}</td>
-                          <td>
-                            <Link to={`/admin/category/edit/${category._id}`} className='btn btn-sm btn-warning'>Edit</Link>
-                            {/* <button 
-                              className='btn btn-danger mx-1 btn-sm' 
-                              onClick={() => handleDelete(category._id)}
-                            >
-                              Delete
-                            </button> */}
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                      <td colSpan="6" className="text-center">No orders found / Slow Internet</td>
-                      </tr>
-                    )}
-                  </tbody>
+  {categories?.length > 0 ? (
+    categories.map((parent, pIndex) => (
+      <React.Fragment key={parent._id}>
+
+        {/* ================= PARENT ================= */}
+        <tr className="table-light text-white">
+
+          <td>{pIndex + 1}</td>
+
+          <td className="fw-bold">
+            {parent.name}
+          </td>
+
+          <td>—</td>
+
+          <td>
+            {parent.showInMenu ? "✅" : "❌"}
+          </td>
+
+          <td>{parent.order ?? 0}</td>
+
+          <td>
+            {parent.status ? "ACTIVE" : "INACTIVE"}
+          </td>
+
+          <td>
+            {new Date(parent.createdAt).toLocaleDateString()}
+          </td>
+
+          <td>
+            <Link
+              to={`/admin/category/edit/${parent._id}`}
+              className="btn btn-sm btn-warning"
+            >
+              Edit
+            </Link>
+          </td>
+
+        </tr>
+
+        {/* ================= CHILDREN ================= */}
+        {parent.children?.map((child, index) => (
+
+          <tr key={child._id} className="bg-light">
+
+            <td></td>
+
+            <td className="ps-4 text-secondary">
+              ↳ {child.name}
+            </td>
+
+            <td>{parent.name}</td>
+
+            <td>
+              {child.showInMenu ? "✅" : "❌"}
+            </td>
+
+            <td>{child.order ?? 0}</td>
+
+            <td>
+              {child.status ? "ACTIVE" : "INACTIVE"}
+            </td>
+
+            <td>
+              {new Date(child.createdAt).toLocaleDateString()}
+            </td>
+
+            <td>
+              <Link
+                to={`/admin/category/edit/${child._id}`}
+                className="btn btn-sm btn-warning"
+              >
+                Edit
+              </Link>
+            </td>
+
+          </tr>
+
+        ))}
+
+      </React.Fragment>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="8" className="text-center">
+        No categories found
+      </td>
+    </tr>
+  )}
+</tbody>
+
+
                 </table>
               )}
             </div>
