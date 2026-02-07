@@ -10,7 +10,6 @@ const categorySchema = new mongoose.Schema({
 
   slug: {
     type: String,
-    unique: true
   },
 
   image: {
