@@ -79,7 +79,7 @@ const NavbarComponent = () => {
 
               {parent?.children?.map(child => (
 
-                <li key={child._id}>
+                (child?.showInMenu && <li key={child._id}>
 
                   <a
                     className="dropdown-item px-2 m-1"
@@ -91,7 +91,7 @@ const NavbarComponent = () => {
                     {child.name}
                   </a>
 
-                </li>
+                </li>)
 
               ))}
 

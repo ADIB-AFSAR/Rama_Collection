@@ -21,6 +21,7 @@ import {
     getCategoryStart, 
     getCategorySuccess, 
     getCategoryTreeError, 
+    getCategoryTreeStart, 
     getCategoryTreeSuccess, 
     setCategoryTreeStart, 
     updateCategoryError 
@@ -41,6 +42,7 @@ function* addCategory({ payload }) {
     try {
         yield addCategoryToAPI(payload); // Make sure to yield this call
         yield put(getCategoryStart()); // Refresh category list after adding
+        yield put(getCategoryTreeStart())
     } catch (error) {
         yield put(addCategoryError(error.message));
     }
@@ -51,6 +53,7 @@ function* deleteCategory({ payload }) {
     try {
         yield deleteCategoryFromAPI(payload); // Make sure to yield this call
         yield put(getCategoryStart()); // Refresh category list after deletion
+        yield put(getCategoryTreeStart())
     } catch (error) {
         yield put(deleteCategoryError(error.message));
     }
@@ -61,18 +64,16 @@ function* updateCategory({ payload }) {
     try {
         yield updateCategoryFromAPI(payload); // Make sure to yield this call
         yield put(getCategoryStart()); // Refresh category list after updating
+        yield put(getCategoryTreeStart())
     } catch (error) {
         yield put(updateCategoryError(error.message));
     }
 }
 function* getCategoryTreeSaga() {
   try {
-
     const data = yield call(fetchCategoryTreeAPI);
-    console.log("saga:",data)
     yield put(getCategoryTreeSuccess(data));
-
-  } catch (err) {
+   } catch (err) {
 
     yield put(getCategoryTreeError(err.message));
 

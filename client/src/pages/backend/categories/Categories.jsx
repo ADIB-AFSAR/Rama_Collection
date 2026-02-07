@@ -61,7 +61,6 @@ function Categories() {
         <tr className="table-light text-white">
 
           <td>{pIndex + 1}</td>
-
           <td className="fw-bold">
             {parent.name}
           </td>
