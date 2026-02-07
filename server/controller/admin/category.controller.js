@@ -13,6 +13,7 @@ const getCategories = async (req, res) => {
 };
 
 const storeCategories = async (req, res) => {
+    console.log("storecategories",req.body)
     try {
         const categoryExist = await categoryModel.findOne({ name: req.body.name });
         if (categoryExist) {
@@ -33,6 +34,7 @@ const storeCategories = async (req, res) => {
 };
 
 const updateCategories = async (req, res) => {
+    console.log("updatecategories",req.body)
     try {
         const categoryExist = await categoryModel.findOne({ _id: req.params.id });
         if (categoryExist) {

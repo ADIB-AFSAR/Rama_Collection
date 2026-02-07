@@ -16,6 +16,7 @@ function Categories() {
       dispatch(deleteCategoryStart(categoryId));
     }
   };
+  console.log(categories)
   useEffect(() => {
     dispatch(getCategoryStart());
    }, [dispatch]);

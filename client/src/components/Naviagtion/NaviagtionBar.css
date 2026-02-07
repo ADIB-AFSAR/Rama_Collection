@@ -129,4 +129,18 @@
   color: #7a3331 !important;
 }
 
- 
+ .dropdown-menu {
+  transition: all 0.2s ease;
+  transform: translateY(5px);
+  opacity: 0;
+  display: block;
+  visibility: hidden;
+}
+
+.dropdown-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  margin : 0px;
+  padding : 0px
+}
