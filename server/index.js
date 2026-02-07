@@ -33,7 +33,7 @@ mongoose
 
 app.get('/api/admin/product',getProducts);
 app.use('/api/wishlist', wishlistRoutes)
-app.get('/api/category', publicCategoryRoutes);
+app.use('/api/category', publicCategoryRoutes);
 app.use("/api/admin", adminRoute);
 app.use("/api", frontRoutes);
 app.get("/api/health", (req, res) => {
