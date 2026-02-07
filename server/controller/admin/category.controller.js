@@ -1,6 +1,7 @@
 const categoryModel = require("../../models/category.model");
 const fs = require('fs');
 const path = require('path');
+const mongoose = require("mongoose")
 
 const getCategories = async (req, res) => {
     try {
@@ -14,8 +15,7 @@ const getCategories = async (req, res) => {
 
 const storeCategories = async (req, res) => {
     console.log("storecategories",req.body)
-    let parent = req.body.parent;
-    if(parent === "null" || parent === "" || parent === undefined){parent = null}
+    let parent = mongoose.Types.ObjectId.isValid(req.body.parent) ? req.body.parent : null ;
     try {
         const categoryExist = await categoryModel.findOne({ name: req.body.name });
         if (categoryExist) {
@@ -39,8 +39,7 @@ const storeCategories = async (req, res) => {
 
 const updateCategories = async (req, res) => {
     console.log("updatecategories",req.body)
-    let parent = req.body.parent;
-    if(parent === "null" || parent === "" || parent === undefined){parent = null}
+    let parent = mongoose.Types.ObjectId.isValid(req.body.parent) ? req.body.parent : null;
     try {
         const categoryExist = await categoryModel.findOne({ _id: req.params.id });
         if (categoryExist) {
