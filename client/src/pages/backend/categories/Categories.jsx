@@ -38,7 +38,8 @@ function Categories() {
               {loading ? (
                 <p className='spinner-container'><Spinner animation="border" className="text-primary spinner mt-2" /></p>
               ) : (
-                <table className="table">
+                <div className='table-responsive'>
+                <table className="table table-hover align-middle">
                   <thead>
   <tr>
     <th>#</th>
@@ -99,8 +100,8 @@ function Categories() {
 
             <td></td>
 
-            <td className="ps-4 text-secondary">
-              ↳ {child.name}
+            <td className="ps-2 text-secondary">
+            ↳ {child.name}
             </td>
 
             <td>{parent.name}</td>
@@ -144,7 +145,7 @@ function Categories() {
 </tbody>
 
 
-                </table>
+                </table></div>
               )}
             </div>
           </div>

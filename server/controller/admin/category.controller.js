@@ -15,7 +15,7 @@ const getCategories = async (req, res) => {
 
 const storeCategories = async (req, res) => {
     console.log("storecategories",req.body)
-    let parent = mongoose.Types.ObjectId.isValid(req.body.parent) ? req.body.parent : null ;
+    const parent = req.body.parent === "null" || !req.body.parent ? null : req.body.parent;
     try {
         const categoryExist = await categoryModel.findOne({ name: req.body.name });
         if (categoryExist) {
@@ -39,7 +39,7 @@ const storeCategories = async (req, res) => {
 
 const updateCategories = async (req, res) => {
     console.log("updatecategories",req.body)
-    let parent = mongoose.Types.ObjectId.isValid(req.body.parent) ? req.body.parent : null;
+    const parent = req.body.parent === "null" || !req.body.parent ? null : req.body.parent;
     try {
         const categoryExist = await categoryModel.findOne({ _id: req.params.id });
         if (categoryExist) {

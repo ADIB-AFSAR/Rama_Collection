@@ -3,8 +3,12 @@ import Header from '../layouts/Header/Header';
 import AppRouter from '../routes/Router';
 import Footer from '../layouts/Footer/Footer';
 import { ToastContainer } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { getCategoryTreeStart } from '../redux/action/category.action';
 
 function App() {
+  const dispatch = useDispatch()
+  dispatch(getCategoryTreeStart())
  useEffect(() => {
   const controller = new AbortController();
   const t = setTimeout(() => controller.abort(), 5000);
@@ -16,7 +20,7 @@ function App() {
     clearTimeout(t);
     controller.abort();
   };
-}, []);
+}, [dispatch]);
 
   return <div>
     <Header/>

@@ -189,3 +189,25 @@
   color: #777;
   padding: 40px 0;
 }
+.image-skeleton{
+  position: absolute;
+  inset: 0;
+  background:linear-gradient(
+    90deg,
+    #eee 25%,
+    #ddd 37%,
+    #eee 1063 
+  ) ;
+  background-size: 400% 100%;
+  animation: skeleton 1.4s ease infinite;
+  z-index: 1;
+}
+
+@keyframes skeleton {
+  0% {
+    background-position: 100 0;
+  }
+  100% {
+    background-position: -100% 0;
+  } 
+}

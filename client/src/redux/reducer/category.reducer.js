@@ -7,7 +7,7 @@ const initialState = {
         : [], // Fallback to empty array if not found
     error: null, // Initialize error state
     loading : false,
-    tree : [] ,
+    tree : localStorage.getItem("categoryTree") ? JSON.parse(localStorage.getItem("categoryTree")) : [] ,
     status : true
 };
 

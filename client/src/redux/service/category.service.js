@@ -24,7 +24,13 @@ export const addCategoryToAPI = async (payload) => {
     try {
         const formData = new FormData();
         for (const key in payload) {
-            formData.append(key, payload[key]);
+            if (
+                payload[key] !== null &&
+                payload[key] !== undefined &&
+                payload[key] !== ""
+             ) {
+                formData.append(key,payload[key])
+             }
         }
 
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/category/store`, {
@@ -65,10 +71,17 @@ export const deleteCategoryFromAPI = async (payload) => {
 };
 
 export const updateCategoryFromAPI = async (category) => {
+    console.log(category)
     try {
         const formData = new FormData();
         for (const key in category) {
-            formData.append(key, category[key]);
+            if (
+                category[key] !== null &&
+                category[key] !== undefined &&
+                category[key] !== ""
+             ) {
+                formData.append(key,category[key])
+             }
         }
 
         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/category/update/${category._id}`, {

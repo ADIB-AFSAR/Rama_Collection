@@ -26,7 +26,7 @@ const ShopCategory = () => {
   const isFetching = useSelector((state) => state.product.isFetching);
   const navigate = useNavigate();
   const dispatch = useDispatch()
-
+ console.log(categories)
 
  useEffect(() => {
   if (products && products.length > 0) {
@@ -35,8 +35,9 @@ const ShopCategory = () => {
 }, [products]);
   
 
-  const toProductListingPage = (category) => {
-    navigate(`/new/${category}/collections`);
+  const toProductListingPage = (categoryId) => {
+    console.log(categoryId)
+    navigate(`/collections/${categoryId}`);
   };
    const handleImageLoad = (productId) => {
     setLoadingImages((prevState) => ({
@@ -105,7 +106,7 @@ useEffect(() => {
         {/* Image with loader */}
         <div
           className="image-container position-relative"
-          onClick={() => toProductListingPage(product.category.name)}
+          onClick={() => toProductListingPage(product.category._id)}
         >
           {loadingImages[product._id] && (
             <div className="image-loader position-absolute w-100 h-100 bg-light d-flex justify-content-center align-items-center">

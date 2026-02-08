@@ -18,7 +18,7 @@ function ProductListingPage() {
   const navigate = useNavigate();
 
   const products = useSelector((state) => state.product.products);
-
+  const loading = useSelector((state) => state.product.isFetching);
   const isDesktop = useMediaQuery({ query: '(min-width: 786px)' });
 
   // ---------------- STATES ----------------
@@ -36,20 +36,14 @@ function ProductListingPage() {
 
   const [bannerUrl, setBannerUrl] = useState('');
 
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   // ---------------- FETCH PRODUCTS ----------------
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     dispatch(getProductStart());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (products) {
-      setLoading(false);
-    }
-  }, [products]);
 
   // ---------------- IMAGE LOADER ----------------
 
@@ -114,9 +108,13 @@ function ProductListingPage() {
   useEffect(() => {
     if (!products || !id) return;
 
-    let filtered = products.filter(
-      (product) => product?.category?._id === id // ✅ FILTER BY ID
-    );
+    let filtered = products.filter((product)=>{
+      const catId =
+      typeof product.category === "object"
+      ? product.category?._id
+      : product.category;
+      return String(catId) === String(id)
+    })
 
     // Price filter
     filtered = filtered.filter(
@@ -145,10 +143,11 @@ function ProductListingPage() {
   };
 
   // ---------------- UI ----------------
-
+ const Placeholder = "https://asdlib.org/wp-content/uploads/2021/11/no-image.jpg"
+ console.log(filteredProducts)
   return (
     <>
-
+ 
       {/* BACK BUTTON */}
       <i
         onClick={() => window.history.back()}
@@ -175,7 +174,7 @@ function ProductListingPage() {
       {/* MAIN CONTAINER */}
 
       <div className="container mx-auto px-0">
-
+      <h5 className="text-center mb-3 mt-2 satisfy-regular fs-1 text-capitalize">{filteredProducts[0]?.category.name}</h5>
         {/* FILTER BAR */}
 
         <div className="filters-section mb-4">
@@ -236,7 +235,9 @@ function ProductListingPage() {
 
           <div className="row justify-content-center">
 
-            {filteredProducts?.length > 0 ? (
+            {filteredProducts?.length > 0 
+            ? 
+            (
 
               filteredProducts
                 .filter((p) => p?.status)
@@ -279,18 +280,21 @@ function ProductListingPage() {
                       >
 
                         {loadingImages[product._id] && (
-                          <div className="image-loader d-flex justify-content-center align-items-center">
-                            <div className="spinner-border"></div>
-                          </div>
+                          // <div className="image-loader d-flex justify-content-center align-items-center">
+                            <div className="image-skeleton"></div>
+                          // </div>
                         )}
 
                         <img
-                          src={product.images?.[0]}
+                          src={product.images?.[0] || Placeholder}
                           alt={product.name}
                           className="product-image primary"
                           onLoad={() =>
                             handleImageLoad(product._id)
                           }
+                          onError={(e)=>{e.target.src = Placeholder;
+                            handleImageLoad(product._id)
+                          }}
                         />
 
                         <img

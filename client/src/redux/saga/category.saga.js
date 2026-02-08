@@ -71,7 +71,12 @@ function* updateCategory({ payload }) {
 }
 function* getCategoryTreeSaga() {
   try {
+    const cached = localStorage.getItem("categoryTree")
+    if(cached){
+        put(getCategorySuccess(JSON.parse(cached)))
+    }
     const data = yield call(fetchCategoryTreeAPI);
+    localStorage.setItem("categoryTree",JSON.stringify(data))
     yield put(getCategoryTreeSuccess(data));
    } catch (err) {
 

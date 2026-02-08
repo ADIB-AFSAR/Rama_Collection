@@ -7,6 +7,7 @@ import ShopCategory from '../../components/ShopCategory/ShopCategory'
 import { useSelector } from 'react-redux'
 import MaintenanceModal from '../../components/MaintainenceModal/maintainenceModal'
 import { useNavigate } from 'react-router-dom'
+import SlidingInfo from '../../components/SlidingInfo/SlidingInfo'
 
 
 function Home() {
@@ -28,6 +29,7 @@ function Home() {
   },[])
   return (<>
      {(!currentUser || currentUser.role !== 'admin') && <MaintenanceModal />}
+     <SlidingInfo/>
      <NavbarComponent/>
     <ImageCarousel/>
     <ShopCategory/>

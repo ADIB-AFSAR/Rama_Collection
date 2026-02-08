@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './SlidingInfo.css';
-
+import './SlidingInfo.css'
 const SlidingInfo = () => {
   const [text, setText] = useState('');
+  
 
   useEffect(() => {
     const fetchSlidingText = async () => {
@@ -14,7 +14,7 @@ const SlidingInfo = () => {
         console.error('Error fetching sliding text:', err);
       }
     };
-
+console.log(text)
     fetchSlidingText();
   }, []);
 

@@ -11,7 +11,7 @@ const initialState = {
   name: '',
   image: '',
   status: '',
-  parent : '',
+  parent : null,
   showInMenu : true,
   order : 0,
 };
@@ -98,11 +98,11 @@ function AddOrEditCategories() {
                 <select
                   name="parent"
                   className="form-control"
-                  value={formData.parent || ""}
+                  value={formData.parent ?? ""}
                   onChange={handleInputChange}
                 >
 
-                  <option value="">No Parent (Main)</option>
+                  <option value= {null}>No Parent (Main)</option>
 
                   {categories
                     .filter(c => !c.parent) // Only main categories

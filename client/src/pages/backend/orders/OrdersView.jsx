@@ -86,7 +86,9 @@ function OrdersView() {
                   </div>
                   </div>
              </div>
-             <table className="table-responsive table">
+             <div className='card-body'>
+             <div className='col-12 table-responsive'>
+             <table className="table table-hover align-middle w-100">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -111,7 +113,7 @@ function OrdersView() {
                       </tr>
                })}
               </tbody>
-            </table>
+            </table></div></div>
           </div>
             </div>
            </div>

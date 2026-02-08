@@ -6,20 +6,15 @@ import './NaviagtionBar.css'
 
 const NavbarComponent = () => {
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const categories = useSelector(state => state.category.tree);
-  console.log(categories)
+  // console.log(categories)
 
   const [openMenu, setOpenMenu] = useState(null);
 
   // Detect mobile
   const isMobile = window.innerWidth < 992;
-
-  useEffect(() => {
-    dispatch(getCategoryTreeStart());
-  }, [dispatch]);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -44,15 +39,15 @@ const NavbarComponent = () => {
 
   return (
 
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar py-0 navbar-expand-lg navbar-light bg-light justify-content-center align-items-center">
+<div className='nav-scroll'>
+      <ul className="navbar-nav flex-row">
 
-      <ul className="navbar-nav mx-auto">
-
-        {categories?.map(parent => (
+        {categories?.length === 0 ? (<li className='nav-item text-muted'>Loading...</li>):(categories?.map(parent => (
 
           <li
             key={parent._id}
-            className="nav-item dropdown mx-3"
+            className="nav-item dropdown mx-5"
 
             /* Desktop hover */
             onMouseEnter={!isMobile ? () => handleOpen(parent._id) : null}
@@ -61,7 +56,7 @@ const NavbarComponent = () => {
 
             {/* Parent */}
             <a
-              className="nav-link dropdown-toggle"
+              className="nav-link"
               role="button"
 
               /* Mobile click */
@@ -99,10 +94,10 @@ const NavbarComponent = () => {
 
           </li>
 
-        ))}
+        )))}
 
       </ul>
-
+</div>
     </nav>
 
   );
