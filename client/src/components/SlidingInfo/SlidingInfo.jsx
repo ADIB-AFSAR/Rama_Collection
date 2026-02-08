@@ -14,7 +14,7 @@ const SlidingInfo = () => {
         console.error('Error fetching sliding text:', err);
       }
     };
-console.log(text)
+
     fetchSlidingText();
   }, []);
 

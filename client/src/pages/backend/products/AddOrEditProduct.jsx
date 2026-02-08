@@ -89,7 +89,7 @@ function AddOrEditProducts() {
                 <Link to="/admin/product" className='btn btn-primary text-white'>Back</Link>
               </div>
               <form onSubmit={submit} encType="multipart/form-data" className='px-2 mt-2 col-12'>
-                <label htmlFor='name' className="form-label">Product Name</label>
+                <label htmlFor='name' className="form-label mb-0 mt-2">Product Name</label>
                 <input 
                   type="text" 
                   name="name"  
@@ -101,7 +101,7 @@ function AddOrEditProducts() {
                   required
                 />
 
-                <label htmlFor='slug' className="form-label mt-3">Slug Name</label>
+                <label htmlFor='slug' className="form-label mt-2 mb-0">Slug Name</label>
                 <input 
                   type="text" 
                   name="slug"    
@@ -113,14 +113,14 @@ function AddOrEditProducts() {
                   required
                 />
 
-<label htmlFor='images'  className="form-label mt-3"> Product Image</label>
+<label htmlFor='images'  className="form-label mt-2 mb-0 "> Product Image</label>
     <input multiple type="file" accept="image/png, image/jpeg, image/jpg" name="images" onChange={uploadFiles} className="form-control" id="images"/>
     <p className='mx-2 mb-0 mob' style={{fontSize:"10px"}}>340x480 resolution images are recommended*</p>
     {images && images.length > 0 ? images?.map((image,index)=>{
       return <img key={index} src={image} className='mt-2 mb-2' height={'120px'} width={'100px'}/>
     }): <p className='mx-2 mt-0 mob' style={{fontSize:"9px"}}>After uploading image, please save to see the image preview</p> }
 <br></br>
-                <label htmlFor='description' className="form-label mt-3">Description</label>
+                <label htmlFor='description' className="form-label mt-2 mb-0">Description</label>
                 <textarea 
                   name="description" 
                   rows={6}   
@@ -131,7 +131,7 @@ function AddOrEditProducts() {
                   onChange={handleChange} 
                 /> 
 
-                <label htmlFor='price' className="form-label mt-3">Price</label>
+                <label htmlFor='price' className="form-label mt-3 mb-0">Price</label>
                 <input 
                   type="number" 
                   step='any'  
@@ -144,7 +144,7 @@ function AddOrEditProducts() {
                   required={true} 
                 />
 
-                <label htmlFor='quantity' className="form-label mt-3">Quantity Adding</label>
+                <label htmlFor='quantity' className="form-label mt-3 mb-0">Quantity Adding</label>
                 <input 
                   type="number"  
                   step='any' 
@@ -157,7 +157,7 @@ function AddOrEditProducts() {
                   required={true}
                 />
                  {/* Enable Size Selection */}
-<label className="form-label mt-3">Enable Sizes</label>
+<label className="form-label mt-3 mb-0">Enable Sizes</label>
 <select
   name="enableSize"
   className="form-control"
@@ -178,7 +178,7 @@ function AddOrEditProducts() {
 {/* Manual Size Selection */}
 {enableSize === true || enableSize === 'true' ? (
   <>
-    <label className="form-label mt-3">Select Available Sizes</label>
+    <label className="form-label mt-3 mb-0">Select Available Sizes</label>
     <div className="d-flex flex-wrap gap-2">
       {["XS", "S", "M", "L", "XL", "XXL"].map((size) => (
         <div key={size} className="form-check me-3">
@@ -208,8 +208,12 @@ function AddOrEditProducts() {
   </>
 ) : null}
 
+<label htmlFor='category' className="form-label mt-3 mb-0">Product Category</label>
 <select
-  name="category"
+  required
+  name="category" 
+  id="category" 
+  className="form-control"
   value={category}
   onChange={handleChange}
 >
@@ -225,7 +229,6 @@ function AddOrEditProducts() {
     ))}
 
 </select>
-<br></br>
                 {/* <label htmlFor='category' className="form-label mt-3">Product Category</label> */}
                 {/* <select 
                   //  required
@@ -243,7 +246,7 @@ function AddOrEditProducts() {
                   ))}
                 </select> */}
 
-                <label className="form-label mt-3">Status</label>
+                <label className="form-label mt-3 mb-0">Status</label>
                 <select 
                   name="status" 
                   className="form-control"

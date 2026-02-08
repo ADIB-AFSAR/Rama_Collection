@@ -1190,3 +1190,15 @@ ul li {
 .link-btn,.btn-primary :disabled{
   background-color: #ff6b6b !important;
 }
+.collection-card,
+.placeholder-card,
+.card {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.collection-card{
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
+}

@@ -81,7 +81,7 @@ function AddOrEditCategories() {
                 <Link to="/admin/category" className='btn btn-primary text-white button'>Back</Link>
               </div>
               <form onSubmit={submit} encType="multipart/form-data" className='p-2'>
-                <label htmlFor='name' className="form-label">Category Name</label>
+                <label htmlFor='name' className="form-label mt-2 mb-0">Category Name</label>
                 <input 
                   type="text" 
                   name="name" 
@@ -93,7 +93,7 @@ function AddOrEditCategories() {
                   required 
                 />
 
-                <label>Parent Category</label>
+                <label className='mb-0 mt-2'>Parent Category</label>
 
                 <select
                   name="parent"
@@ -114,7 +114,7 @@ function AddOrEditCategories() {
 
                 </select>
 
-                <div className="form-check mt-2">
+                <div className="form-check mt-2 mb-0">
                 <input
                   type="checkbox"
                   className="form-check-input"
@@ -128,13 +128,13 @@ function AddOrEditCategories() {
                   }
                 />
 
-                <label className="form-check-label">
+                <label className="form-check-label mb-0">
                   Show in Navigation Menu
                 </label>
               </div>
  
 
-              <label className="mt-2">Menu Order</label>
+              <label className="mt-2 mb-0">Menu Order</label>
 
               <input
                 type="number"
@@ -146,11 +146,11 @@ function AddOrEditCategories() {
               />
 
 
-                <label className="form-label">Category Status</label>
+                <label className="form-label mt-3 mb-0">Category Status</label>
                 <select 
                   name="status" 
                   id="status" 
-                  className="form-control mb-1" 
+                  className="form-control" 
                   value={status} 
                   onChange={handleInputChange} 
                   required
@@ -160,7 +160,7 @@ function AddOrEditCategories() {
                   <option value="false">Inactive</option>
                 </select>
 
-                <label htmlFor='image' className="form-label">Category Image</label>
+                <label htmlFor='image' className="form-label mt-3 mb-0">Category Image</label>
                 <input 
                   type="file" 
                   name="image" 

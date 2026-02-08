@@ -65,7 +65,7 @@ const updateCategories = async (req, res) => {
                 status: req.body.status === "true",
                 parent: req.body.parent || null,
                 showInMenu: req.body.showInMenu === "true" || req.body.showInMenu === true,
-                order: Number(req.body.order) || 0,
+                order: Number(req.body.order) || 0,ss
             });
             return res.status(200).json({ message: "Category updated successfully without changing image" });
             }

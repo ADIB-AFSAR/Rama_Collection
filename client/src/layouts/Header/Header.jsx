@@ -11,6 +11,7 @@ function Header() {
   const [cartSidebarOpen, setCartSidebarOpen] = useState(false); // For cart sidebar
   const [searchText, setSearchText] = useState(''); // Track search text
   const [searchVisible, setSearchVisible] = useState(false); // Show/Hide search results
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const currentCart = useSelector(state => state.cart.currentCart);
   const currentUser = useSelector(state => state.user.currentUser);
   const wishlist = useSelector(state => state.wishlist.items);
@@ -34,10 +35,18 @@ function Header() {
     setSearchVisible(e.target.value.length > 0); // Show the product list only if search text is entered
   };
 
-  const filteredProducts = products?.filter((product) =>
-    product.name?.toLowerCase().includes(searchText?.toLowerCase())
-  );
+  const filteredProducts = products?.filter((product) => {
+  const query = searchText.toLowerCase().trim();
+  const nameMatch = product?.name
+    ?.toLowerCase()
+    .includes(query);
 
+  const descMatch = product?.description
+    ?.toLowerCase()
+    .includes(query);
+
+  return nameMatch || descMatch;
+});
   const toProductDetailsPage = (id) => {
     setSearchText('');
     navigate(`/details/${id}`);
@@ -48,6 +57,15 @@ function Header() {
       dispatch(getWishListStart(currentUser?.id));
      }
   }, [isUpdated, currentUser, dispatch]);
+
+  
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setDebouncedSearch(searchText);
+  }, 300);
+
+  return () => clearTimeout(timer);
+}, [searchText]);
 
   return (
     <header>
@@ -115,23 +133,21 @@ function Header() {
       </nav>
 
       {/* Product List */}
-      {searchText && filteredProducts?.length > 0 && (
+      {searchText.trim() && filteredProducts?.length > 0 && (
         <div className="product-list position-absolute bg-white shadow-lg p-3">
           <p className="text-center my-2 text-capitalize">Search results</p>
           <div className="row">
             {filteredProducts.slice(0, 6).map((product) => (
-              <div key={product.id} className="col-6 col-sm-4 col-md-4 mb-3">
+              <div key={product._id} className="col-6 col-sm-4 col-md-4 mb-3">
                 <div className="product d-flex align-items-center">
                   <img
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => toProductDetailsPage(product._id)}
-                    src={product.images[0]}
-                    alt={product.title}
-                    height={'80px'}
-                    onMouseOver={(e) => (e.currentTarget.src = product.images[1] || product.images[0])}
-                    onMouseOut={(e) => (e.currentTarget.src = product.images[0])}
-                    className="me-3"
-                  />
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => toProductDetailsPage(product._id)}
+                  src={product.images?.[0] || "./logo-new.jpg"}
+                  alt={product.name}
+                  height="80"
+                  className="me-3"
+                />
                 </div>
               </div>
             ))}
@@ -139,7 +155,7 @@ function Header() {
         </div>
       )}
 
-      {searchText && filteredProducts?.length === 0 && (
+      {searchText.trim() && filteredProducts?.length === 0 && (
         <div className="product-list position-absolute bg-white shadow-lg p-3">
           <div className="text-center">No products found</div>
         </div>

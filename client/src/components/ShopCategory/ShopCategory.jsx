@@ -26,18 +26,20 @@ const ShopCategory = () => {
   const isFetching = useSelector((state) => state.product.isFetching);
   const navigate = useNavigate();
   const dispatch = useDispatch()
- console.log(categories)
+
 
  useEffect(() => {
   if (products && products.length > 0) {
     setShuffledProducts(shuffleArray(products));
   }
 }, [products]);
-  
+  console.log(categories)
 
   const toProductListingPage = (categoryId) => {
-    console.log(categoryId)
     navigate(`/collections/${categoryId}`);
+    window.scrollTo(0,0)
+
+    
   };
    const handleImageLoad = (productId) => {
     setLoadingImages((prevState) => ({
@@ -165,7 +167,7 @@ useEffect(() => {
       </>
     )}
 
-    <button onClick={() => toProductListingPage("all")} className="rewards-button position-sticky float-end">
+    <button onClick={() => toProductListingPage("all")} className="rewards-button cursor-pointer position-sticky float-end">
       View All
     </button>
   </div>

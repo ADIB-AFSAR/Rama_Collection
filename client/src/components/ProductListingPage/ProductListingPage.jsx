@@ -106,35 +106,41 @@ function ProductListingPage() {
   // ---------------- FILTER PRODUCTS ----------------
 
   useEffect(() => {
-    if (!products || !id) return;
+  if (!products) return;
 
-    let filtered = products.filter((product)=>{
-      const catId =
-      typeof product.category === "object"
-      ? product.category?._id
-      : product.category;
-      return String(catId) === String(id)
-    })
+  let filtered = [];
 
-    // Price filter
-    filtered = filtered.filter(
-      (product) =>
-        product.price >= priceRange.min &&
-        product.price <= priceRange.max
+  // ✅ View All
+  if (id === "all") {
+    filtered = [...products];
+  } 
+  // ✅ Category filter
+  else {
+    filtered = products.filter(
+      (product) => product?.category?._id === id
     );
+  }
 
-    // Sorting
-    if (sortOrder === 'lowToHigh') {
-      filtered = [...filtered].sort((a, b) => a.price - b.price);
-    }
+  // Price filter
+  filtered = filtered.filter(
+    (product) =>
+      product.price >= priceRange.min &&
+      product.price <= priceRange.max
+  );
 
-    if (sortOrder === 'highToLow') {
-      filtered = [...filtered].sort((a, b) => b.price - a.price);
-    }
+  // Sorting
+  if (sortOrder === 'lowToHigh') {
+    filtered.sort((a, b) => a.price - b.price);
+  }
 
-    setFilteredProducts(filtered);
+  if (sortOrder === 'highToLow') {
+    filtered.sort((a, b) => b.price - a.price);
+  }
 
-  }, [products, id, sortOrder, priceRange]);
+  setFilteredProducts(filtered);
+  console.log(filtered)
+
+}, [products, id, sortOrder, priceRange]);
 
   // ---------------- NAVIGATE ----------------
 
@@ -144,7 +150,8 @@ function ProductListingPage() {
 
   // ---------------- UI ----------------
  const Placeholder = "https://asdlib.org/wp-content/uploads/2021/11/no-image.jpg"
- console.log(filteredProducts)
+ const pagetitle = id === "all" ? "All Products" : filteredProducts[0]?.category.name
+
   return (
     <>
  
@@ -174,7 +181,9 @@ function ProductListingPage() {
       {/* MAIN CONTAINER */}
 
       <div className="container mx-auto px-0">
-      <h5 className="text-center mb-3 mt-2 satisfy-regular fs-1 text-capitalize">{filteredProducts[0]?.category.name}</h5>
+        <div className='d-flex justify-content-center'>
+      <span className="text-center w-25 mb-3 mt-2 p-1 ribbon-heading satisfy-regular d-flex justify-content-center fs-1 text-capitalize">{pagetitle}</span>
+        </div>
         {/* FILTER BAR */}
 
         <div className="filters-section mb-4">

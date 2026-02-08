@@ -147,6 +147,9 @@
     font-size: 10px;
     padding: 3px 6px;
   }
+  .ribbon-heading{
+    width: 75% !important;
+   }
 }
 
 /* Filters Section */
@@ -210,4 +213,9 @@
   100% {
     background-position: -100% 0;
   } 
+}
+
+.card-body {
+  border: none;
+  box-shadow: none;
 }

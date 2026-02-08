@@ -102,3 +102,34 @@ body {
     opacity: 1;
   }
 }
+
+.placeholder-card{
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.category-overlay{
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  color: white;
+  padding: 0px 8px;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: capitalize !important;
+  letter-spacing: 0.5px;
+}
+.cat-name{
+  font-size: 20px !important;
+}
+
+@media (max-width:576px){
+  .category-overlay{
+    padding: 4px 10px;
+    bottom: 0px;
+    left: 0px;
+  }
+  .cat-name{
+    font-size: 16px !important;
+  }
+}

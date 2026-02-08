@@ -1,55 +1,109 @@
-import React, { useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css"; 
-import "./seasonalfav.css";  
+import React, { useEffect, useMemo } from "react";
+import "./seasonalfav.css";
+
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+
+import { getCategoryTreeStart } from "../../redux/action/category.action";
 
 const SeasonalFaves = () => {
-  const categories = useSelector((state) => state.category.categories);
-    const isLoading = useSelector((state) => state.category.loading);
-   const navigate = useNavigate()
-  const toProductListingPage = (category) => {
-    navigate(`/new/${category}/collections`);
-  };
-  useEffect(()=>{
-   },[isLoading])
-  
-  return (
-    <div className="container mx-auto px-0">
-      <div className="section-title">
-        Shop By Collections
-      </div>
-      <div className="row">
-        {isLoading
-  ? Array(4).fill().map((_, index) => (
-      <div key={index} className="col-md-3 col-6 mb-4">
-        <div className="card placeholder-card">
-          <div className="skeleton-image" />
-          <div className="card-body">
-            <div className="skeleton-text" />
-          </div>
-        </div>
-      </div>
-    ))
-  : categories && categories.map((category, index) => (
-      <div key={index} className="col-md-3 col-6 mb-4" onClick={() => toProductListingPage(category?.name)}>
-        <a className="text-decoration-none">
-          <div className="card">
-            <img
-              src={category?.image}
-              alt={category?.name}
-              className="card-img-top"
-            />
-            <div className="card-body">
-              <h5 className="card-title text-overlay">{category?.name}</h5>
-            </div>
-          </div>
-        </a>
-      </div>
-    ))}
 
-      </div> 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const tree = useSelector(state => state.category.tree);
+  const loading = useSelector(state => state.category.loading);
+
+  // Load tree once
+  useEffect(() => {
+    dispatch(getCategoryTreeStart());
+  }, [dispatch]);
+
+  /* ----------------------------------
+     Extract all children from tree
+  ---------------------------------- */
+  const children = useMemo(() => {
+
+    if (!tree?.length) return [];
+
+    return tree.flatMap(parent =>
+      parent.children?.filter(c => c.showInMenu) || []
+    );
+
+  }, [tree]);
+
+  /* ---------------------------------- */
+
+  return (
+
+    <div className="container mx-auto px-0">
+
+      <p className="d-flex justify-content-center w-100 mb-5">
+      <span className="ribbon-heading">Shop By Category</span>
+    </p>
+
+      <div className="row">
+
+        {/* LOADING */}
+        {loading &&
+
+          Array(4).fill().map((_, i) => (
+
+            <div key={i} className="col-md-3 col-6 mb-4">
+
+              <div className="card placeholder-card">
+
+                <div className="skeleton-image" />
+
+                <div className="card-body">
+                  <div className="skeleton-text" />
+                </div>
+
+              </div>
+
+            </div>
+
+          ))
+        }
+
+
+        {/* DATA */}
+        {!loading && children.map(cat => (
+
+          <div
+            key={cat._id}
+            className="col-md-3 col-6 mb-4"
+            onClick={() =>{
+              navigate(`/collections/${cat._id}`);
+              window.scrollTo(0,0)
+            }
+            }
+          >
+
+            <div className="card collection-card">
+
+              <img
+                src={cat.image || "/placeholder.jpg"}
+                alt={cat.name}
+                className="card-img-top"
+              />
+
+              <div className="category-overlay satisfy-regular text-center">
+
+                <h6 className="cat-name">{cat.name}</h6>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        ))}
+
+      </div>
+
     </div>
+
   );
 };
 
