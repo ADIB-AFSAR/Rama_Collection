@@ -62,7 +62,7 @@ function Products() {
                         <th scope="row">{index + 1}</th>
                         <td>{product?.images?.length > 0 ?product?.images.map((url,index)=>{
                           return<img className='p-0 m-0' height={"60px"} key={index} src={url} alt={product?.name} />
-                        }):<img  src={''} alt={product?.name} height={"80px"} />}</td>
+                        }):<img  src={'https://png.pngtree.com/png-vector/20190820/ourmid/pngtree-no-image-vector-illustration-isolated-png-image_1694547.jpg'} alt={product?.name} height={"80px"} />}</td>
                         <td>{product?.name}</td>
                         <td>₹{product?.price}</td>
                         <td className={`text-center ${product?.quantity < 10 ? "text-danger fw-bold" : ""}`}>{product?.quantity}</td>

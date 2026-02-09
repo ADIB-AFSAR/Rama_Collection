@@ -43,6 +43,7 @@ function Categories() {
                   <thead>
   <tr>
     <th>#</th>
+    <th>Image</th>
     <th>Name</th>
     <th>Parent</th>
     <th>Menu</th>
@@ -53,30 +54,30 @@ function Categories() {
   </tr>
 </thead>
 
-                  <tbody>
+                <tbody>
   {categories?.length > 0 ? (
     categories.map((parent, pIndex) => (
       <React.Fragment key={parent._id}>
 
         {/* ================= PARENT ================= */}
-        <tr className="table-light text-white">
+        <tr className="table-light fw-bold">
 
           <td>{pIndex + 1}</td>
-          <td className="fw-bold">
-            {parent.name}
+
+          {/* Parent Image */}
+          <td>
+            ----
           </td>
+
+          <td>{parent.name}</td>
 
           <td>—</td>
 
-          <td>
-            {parent.showInMenu ? "✅" : "❌"}
-          </td>
+          <td>{parent.showInMenu ? "✅" : "❌"}</td>
 
           <td>{parent.order ?? 0}</td>
 
-          <td>
-            {parent.status ? "ACTIVE" : "INACTIVE"}
-          </td>
+          <td>{parent.status ? "ACTIVE" : "INACTIVE"}</td>
 
           <td>
             {new Date(parent.createdAt).toLocaleDateString()}
@@ -89,9 +90,11 @@ function Categories() {
             >
               Edit
             </Link>
+            <button onClick={() => handleDelete(parent?._id)} className='btn btn-danger mx-1 btn-sm'>Delete</button>
           </td>
 
         </tr>
+
 
         {/* ================= CHILDREN ================= */}
         {parent.children?.map((child, index) => (
@@ -100,21 +103,27 @@ function Categories() {
 
             <td></td>
 
-            <td className="ps-2 text-secondary">
-            ↳ {child.name}
+            {/* Child Image */}
+            <td>
+              <img
+                src={child.image || "https://png.pngtree.com/png-vector/20190820/ourmid/pngtree-no-image-vector-illustration-isolated-png-image_1694547.jpg"}
+                alt={child.name}
+                height="50"
+                className="rounded"
+              />
+            </td>
+
+            <td className="ps-3 text-secondary">
+              ↳ {child.name}
             </td>
 
             <td>{parent.name}</td>
 
-            <td>
-              {child.showInMenu ? "✅" : "❌"}
-            </td>
+            <td>{child.showInMenu ? "✅" : "❌"}</td>
 
             <td>{child.order ?? 0}</td>
 
-            <td>
-              {child.status ? "ACTIVE" : "INACTIVE"}
-            </td>
+            <td>{child.status ? "ACTIVE" : "INACTIVE"}</td>
 
             <td>
               {new Date(child.createdAt).toLocaleDateString()}
@@ -127,6 +136,7 @@ function Categories() {
               >
                 Edit
               </Link>
+              <button onClick={() => handleDelete(child?._id)} className='btn btn-danger mx-1 btn-sm'>Delete</button>
             </td>
 
           </tr>
@@ -137,7 +147,7 @@ function Categories() {
     ))
   ) : (
     <tr>
-      <td colSpan="8" className="text-center">
+      <td colSpan="9" className="text-center">
         No categories found
       </td>
     </tr>
