@@ -46,8 +46,9 @@ export const addUserToAPI = async (payload) => {
 };
 
 export const deleteUserFromAPI = async (payload) => {
+   
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/user/delete/${payload._id}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/user/delete/${payload}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': getToken()
@@ -57,8 +58,8 @@ export const deleteUserFromAPI = async (payload) => {
         if (!response.ok) {
             throw new Error(`Error deleting user: ${response.statusText}`);
         }
-
-        return await response.json();
+         
+        return   await response.json();
     } catch (error) {
         console.error(error);
     }

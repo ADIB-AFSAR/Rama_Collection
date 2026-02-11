@@ -67,12 +67,12 @@ function Users() {
                         <td>{user.status == "active" ? "Active" : "Disabled"}</td>
                         <td>
                           <Link to={`/admin/user/edit/${user._id}`} className='btn btn-sm btn-warning'>Edit</Link>
-                          {/* <button 
+                          <button 
                             onClick={() => handleDelete(user._id)} 
                             className='btn btn-sm btn-danger mx-1'
                           >
                             Delete
-                          </button> */}
+                          </button>
                         </td>
                       </tr>
                     ))
