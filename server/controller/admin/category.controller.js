@@ -16,6 +16,10 @@ const getCategories = async (req, res) => {
 const storeCategories = async (req, res) => {
     console.log("storecategories",req.body)
     const parent = req.body.parent === "null" || !req.body.parent ? null : req.body.parent;
+    const toBoolean = (value) =>{
+        if(value === true || value === "true") return true;
+    return false;
+    }
     try {
         const categoryExist = await categoryModel.findOne({ name: req.body.name });
         if (categoryExist) {
@@ -23,9 +27,9 @@ const storeCategories = async (req, res) => {
         } else {
             await categoryModel.create({
                 name: req.body.name,
-                status: req.body.status === "true",
+                status: toBoolean(req.body.status),
                 parent: parent,
-                showInMenu: req.body.showInMenu === "true" || req.body.showInMenu === true,
+                showInMenu: toBoolean(req.body.showInMenu),
                 order: Number(req.body.order) || 0,
                 image: req.file ? req.file.path.replace('public', "") : null, // Check if req.file exists
             });
@@ -40,6 +44,10 @@ const storeCategories = async (req, res) => {
 const updateCategories = async (req, res) => {
     console.log("updatecategories",req.body)
     const parent = req.body.parent === "null" || !req.body.parent ? null : req.body.parent;
+    const toBoolean = (value) =>{
+        if(value === true || value === "true") return true;
+    return false;
+    }
     try {
         const categoryExist = await categoryModel.findOne({ _id: req.params.id });
         if (categoryExist) {
@@ -52,9 +60,9 @@ const updateCategories = async (req, res) => {
                 }
                 await categoryModel.updateOne({ _id: req.params.id }, {
                 name: req.body.name,
-                status: req.body.status === "true",
+                status: toBoolean(req.body.status),
                 parent: parent,
-                showInMenu: req.body.showInMenu === "true" || req.body.showInMenu === true,
+                showInMenu: toBoolean(req.body.showInMenu),
                 order: Number(req.body.order) || 0,
                 image: req.file.path.replace('public', ""),
                 });
@@ -62,9 +70,9 @@ const updateCategories = async (req, res) => {
             } else {
                 await categoryModel.updateOne({ _id: req.params.id }, {
                 name: req.body.name,
-                status: req.body.status === "true",
+                status:  toBoolean(req.body.status),
                 parent: req.body.parent || null,
-                showInMenu: req.body.showInMenu === "true" || req.body.showInMenu === true,
+                showInMenu: toBoolean(req.body.showInMenu),
                 order: Number(req.body.order) || 0,
             });
             return res.status(200).json({ message: "Category updated successfully without changing image" });

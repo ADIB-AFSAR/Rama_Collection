@@ -9,8 +9,8 @@ const NavbarComponent = () => {
   const navigate = useNavigate();
 
   const categories = useSelector(state => state.category.tree);
-  // console.log(categories)
-
+  console.log(categories)
+  console.log(categories)
   const [openMenu, setOpenMenu] = useState(null);
 
   // Detect mobile
@@ -75,7 +75,6 @@ const NavbarComponent = () => {
               {parent?.children?.map(child => (
 
                 (child?.showInMenu && <li key={child._id}>
-
                   <a
                     className="dropdown-item px-2 m-1"
                     onClick={() => {
