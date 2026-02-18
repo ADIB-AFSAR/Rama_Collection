@@ -96,7 +96,7 @@ const getCategoryTree = async (req, res) => {
   try {
 
     const categories = await categoryModel
-      .find({ status: true })
+    //   .find({ status: true })
       .sort({ order: 1 }); // ✅ sort by order
 
     const buildTree = (parentId = null) => {

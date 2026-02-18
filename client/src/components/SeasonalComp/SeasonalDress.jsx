@@ -39,7 +39,7 @@ const SeasonalFaves = () => {
     <div className="container mx-auto px-0">
 
       <p className="d-flex justify-content-center w-100 mb-5">
-      <span className="ribbon-heading">Shop By Category</span>
+      <span className="ribbon-heading">Shop By Collection</span>
     </p>
 
       <div className="row">

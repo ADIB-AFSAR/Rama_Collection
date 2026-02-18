@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./shopcat.css";
 import { getProductStart } from "../../redux/action/product.action";
 import { getWishListStart } from "../../redux/action/wishlist.action";
-import { getCategoryStart } from "../../redux/action/category.action";
+import { getCategoryStart, getCategoryTreeStart } from "../../redux/action/category.action";
 import SkeletonLoader from "../SkeletonLoader/skeletonLoader";
 
 const shuffleArray = (array) => {
@@ -21,7 +21,7 @@ const ShopCategory = () => {
   const [shuffledProducts, setShuffledProducts] = useState([]);
   const [loadingImages, setLoadingImages] = useState({}); // Track image loading state for each product
   const products = useSelector((state) => state.product.products);
-  const categories = useSelector((state) => state.category.categories);
+  const categories = useSelector((state) => state.category.tree);
   const currentUser = useSelector((state) => state.user.currentUser);
   const isFetching = useSelector((state) => state.product.isFetching);
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const ShopCategory = () => {
 
   useEffect(() => {
     dispatch(getProductStart())
-    dispatch(getCategoryStart())
+    dispatch(getCategoryTreeStart())
      if (currentUser) {
       dispatch(getWishListStart(currentUser.id));
     }
@@ -153,23 +153,136 @@ useEffect(() => {
   return (
   <div className="container mx-auto px-0">
     <p className="text-center mb-4">
-      <span className="text-center ribbon-heading">Shop By Category</span>
+      <span className="text-center ribbon-heading">
+        Shop By Category
+      </span>
     </p>
 
     {isFetching ? (
-      // Show global loader only once before categories load
-      <SkeletonLoader/>
+      <SkeletonLoader />
     ) : (
       <>
-        {categories.length > 0 && categories.map((category,index) => {
-           return <div key={index}>{renderCategorySection(category?.name)}</div>
-        })}
+        {categories?.map((parent) => (
+          parent.children?.length > 0 && (
+            <div key={parent._id} className="mb-5">
+
+              {/* ===== PARENT TITLE ===== */}
+              <h3 className="text-center mb-3 satisfy-regular fs-1 text-capitalize">
+                {parent.name}
+              </h3>
+
+              {/* ===== CHILD SECTIONS ===== */}
+              {parent.children.map((child) => {
+
+                const childProducts = shuffledProducts?.filter(
+                  (product) =>
+                    product?.category?._id === child._id &&
+                    product?.status === true
+                );
+
+                if (childProducts.length === 0) return null;
+
+                return (
+                  <div key={child._id} className="mb-4">
+
+                    {/* Child Heading */}
+                    <h5 className="text-center text-secondary mb-3 satisfy-regular fs-3 text-capitalize">
+                      {child.name}
+                    </h5>
+
+                    <div className="row">
+                      {childProducts.map((product) => (
+                        <div
+                          className="col-lg-3 col-md-4 col-sm-6 col-6 mb-4"
+                          key={product._id}
+                        >
+                          <div
+                            className={`card position-relative ${
+                              product.quantity <= 0 ? "fade-card" : ""
+                            }`}
+                          >
+
+                            {/* Stock Badge */}
+                            {product.quantity > 0 &&
+                              product.quantity < 10 && (
+                                <div className="stock-badge bg-warning text-dark">
+                                  {product.quantity} left
+                                </div>
+                              )}
+
+                            {product.quantity <= 0 && (
+                              <div className="stock-badge bg-danger text-white">
+                                Out of Stock
+                              </div>
+                            )}
+
+                            {/* Image */}
+                            <div
+                              className="image-container position-relative"
+                              onClick={() =>
+                                navigate(`/collections/${product.category._id}`)
+                              }
+                            >
+                              <img
+                                src={
+                                  product.images?.[0] ||
+                                  "/no-img.jpg"
+                                }
+                                alt={product.name}
+                                className="product-image primary"
+                              />
+
+                              <img
+                                src={
+                                  product.images?.[1] ||
+                                  product.images?.[0]
+                                }
+                                alt={product.name}
+                                className="product-image secondary"
+                              />
+                            </div>
+
+                            {/* Card Body */}
+                            <div className="card-body p-0">
+                              <h6 className="card-title mx-1 quicksand product-name text-left text-capitalize">
+                                {product.name}
+                              </h6>
+
+                              <div className="mx-1">
+                                <span className="text-dark quicksand mx-1 fw-semibold">
+                                  ₹{Number(product.price).toFixed(2)}
+                                </span>
+
+                                <span className="ms-2 text-decoration-line-through small">
+                                  ₹{(
+                                    Number(product.price) * 1.5
+                                  ).toFixed(2)}
+                                </span>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )
+        ))}
       </>
     )}
 
-    <button onClick={() => toProductListingPage("all")} className="rewards-button cursor-pointer position-sticky float-end">
-      View All
-    </button>
+    {/* View All Button */}
+    <div className="text-end mt-4">
+      <button
+        onClick={() => navigate("/collections/all")}
+        className="rewards-button"
+      >
+        View All
+      </button>
+    </div>
   </div>
 );
 
