@@ -78,7 +78,7 @@ function Products() {
                         <td>{product?.status === true ? 'Active' : 'Inactive'}</td>
                         <td>
                           <Link to={`/admin/product/edit/${product?._id}`} className='btn btn-warning my-1 btn-sm' style={{width:'4rem'}}>Edit</Link>
-                          {/* <button onClick={() => handleDelete(product?._id)} className='btn btn-danger mx-1 btn-sm'>Delete</button> */}
+                          <button onClick={() => handleDelete(product?._id)} className='btn btn-danger mx-1 btn-sm'>Delete</button>
                         </td>
                       </tr>
                     ))
