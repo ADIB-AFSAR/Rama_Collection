@@ -136,7 +136,7 @@ function Categories() {
               >
                 Edit
               </Link>
-              {/* <button onClick={() => handleDelete(child?._id)} className='btn btn-danger mx-1 btn-sm'>Delete</button> */}
+              <button onClick={() => handleDelete(child?._id)} className='btn btn-danger mx-1 btn-sm'>Delete</button>
             </td>
 
           </tr>
