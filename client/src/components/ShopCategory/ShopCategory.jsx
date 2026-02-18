@@ -162,7 +162,7 @@ useEffect(() => {
       <SkeletonLoader />
     ) : (
       <>
-        {categories?.map((parent) => (
+        {categories?.filter(parent => parent?.status === true)?.map((parent) => (
           parent.children?.length > 0 && (
             <div key={parent._id} className="mb-5">
 
@@ -172,7 +172,7 @@ useEffect(() => {
               </h3>
 
               {/* ===== CHILD SECTIONS ===== */}
-              {parent.children.map((child) => {
+              {parent.children?.filter(child => child?.status === true)?.map((child) => {
 
                 const childProducts = shuffledProducts?.filter(
                   (product) =>
@@ -253,7 +253,7 @@ useEffect(() => {
                                   ₹{Number(product.price).toFixed(2)}
                                 </span>
 
-                                <span className="ms-2 text-decoration-line-through small">
+                                <span className="ms-2 quicksand text-decoration-line-through small">
                                   ₹{(
                                     Number(product.price) * 1.5
                                   ).toFixed(2)}

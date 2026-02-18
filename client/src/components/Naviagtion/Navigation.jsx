@@ -43,57 +43,54 @@ const NavbarComponent = () => {
 <div className='nav-scroll'>
       <ul className="navbar-nav flex-row">
 
-        {categories?.length === 0 ? (<li className='nav-item text-muted'>Loading...</li>):(categories?.map(parent => (
+        {categories?.length === 0 ? (
+  <li className='nav-item text-muted'>Loading...</li>
+) : (
+  categories
+    ?.filter(parent => parent?.status === true) // ✅ ONLY ACTIVE PARENTS
+    ?.map(parent => (
 
-          <li
-            key={parent._id}
-            className="nav-item dropdown mx-5"
+      <li
+        key={parent._id}
+        className="nav-item dropdown mx-5"
+        onMouseEnter={!isMobile ? () => handleOpen(parent._id) : null}
+        onMouseLeave={!isMobile ? () => setOpenMenu(null) : null}
+      >
 
-            /* Desktop hover */
-            onMouseEnter={!isMobile ? () => handleOpen(parent._id) : null}
-            onMouseLeave={!isMobile ? () => setOpenMenu(null) : null}
-          >
+        <a
+          className="nav-link"
+          role="button"
+          onClick={(e) => isMobile && handleToggle(parent._id, e)}
+        >
+          {parent.name}
+        </a>
 
-            {/* Parent */}
-            <a
-              className="nav-link"
-              role="button"
+        <ul
+          className={`dropdown-menu ${
+            openMenu === parent._id ? "show" : ""
+          }`}
+        >
+          {parent?.children
+            ?.filter(child => child?.showInMenu && child?.status === true) // ✅ ACTIVE CHILDREN
+            ?.map(child => (
+              <li key={child._id}>
+                <a
+                  className="dropdown-item px-2 m-1"
+                  onClick={() => {
+                    navigate(`/collections/${child._id}`);
+                    setOpenMenu(null);
+                  }}
+                >
+                  {child.name}
+                </a>
+              </li>
+            ))}
+        </ul>
 
-              /* Mobile click */
-              onClick={(e) => isMobile && handleToggle(parent._id, e)}
-            >
-              {parent.name}
-            </a>
+      </li>
 
-            {/* Children */}
-            <ul
-              className={`dropdown-menu ${
-                openMenu === parent._id ? "show" : ""
-              }`}
-            >
-
-              {parent?.children?.map(child => (
-
-                (child?.showInMenu && <li key={child._id}>
-                  <a
-                    className="dropdown-item px-2 m-1"
-                    onClick={() => {
-                      navigate(`/collections/${child._id}`);
-                      setOpenMenu(null); // close after click
-                    }}
-                  >
-                    {child.name}
-                  </a>
-
-                </li>)
-
-              ))}
-
-            </ul>
-
-          </li>
-
-        )))}
+    ))
+)}
 
       </ul>
 </div>

@@ -322,17 +322,17 @@ function ProductListingPage() {
 
                       <div className="card-body p-0">
 
-                        <h6 className="mx-1 text-capitalize">
+                        <h6 className="card-title mx-1 quicksand product-name text-left text-capitalize">
                           {product.name}
                         </h6>
 
                         <div className="mx-1">
 
-                          <span className="fw-semibold">
+                          <span className="text-dark quicksand mx-1 fw-semibold">
                             ₹{product.price}
                           </span>
 
-                          <span className="ms-2 text-decoration-line-through small">
+                          <span className="ms-2 quicksand text-decoration-line-through small">
                             ₹{(product.price * 1.5).toFixed(0)}
                           </span>
 
