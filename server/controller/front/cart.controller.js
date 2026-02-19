@@ -242,6 +242,7 @@ const stripePay = async (req, res) => {
           }
         const { name } =  JSON.parse(billingAddress);
         const parsedDetails = JSON.parse(orderDetails);
+        const cartId = parsedDetails.order._id;
         console.log("userID:",parsedDetails.order.customer._id)
         console.log("saving payment to cart:", parsedDetails.order._id)
 
@@ -261,8 +262,7 @@ const stripePay = async (req, res) => {
         await payment.save();
 
         // Update the cart with the paymentId
-        const {cartId} = req.body;
-        const cart = await cartModel.findById(cartId)
+         const cart = await cartModel.findById(cartId)
 
         if (!cart){
             return res.status(404).json({message:"Cart not found during payment"})
