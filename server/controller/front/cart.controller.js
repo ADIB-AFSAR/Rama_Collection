@@ -153,29 +153,30 @@ const placeOrder = async (req, res) => {
 
         let payment = null;
 
-// If payment already created (UPI flow)
-if (cart.paymentId) {
-  payment = await Payment.findOne({"orderDetails.orderId":cart._id});
-}
-if(!payment){
-    return res.status(400).json({message:"Payment record not found"})
-}
+        if (req.body.billingAddress?.payment === "upi"){
+        payment = await Payment.findOne({"orderDetails.order._id":cart._id});
+        }
 
-// If COD, create new payment
-else if (req.body.billingAddress?.payment === "cod") {
-  payment = await recordPayment({
-    payerName: req.body.billingAddress.name,
-    amount: cart.grandTotal,
-    type: "cod",
-    orderDetails: { orderId: cart._id },
-    userID: cart.customer,
-    status: "Pending",
-  });
 
-  // attach payment to cart
-  cart.paymentId = payment._id;
-  await cart.save();
-}
+        if(!payment){
+            return res.status(400).json({message:"Payment record not found"})
+        }
+
+        // If COD, create new payment
+        else if (req.body.billingAddress?.payment === "cod") {
+        payment = await recordPayment({
+            payerName: req.body.billingAddress.name,
+            amount: cart.grandTotal,
+            type: "cod",
+            orderDetails: { orderId: cart._id },
+            userID: cart.customer,
+            status: "Pending",
+        });
+
+        // attach payment to cart
+        cart.paymentId = payment._id;
+        await cart.save();
+        }
 
 // If neither → stop
 else {
