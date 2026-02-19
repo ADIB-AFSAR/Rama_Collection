@@ -161,6 +161,7 @@ if (req.body.billingAddress?.payment === "upi") {
     }
 
     payment = await Payment.findById(cart.paymentId);
+    console.log("SAving payment:",payment._id)
 
     if (!payment) {
         return res.status(400).json({ message: "Payment record not found" });
@@ -270,8 +271,10 @@ const stripePay = async (req, res) => {
 
         cart.paymentId = payment._id;
         await cart.save()
+        const updateCart = await cartModel.findById(cartId);
+        console.log("cart in DB after update")
 
-        console.log("Cart updated with paymentId",cartId)
+        console.log("Cart updated with paymentId",payment._id)
 
      
         const transporter = nodemailer.createTransport({

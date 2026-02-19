@@ -26,6 +26,11 @@ const CartSchema = new mongoose.Schema({
         type: Boolean,
         default: false // Indicates if the order is placed
     },
+    paymentId :{
+        type : mongoose.Schema.Types.ObjectId,
+        ref:"Payment",
+        default:null,
+    },
     size: {
     type: String,
     required: false, // optional if product doesn't use sizes
