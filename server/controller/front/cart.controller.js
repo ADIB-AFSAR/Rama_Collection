@@ -153,8 +153,6 @@ const placeOrder = async (req, res) => {
 
         let payment = null;
 
-        let payment = null;
-
 // If UPI → payment must already exist
 if (req.body.billingAddress?.payment === "upi") {
     if (!cart.paymentId) {
