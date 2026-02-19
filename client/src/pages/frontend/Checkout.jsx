@@ -73,12 +73,14 @@ function Checkout() {
     const NewFormData = new FormData(); 
     NewFormData.append("billingAddress", JSON.stringify(formData)); // Stringify the form data
     NewFormData.append("image", screenshot); // Attach file
-     NewFormData.append(
+    NewFormData.append("cartId",currentCart._id)
+    NewFormData.append(
         "orderDetails",
         JSON.stringify({
       user: { userID : currentUser?.id , name, email },
       order: currentCart,
     })
+    
   );
      try {
         await axios.post(

@@ -137,10 +137,11 @@ const collectTotal = async (id) => {
 
 
 const placeOrder = async (req, res) => {
-    console.log("placeorder:", req.body, req.params);
+    console.log("placeOrder cartId:",req.params);
+    
     try {
         const cart = await cartModel.findOne({ _id: req.params.cartId });
- 
+        console.log("cart from DB:",cart)
         if (!cart) {
             return res.status(404).json({ message: "Cart not found" });
         }
@@ -242,6 +243,7 @@ const stripePay = async (req, res) => {
         const { name } =  JSON.parse(billingAddress);
         const parsedDetails = JSON.parse(orderDetails);
         console.log("userID:",parsedDetails.order.customer._id)
+        console.log("saving payment to cart:", parsedDetails.order._id)
 
         // Uploaded file information from Cloudinary
         const uploadedFileURL = req.file ? req.file.path : null; // Cloudinary automatically assigns a URL to the uploaded file
@@ -259,10 +261,17 @@ const stripePay = async (req, res) => {
         await payment.save();
 
         // Update the cart with the paymentId
-        await cartModel.updateOne(
-            { _id: parsedDetails.order._id },
-            { paymentId: payment._id }
-        );
+        const {cartId} = req.body;
+        const cart = await cartModel.findById(cartId)
+
+        if (!cart){
+            return res.status(404).json({message:"Cart not found during payment"})
+        }
+
+        cart.paymentId = payment._id;
+        await cart.save()
+
+        console.log("Cart updated with paymentId",cartId)
 
      
         const transporter = nodemailer.createTransport({
