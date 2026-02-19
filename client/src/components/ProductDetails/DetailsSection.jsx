@@ -226,7 +226,7 @@ const handleShow = () => setShowAllReviewsModal(true);
     Out of Stock
   </div>
 )}
-                 {CurrentProductDetails.sizes.map(size => (
+                 {CurrentProductDetails.enableSize && CurrentProductDetails.sizes.map(size => (
   <button
     key={size}
     className={`btn btn-sm mx-1 ${selectedSize === size ? 'btn-dark text-white' : 'btn-outline-dark'}`}
