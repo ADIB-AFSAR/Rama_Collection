@@ -155,7 +155,7 @@ const placeOrder = async (req, res) => {
 
 // If payment already created (UPI flow)
 if (cart.paymentId) {
-  payment = await Payment.findById(cart.paymentId);
+  payment = await Payment.findOne({"orderDetails.orderId":cart._id});
 }
 if(!payment){
     return res.status(400).json({message:"Payment record not found"})
