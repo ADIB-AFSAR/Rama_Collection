@@ -147,13 +147,23 @@ const placeOrder = async (req, res) => {
 
         const cartItems = await cartItemModel.find({ cart: cart._id });
 
-        // Check if the order has already been paid (either through Stripe or another method)
-        const existingPayment = await Payment.findOne({ 
-            "orderDetails.orderId": cart._id, 
-            status: "Completed" // Check for a completed payment
-        });
-        let payment;
+        // Get payment already saved from stripePay
+            let payment = null;
 
+            if (cart.paymentId) {
+                payment = await Payment.findById(cart.paymentId);
+            } else if (req.body.billingAddress.payment === "cod") {
+                // Only create payment for COD
+                payment = await recordPayment({
+                    payerName: req.body.billingAddress.name,
+                    amount: cart.grandTotal,
+                    type: "cod",
+                    orderDetails: { orderId: cart._id },
+                    userID: cart.customer,
+                    status: "Pending",
+                });
+            }
+        
         if (existingPayment) {
             // If payment already exists, skip payment recording and just place the order
             payment = existingPayment;

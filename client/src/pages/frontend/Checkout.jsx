@@ -57,38 +57,47 @@ function Checkout() {
   }));
   deleteCartDataFromLocalStorage()
 };
+  const handleSubmit = (e) =>{
+    e.preventDefault()
+
+    if(payment === "upi"){
+      setShowModal(true);
+      return
+    }
+    handlePlaceOrder()
+  }
 
 
-
-  // const handleUPISubmit = async (event) => {
-  //   setLoading(true); // Start the loader when the button is clicked
-  //   const NewFormData = new FormData(); 
-  //   NewFormData.append("billingAddress", JSON.stringify(formData)); // Stringify the form data
-  //   NewFormData.append("image", screenshot); // Attach file
-  //    NewFormData.append(
-  //       "orderDetails",
-  //       JSON.stringify({
-  //     user: { userID : currentUser?.id , name, email },
-  //     order: currentCart,
-  //   })
-  // );
-   //   try {
-  //       await axios.post(
-  //           `${process.env.REACT_APP_API_URL}/api/cart/stripe-pay`, 
-  //           NewFormData, // Form data is the second parameter
-  //           {
-  //             headers: {
-  //               "Authorization": getToken(),
-  //               "Content-Type": "multipart/form-data",
-  //             }
-  //           }
-  //         );
-  //     handlePlaceOrder(event)
-  //   } catch (error) {
-  //     console.error("Error sending email:", error.message);
-  //     setLoading(false); // Stop the loader in case of an error
-  //   }
-  // };
+  const handleUPISubmit = async (event) => {
+    // setLoading(true); 
+    const NewFormData = new FormData(); 
+    NewFormData.append("billingAddress", JSON.stringify(formData)); // Stringify the form data
+    NewFormData.append("image", screenshot); // Attach file
+     NewFormData.append(
+        "orderDetails",
+        JSON.stringify({
+      user: { userID : currentUser?.id , name, email },
+      order: currentCart,
+    })
+  );
+     try {
+        await axios.post(
+            `${process.env.REACT_APP_API_URL}/api/cart/stripe-pay`, 
+            NewFormData, // Form data is the second parameter
+            {
+              headers: {
+                "Authorization": getToken(),
+                "Content-Type": "multipart/form-data",
+              }
+            }
+          );
+      setShowModal(false)
+      handlePlaceOrder(event)
+    } catch (error) {
+      console.error("Error sending email:", error.message);
+      // setLoading(false); 
+    }
+  };
   useEffect(()=>{
      if(!currentUser.name){
        navigate('/login')
@@ -185,7 +194,7 @@ useEffect(() => {
         <div className="container-fluid py-5">
             <div className="container py-5">
                 <h1 className="mb-4">Billing details</h1>
-                <form encType='multipart/form-data' className="checkout-form" onSubmit={(event) => { event.preventDefault(); handlePlaceOrder(event); }}>
+                <form encType='multipart/form-data' className="checkout-form" onSubmit={handleSubmit}>
                     <div className="row g-5">
                        <div className="col-md-12 col-lg-6 col-xl-7">
   <div className="row">
@@ -425,7 +434,7 @@ title="Enter a valid 10-digit mobile number starting with 6-9"
   </div>
 
   {/* Payment Method */}
-  {/* <div className="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+  <div className="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
     <div className="col-12">
       <div className="form-check text-start my-3">
         <input
@@ -457,7 +466,7 @@ title="Enter a valid 10-digit mobile number starting with 6-9"
         </label>
       </div>
     </div>
-  </div> */}
+  </div>
 
   {/* Submit Button */}
   <button
@@ -519,10 +528,10 @@ title="Enter a valid 10-digit mobile number starting with 6-9"
 
                     </div>
                 </form>
-                {/* {loading && <div className="loader">Placing your order...</div>} */}
+                {loading && <div className="loader">Placing your order...</div>}
             </div>
         </div>
-        {/* <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal show={showModal} onHide={() => setShowModal(false)} centered>
   <Modal.Header closeButton>
     <Modal.Title>Pay via UPI</Modal.Title>
   </Modal.Header>
@@ -561,7 +570,7 @@ title="Enter a valid 10-digit mobile number starting with 6-9"
       )}
     </Button>
   </Modal.Footer>
-</Modal> */}
+</Modal>
 
     </>
   )

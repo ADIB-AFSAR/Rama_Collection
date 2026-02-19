@@ -10,6 +10,7 @@ function Categories() {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.tree);
   const loading = useSelector((state) => state.category.loading);
+  const [expandedParent, setExpandedParent] = useState([]);
 
     const handleDelete = (categoryId) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
@@ -20,6 +21,14 @@ function Categories() {
   useEffect(() => {
     dispatch(getCategoryTreeStart());
    }, [dispatch]);
+
+
+const toggleParent = (id) => {
+  setExpandedParent(prev => 
+    (prev.includes(id) ? prev.filter((parentId) => parentId !== id)
+  : [...prev,id]));
+};
+
 
   return (
     <> 
@@ -60,16 +69,17 @@ function Categories() {
       <React.Fragment key={parent._id}>
 
         {/* ================= PARENT ================= */}
-        <tr className="table-light fw-bold">
-
+        <tr className="table-light fw-bold"
+        onClick={() => toggleParent(parent._id)}
+        style={{ cursor: "pointer" }}
+        >
           <td>{pIndex + 1}</td>
-
           {/* Parent Image */}
           <td>
             ----
           </td>
 
-          <td>{parent.name}</td>
+          <td>{expandedParent.includes(parent._id) ? "▼ " : "▶ "}{parent.name}</td>
 
           <td>—</td>
 
@@ -97,7 +107,7 @@ function Categories() {
 
 
         {/* ================= CHILDREN ================= */}
-        {parent.children?.map((child, index) => (
+        {expandedParent.includes(parent._id) && parent.children?.map((child, index) => (
 
           <tr key={child._id} className="bg-light">
 
