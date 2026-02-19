@@ -145,40 +145,42 @@ const placeOrder = async (req, res) => {
             return res.status(404).json({ message: "Cart not found" });
         }
 
+        if (cart.placedOrder){
+            return res.status(400).json({message:"Order already palced"})
+        }
+
         const cartItems = await cartItemModel.find({ cart: cart._id });
 
-        // Get payment already saved from stripePay
-            let payment = null;
+        let payment = null;
 
-            if (cart.paymentId) {
-                payment = await Payment.findById(cart.paymentId);
-            } else if (req.body.billingAddress.payment === "cod") {
-                // Only create payment for COD
-                payment = await recordPayment({
-                    payerName: req.body.billingAddress.name,
-                    amount: cart.grandTotal,
-                    type: "cod",
-                    orderDetails: { orderId: cart._id },
-                    userID: cart.customer,
-                    status: "Pending",
-                });
-            }
-        
-        if (existingPayment) {
-            // If payment already exists, skip payment recording and just place the order
-            payment = existingPayment;
-            console.log("Payment already completed for this order. Skipping payment recording.");
-        } else {
-            // If no payment exists, proceed with payment recording
-           payment =  await recordPayment({
-                payerName: req.body.billingAddress.name,
-                amount: cart.grandTotal,
-                type: req.body.billingAddress.payment, // Payment type (UPI, COD, etc.)
-                orderDetails: { orderId: cart._id },
-                userID: cart.customer,
-                status: "Pending", // Default status, which can be updated later
-            });
-        }
+// If payment already created (UPI flow)
+if (cart.paymentId) {
+  payment = await Payment.findById(cart.paymentId);
+}
+if(!payment){
+    return res.status(400).json({message:"Payment record not found"})
+}
+
+// If COD, create new payment
+else if (req.body.billingAddress?.payment === "cod") {
+  payment = await recordPayment({
+    payerName: req.body.billingAddress.name,
+    amount: cart.grandTotal,
+    type: "cod",
+    orderDetails: { orderId: cart._id },
+    userID: cart.customer,
+    status: "Pending",
+  });
+
+  // attach payment to cart
+  cart.paymentId = payment._id;
+  await cart.save();
+}
+
+// If neither → stop
+else {
+  return res.status(400).json({ message: "Payment not initialized" });
+}
         console.log("Payment:",payment)
         // Create the order
         const order = await orderModel.create({
