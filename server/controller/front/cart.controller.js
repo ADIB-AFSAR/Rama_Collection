@@ -153,35 +153,40 @@ const placeOrder = async (req, res) => {
 
         let payment = null;
 
-        if (req.body.billingAddress?.payment === "upi"){
-        payment = await Payment.findOne({"orderDetails.order._id":cart._id});
-        }
+        let payment = null;
 
+// If UPI → payment must already exist
+if (req.body.billingAddress?.payment === "upi") {
+    if (!cart.paymentId) {
+        return res.status(400).json({ message: "Payment record not found" });
+    }
 
-        if(!payment){
-            return res.status(400).json({message:"Payment record not found"})
-        }
+    payment = await Payment.findById(cart.paymentId);
 
-        // If COD, create new payment
-        else if (req.body.billingAddress?.payment === "cod") {
-        payment = await recordPayment({
-            payerName: req.body.billingAddress.name,
-            amount: cart.grandTotal,
-            type: "cod",
-            orderDetails: { orderId: cart._id },
-            userID: cart.customer,
-            status: "Pending",
-        });
-
-        // attach payment to cart
-        cart.paymentId = payment._id;
-        await cart.save();
-        }
-
-// If neither → stop
-else {
-  return res.status(400).json({ message: "Payment not initialized" });
+    if (!payment) {
+        return res.status(400).json({ message: "Payment record not found" });
+    }
 }
+
+        // If COD → create payment now
+        else if (req.body.billingAddress?.payment === "cod") {
+            payment = await recordPayment({
+                payerName: req.body.billingAddress.name,
+                amount: cart.grandTotal,
+                type: "cod",
+                orderDetails: { orderId: cart._id },
+                userID: cart.customer,
+                status: "Pending",
+            });
+
+            cart.paymentId = payment._id;
+            await cart.save();
+        }
+
+        // If neither
+        else {
+            return res.status(400).json({ message: "Payment not initialized" });
+        }
         console.log("Payment:",payment)
         // Create the order
         const order = await orderModel.create({
