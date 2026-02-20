@@ -73,7 +73,9 @@ useEffect(() => {
         <div className="container-fluid d-flex align-items-center justify-content-between">
           <a className="navbar-brand d-flex align-items-center" href="/">
             <span className="ml-2 h4">
-              <span className="updock-regular title fw-bold fs-1">Rama Collection Shop</span>
+              <span className="updock-regular title fw-bold fs-1">
+                {/* <img src='/images/RLOGO.jpeg' height={"45px"}/> */}
+                 Rama Collection Shop</span>
             </span>
           </a>
 

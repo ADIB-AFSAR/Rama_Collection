@@ -8,29 +8,14 @@ const AboutUs = () => {
       <p>Welcome to <strong>Rama Collection</strong>, where affordability meets style!</p>
 
       <p>
-        We are a dedicated team of engineers on a mission to make high-quality clothing accessible to everyone.  
-        At Rama Collection, we believe that looking good should not come with a hefty price tag.  
-        That’s why we work tirelessly to bring you the best in fashion at prices you’ll love.
+        Rama Collection Shop is a retail garment store located at Mahuabag Road, near Gulab City Apartment,Patna, 801506.
       </p>
 
-      <h2>Our Collection</h2>
       <p>
-        Our current collection features a stunning range of <strong>suits, sarees, kurtis</strong>, and other clothing items,  
-        carefully curated to suit your style and comfort needs.  
-        Whether you're looking for traditional attire for special occasions or trendy outfits for everyday wear, Rama Collection has you covered.
+        Owned and operated by Mr. Sanjeev Kumar, we offer ready-made garments including <strong>sarees, suits, kurtis, jeans, shorts, pajamas, and kids fashion</strong> etc
       </p>
-
-      <h2>Our Vision</h2>
       <p>
-        But we’re not stopping there! As we grow, we aim to expand our offerings, adding even more exciting items to our collection,  
-        ensuring that Rama Collection becomes your one-stop shop for all your fashion desires.
-      </p>
-
-      <h2>Powered by TechHodu</h2>
-      <p>
-        This website is proudly supported and run by <a href="https://www.techhodu.com" target="_blank" rel="noopener noreferrer">TechHodu</a>,  
-        a trusted name in technology and innovation.  
-        Together, we combine our passion for engineering and fashion to deliver a seamless online shopping experience.
+        We source products from wholesalers and sell them at retail prices both offline and through our website www.ramacollectionshop.com.
       </p>
 
       <p><strong>Thank you for choosing Rama Collection!</strong></p>

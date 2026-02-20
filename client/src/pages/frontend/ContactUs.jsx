@@ -8,25 +8,22 @@ const ContactUs = () => {
       <p>
         We’re here to help! Whether you have a question, need assistance with an order, or just want to say hello, feel free to reach out to us.
       </p>
+        <ul>
+          <li>Owner: Sanjeev Kumar</li>
 
+        <li>Address: Mahuabag Road, near Gulab City Apartment, 801506</li>
+        <li>Phone & WhatsApp: 7263025531</li>
+</ul>
       <h2>Contact Information</h2>
       <p>
-        <strong>Email:</strong> For general inquiries and support, please contact us at <a href="mailto:support@techhodu.com">support@techhodu.com</a>.
+        <strong>Email:</strong> For general inquiries and support, please contact us at <a href="mailto:ramacollectionshop@gmail.com">ramacollectionshop@gmail.com</a>.
       </p>
       <p>We’ll get back to you as soon as possible.</p>
 
       <h2>Business Hours</h2>
       <ul>
-        <li><strong>Monday to Friday:</strong> 9:00 AM - 6:00 PM</li>
-        <li><strong>Saturday:</strong> 10:00 AM - 4:00 PM</li>
-        <li><strong>Sunday:</strong> Closed</li>
+        <li><strong>Daily</strong> 11:00 AM - 8:00 PM</li>
       </ul>
-
-      <h2>Additional Information</h2>
-      <p>
-        This website is proudly supported and run by <a href="https://www.techhodu.com" target="_blank" rel="noopener noreferrer">TechHodu</a>.  
-        With their expertise in technology and e-commerce solutions, we aim to provide you with a seamless shopping experience.
-      </p>
 
       <h2>Feedback</h2>
       <p>

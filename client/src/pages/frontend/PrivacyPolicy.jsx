@@ -15,7 +15,8 @@ const PrivacyPolicy = () => {
         <ul>
           <li>Personal details such as name, email address, phone number, and shipping address.</li>
           <li>Payment information to process your orders securely.</li>
-          <li>Technical information, including your IP address, browser type, and device data, to improve your shopping experience.</li>
+          <li>Customer information will not be shared with third parties except for courier delivery purposes.</li>
+          <li>We take reasonable steps to protect your data, but customers are advised to share accurate information only.</li>
         </ul>
       </div>
 
@@ -58,14 +59,7 @@ const PrivacyPolicy = () => {
           <li>Opt-out of marketing communications at any time.</li>
         </ul>
         <p>
-          For any of these requests, please contact us at <a href="mailto:support@techhodu.com">support@techhodu.com</a>.
-        </p>
-      </div>
-
-      <div className="policy-section">
-        <h2>6. Third-Party Support</h2>
-        <p>
-          Our website is supported and run by <a href="https://www.techhodu.com" target="_blank" rel="noopener noreferrer">TechHodu</a>, a trusted technology provider that ensures a secure and seamless online shopping experience.
+          For any of these requests, please contact us at <a href="mailto:ramacollectionshop@gmail.com">ramacollectionshop@gmail.com</a>.
         </p>
       </div>
 
@@ -81,7 +75,7 @@ const PrivacyPolicy = () => {
         <p>
           If you have any questions or concerns about this Privacy Policy, feel free to contact us at:
         </p>
-        <p>Email: <a href="mailto:support@techhodu.com">support@techhodu.com</a></p>
+        <p>Email: <a href="mailto:ramacollectionshop">ramacollectionshop@gmail.com</a></p>
       </div>
 
       <p>Thank you for trusting Rama Collection with your shopping needs!</p>

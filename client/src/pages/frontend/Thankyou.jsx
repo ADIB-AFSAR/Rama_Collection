@@ -41,6 +41,8 @@ const ThankYou = () => {
       <Container className="thankyou-box text-center shadow-lg p-4 rounded">
         <div className="logo mb-3">
           <span className="ml-2 head">
+            <span><img src='/images/RLOGO.jpeg' height={"90px"}/></span>
+            <br></br>
             <span className="updock-regular fw-bold t">Rama Collection Shop</span>
           </span>
         </div>
